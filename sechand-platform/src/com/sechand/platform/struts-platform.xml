@@ -1,0 +1,40 @@
+<!DOCTYPE struts PUBLIC  
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="struts-platform" namespace="/platform" extends="json-default">
+		<!-- 登录验证 -->
+		<interceptors>
+			<interceptor name="AuthInterceptors"
+				class="com.sechand.platform.base.auth.AuthorityInterceptor">
+				<!-- 不进行验证的方法 -->
+				<param name="excludeName">login,register</param>
+			</interceptor>
+			<interceptor-stack name="LoginInterceptors">
+				<interceptor-ref name="AuthInterceptors"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="LoginInterceptors"></default-interceptor-ref>
+		<!-- 全局results -->
+		<global-results>
+			<result name="error" type="redirect">
+				/error.jsp
+			</result>
+			<result name="login" type="redirect">/login.jsp</result>
+			<!-- <result name="success" type="redirect">
+				/bootstrap/index.jsp
+			</result> -->
+		</global-results>
+		<!-- 用户管理 -->
+		<action name="accountAction" class="accountAction">
+			<result name="success" type="json">
+				<param name="root">json</param>
+			</result>
+			<result name="list" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+
+	</package>
+</struts>  

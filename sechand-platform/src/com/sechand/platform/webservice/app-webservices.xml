@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<!-- 引用XFire预定义的Bean配置 -->
+	<import resource="classpath:org/codehaus/xfire/spring/xfire.xml" />
+	<!-- 获得applicationContext中所有bean的JSR181 annotation 第一种方法(要在每个类上注解@Webservice)-->
+    <!-- <bean id="webAnnotations" class="org.codehaus.xfire.annotations.jsr181.Jsr181WebAnnotations" />
+	<bean id="jsr181HandlerMapping" class="org.codehaus.xfire.spring.remoting.Jsr181HandlerMapping">
+		<property name="xfire" ref="xfire" />
+		<property name="webAnnotations" ref="webAnnotations" />
+	</bean>
+	<bean id="testService" class="cn.net.xmut.sts.webservice.serviceimpl.TestServiceImpl"/> -->
+	<!-- 使用XFire导出器 -->
+    <bean id="baseWebService" class="org.codehaus.xfire.spring.remoting.XFireExporter" lazy-init="false" abstract="true">
+        <!-- 引用xfire.xml中定义的工厂 -->
+        <property name="serviceFactory" ref="xfire.serviceFactory" />
+        <!-- 引用xfire.xml中的xfire实例 -->
+        <property name="xfire" ref="xfire" />
+    </bean>
+	
+	<!-- 定义访问的url -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">  
+	  <property name="urlMap">  
+	    <map>
+	      <!-- 写key、value -->
+	      <!-- <entry key="/testService" value="testServiceExporter"/> -->
+	    </map>  
+	  </property>  
+	</bean> 
+  	<!-- accountService将处理来自客户端的调用 -->
+  	<!-- Web服务实现类 -->  
+	<!-- <bean id="testService" class="cn.edu.xmut.demo.webservice.serviceimpl.TestServiceImpl" parent="baseService">
+	</bean> 
+	<bean id="testServiceExporter" class="org.codehaus.xfire.spring.remoting.XFireExporter" >  
+		对外提供的Web服务的接口  
+	  	<property name="serviceClass" value="cn.edu.xmut.demo.webservice.service.TestService" />
+	  	实现Web服务的Bean  
+	  	<property name="serviceBean" ref="testService" />
+  	</bean> -->
+  	
+</beans>
