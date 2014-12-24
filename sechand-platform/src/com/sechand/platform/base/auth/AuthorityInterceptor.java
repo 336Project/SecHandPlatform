@@ -16,7 +16,7 @@ import com.sechand.platform.utils.WebUtil;
 public class AuthorityInterceptor extends AbstractInterceptor{
 	private static final long serialVersionUID = -2905756241500468595L;
 	
-	private String excludeName;//排除的方法名
+	private String excludeName;//排除(不拦截)的方法名
 	private List<String>  list;
 	
 	@Override

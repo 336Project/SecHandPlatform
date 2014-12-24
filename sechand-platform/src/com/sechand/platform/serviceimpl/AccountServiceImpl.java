@@ -11,8 +11,9 @@ import com.sechand.platform.utils.WebUtil;
 public class AccountServiceImpl extends BaseServiceImpl implements AccountService{
 
 	@Override
-	public boolean login(String username, String password) {
-		Account account=baseDao.getByHQL("from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"'");
+	public boolean login(String username, String password,String roleName) {
+		String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleName ='"+roleName+"'";
+		Account account=baseDao.getByHQL(hql);
 		if(account!=null){
 			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, account);
 			return true;

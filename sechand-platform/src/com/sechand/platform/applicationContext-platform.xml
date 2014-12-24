@@ -6,18 +6,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- 用户管理 -->
-    <bean id="accountService" class="com.sechand.platform.serviceimpl.AccountServiceImpl">
-    	<property name="baseDao">
-           <ref bean="baseDao"/>
-        </property>
+    <bean id="accountService" class="com.sechand.platform.serviceimpl.AccountServiceImpl" parent="baseService">
     </bean>
-    <bean id="accountAction" class="com.sechand.platform.action.AccountAction">
+    <bean id="accountAction" class="com.sechand.platform.action.AccountAction" parent="baseAction">
     	<property name="accountService">
         	<ref bean="accountService"/>
         </property>
-        <property name="baseService">
-           <ref bean="baseService"/>
+    </bean>
+	<!-- 角色管理 -->
+    <bean id="roleService" class="com.sechand.platform.serviceimpl.RoleServiceImpl" parent="baseService">
+    </bean>
+    <bean id="roleAction" class="com.sechand.platform.action.RoleAction" parent="baseAction">
+    	<property name="roleService">
+        	<ref bean="roleService"/>
         </property>
     </bean>
-	
 </beans>

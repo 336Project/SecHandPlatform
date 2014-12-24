@@ -24,7 +24,20 @@
 
 <script>
 	$(function() {
-
+		$.ajax({//获取角色
+        type: "POST",
+        contentType: "application/json;utf-8",
+        dataType: "json",
+        url: "platform/roleAction!list.action?type=1",
+        success: function (result) {
+        	var html="" ;
+        	for ( var int = 0; int < result.length; int++) {
+				var r = result[int].name;
+				html += "<option value=" + r + ">" + r + "</option>\r\n";
+			}
+            $("#type").append(html);
+        }
+    	});
 		$(".i-text").focus(function() {
 			$(this).addClass('h-light');
 		});
@@ -118,7 +131,7 @@
 		<div class="login-aside" >
 			<div id="o-box-up"></div>
 			<div id="o-box-down" style="table-layout:fixed;">
-				<div class="error-box" style="height: 30px;color: red;"></div>
+				<div class="error-box" style="height: 5px;color: red;"></div>
 				<form class="registerform" action="platform/accountAction!login.action" >
 					<div class="fm-item">
 						<label for="logonId" class="form-label">用户名：</label> <input
@@ -137,7 +150,15 @@
 							errormsg="密码范围在6~16位之间！"/>
 							<div class="ui-form-explain"></div>
 					</div>
-
+					<div class="fm-item" >
+						<label for="logonId" class="form-label">角色：</label> 
+						<select class="i-text" style="width: 245px;text-align: center;" id="type" name="type">
+							<!-- <option value="管理员">管理员</option>
+							<option value="公司">公司</option>
+							<option value="用户">用户</option> -->
+						</select>
+							<div class="ui-form-explain"></div>
+					</div>
 					<!-- <div class="fm-item pos-r">
 						<label for="logonId" class="form-label">验证码</label> <input
 							type="text" value="输入验证码" maxlength="100" id="yzm"

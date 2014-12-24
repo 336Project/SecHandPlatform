@@ -11,11 +11,12 @@ import com.sechand.platform.utils.WebUtil;
 public class AccountAction extends BaseAction{
 	private AccountService accountService;
 	private Account account;
-	private String username;
-	private String password;
+	private String username;//用户名
+	private String password;//密码
+	private String type;//角色类型
 	
 	public String login(){
-		if(accountService.login(username, password)){
+		if(accountService.login(username, password,type)){
 			json.setSuccess(true);
 			json.setMsg("/bootstrap/index.jsp");
 		}else{
@@ -67,5 +68,10 @@ public class AccountAction extends BaseAction{
 		this.account = account;
 	}
 
-
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 }

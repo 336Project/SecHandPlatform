@@ -1,14 +1,15 @@
 package com.sechand.platform.model;
 
 /**
- * Account entity. @author MyEclipse Persistence Tools
+ * 用户表
  */
-
 public class Account implements java.io.Serializable {
 
 	// Fields
 	private static final long serialVersionUID = 35155233893839253L;
 	private Integer id;
+	private Integer roleId;//角色id
+	private String roleName;//角色名称
 	private String userName;//登录账号
 	private String password;//密码
 	private String realName;//真实姓名
@@ -21,6 +22,19 @@ public class Account implements java.io.Serializable {
 	private String portrait;//头像,图片url
 	private String address;//地址,居住地
 	private String identification;//身份证号
+	
+	public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+	public String getRoleName() {
+		return roleName;
+	}
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 	public String getRealName() {
 		return realName;
 	}

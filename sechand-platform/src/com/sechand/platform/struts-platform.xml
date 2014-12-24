@@ -35,6 +35,11 @@
 				<param name="root">list</param>
 			</result>
 		</action>
-
+		<!-- 角色管理 -->
+		<action name="roleAction" class="roleAction">
+			<result name="list" type="json">
+				<param name="root">roles</param>
+			</result>
+		</action>
 	</package>
 </struts>  
