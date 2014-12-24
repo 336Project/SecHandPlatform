@@ -13,4 +13,7 @@
 hs_err_pid*
 
 #android
-/../SecHand-APP/
+project.properties
+classes
+gen
+bin
