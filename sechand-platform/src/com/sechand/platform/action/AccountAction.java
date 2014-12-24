@@ -14,7 +14,14 @@ public class AccountAction extends BaseAction{
 	private String username;//用户名
 	private String password;//密码
 	private String type;//角色类型
-	
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2014-12-24下午8:48:14
+	 * @return
+	 * String
+	 * @TODO 登录
+	 */
 	public String login(){
 		if(accountService.login(username, password,type)){
 			json.setSuccess(true);
@@ -25,14 +32,33 @@ public class AccountAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2014-12-24下午8:48:30
+	 * @return
+	 * String
+	 * @TODO 退出
+	 */
 	public String logout(){
-		//注册完跳到登录页
+		//将用户信息从session中移除
 		WebUtil.remove4Session(WebUtil.KEY_LOGIN_USER_SESSION);
 		return LOGIN;
 	}
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2014-12-24下午8:48:39
+	 * @return
+	 * String
+	 * @TODO 注册
+	 */
 	public String register(){
 		//注册完跳到登录页
-		accountService.add(account);
+		long id=accountService.add(account);
+		if(id<0){
+			return ERROR;
+		}
 		return LOGIN;
 	}
 	

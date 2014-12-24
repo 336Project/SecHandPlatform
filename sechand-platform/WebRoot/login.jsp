@@ -25,18 +25,18 @@
 <script>
 	$(function() {
 		$.ajax({//获取角色
-        type: "POST",
-        contentType: "application/json;utf-8",
-        dataType: "json",
-        url: "platform/roleAction!list.action?type=1",
-        success: function (result) {
-        	var html="" ;
-        	for ( var int = 0; int < result.length; int++) {
-				var r = result[int].name;
-				html += "<option value=" + r + ">" + r + "</option>\r\n";
-			}
-            $("#type").append(html);
-        }
+	        type: "POST",
+	        contentType: "application/json;utf-8",
+	        dataType: "json",
+	        url:"platform/roleAction!listRole.action?type=1",
+	        success: function (result) {
+	        	var html="" ;
+	        	for ( var i = 0; i < result.length; i++) {//动态加载角色
+					var r = result[i].name;
+					html += "<option value=" + r + ">" + r + "</option>\r\n";
+				}
+	            $("#type").append(html);
+	        }
     	});
 		$(".i-text").focus(function() {
 			$(this).addClass('h-light');

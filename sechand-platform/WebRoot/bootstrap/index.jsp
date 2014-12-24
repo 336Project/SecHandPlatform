@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <ul class="nav navbar-nav">  
 
           <!-- Upload to server link. Class "dropdown-big" creates big dropdown -->
-          <li class="dropdown dropdown-big">
+          <li class="dropdown dropdown-big" style="display: none;">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-success"><i class="icon-cloud-upload"></i></span> 上传到云服务器</a>
             <!-- Dropdown -->
             <ul class="dropdown-menu">
@@ -108,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </li>
 
           <!-- Sync to server link -->
-          <li class="dropdown dropdown-big">
+          <li class="dropdown dropdown-big" style="display: none;">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-danger"><i class="icon-refresh"></i></span> 同步到服务器</a>
             <!-- Dropdown -->
             <ul class="dropdown-menu">
@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </ul>
 
         <!-- Search form -->
-        <form class="navbar-form navbar-left" role="search">
+        <form class="navbar-form navbar-left" role="search" style="display: none;">
 			<div class="form-group">
 				<input type="text" class="form-control" placeholder="Search">
 			</div>
@@ -168,8 +168,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="col-md-4">
           <!-- Logo. -->
           <div class="logo">
-            <h1><a href="#">Mac<span class="bold"></span></a></h1>
-            <p class="meta">后台管理系统</p>
+          <h1><a>后台管理系统<span class="bold"></span></a></h1>
+           <!--  <h1><a href="#">Mac<span class="bold"></span></a></h1>
+            <p class="meta">后台管理系统</p> -->
           </div>
           <!-- Logo ends -->
         </div>

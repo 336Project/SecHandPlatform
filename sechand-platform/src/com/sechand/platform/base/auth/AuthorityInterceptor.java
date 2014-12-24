@@ -33,7 +33,7 @@ public class AuthorityInterceptor extends AbstractInterceptor{
 		if(!list.contains(methodName)){
 			Account account=(Account) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
 			if(account==null){
-				return Action.LOGIN;
+				return Action.ERROR;
 			}
 		}
 		return arg0.invoke();

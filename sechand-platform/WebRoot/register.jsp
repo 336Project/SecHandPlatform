@@ -47,6 +47,15 @@
                   
                   <form class="form-horizontal" action="<%=path%>/platform/accountAction!register.action" method="post">
                     <!-- Registration form starts -->
+                    					  <!-- Select box role-->
+                                          <div class="form-group">
+                                            <label class="control-label col-lg-3">用户类型:</label>
+                                            <div class="col-lg-9">                               
+                                                <select class="form-control" id="role" name="account.roleId">
+                                                
+                                                </select>  
+                                            </div>
+                                          </div>   
                                       <!-- Name -->
                                           <div class="form-group">
                                             <label class="control-label col-lg-3" for="name">昵称:</label>
@@ -61,8 +70,8 @@
                                               <input type="text" class="form-control" id="email" name="account.email">
                                             </div>
                                           </div>
-                                          <!-- Select box -->
-                                          <div class="form-group">
+                                          <!-- Select box sex-->
+                                          <!-- <div class="form-group">
                                             <label class="control-label col-lg-3">性别:</label>
                                             <div class="col-lg-9">                               
                                                 <select class="form-control" name="account.sex">
@@ -70,7 +79,7 @@
                                                 <option value="女">女</option>
                                                 </select>  
                                             </div>
-                                          </div>                                           
+                                          </div>          -->                                  
                                           <!-- Username -->
                                           <div class="form-group">
                                             <label class="control-label col-lg-3" for="username">用户名:</label>
@@ -117,5 +126,23 @@
 <!-- JS -->
 <script src="bootstrap/js/jquery.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
+<script>
+	$(function(){
+		$.ajax({//获取角色
+        type: "POST",
+        contentType: "application/json;utf-8",
+        dataType: "json",
+        url: "platform/roleAction!listRole.action?type=2",
+        success: function (result) {
+        	var html="" ;
+        	for ( var int = 0; int < result.length; int++) {//动态加载用户类型
+				var r = result[int];
+				html += "<option value=" + r.id + ">" + r.name + "</option>\r\n";
+			}
+            $("#role").append(html);
+        }
+    	});
+	});
+</script>
 </body>
 </html>

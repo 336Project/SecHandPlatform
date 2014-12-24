@@ -22,6 +22,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-   		访问错误,请先登录!
+   		该操作出错啦！3秒后跳到首页...
   </body>
 </html>
