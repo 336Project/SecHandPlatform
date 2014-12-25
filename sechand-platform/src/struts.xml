@@ -6,5 +6,6 @@
 <constant name="struts.objectFactory" value="spring" /> 
 <package name="struts" namespace="/" extends="struts-default">
 </package>
-<include file="com/sechand/platform/struts-platform.xml"></include> 
+<include file="com/sechand/platform/struts-platform.xml"></include>
+<include file="com/sechand/platform/webservice/struts-android.xml"></include>
 </struts>  

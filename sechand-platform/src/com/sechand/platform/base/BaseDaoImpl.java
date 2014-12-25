@@ -78,7 +78,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 			});
 			return object;
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return null;
 	}

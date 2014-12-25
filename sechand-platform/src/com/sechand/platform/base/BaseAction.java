@@ -20,12 +20,12 @@ public class BaseAction extends ActionSupport{
 	
 	protected class JsonResult implements Serializable{
 		private static final long serialVersionUID = -8483874375183014284L;
-		private String msg="";
+		private Object msg;
 		private boolean isSuccess=false;
-		public String getMsg() {
+		public Object getMsg() {
 			return msg;
 		}
-		public void setMsg(String msg) {
+		public void setMsg(Object msg) {
 			this.msg = msg;
 		}
 		public boolean isSuccess() {

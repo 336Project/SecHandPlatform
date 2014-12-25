@@ -1,0 +1,13 @@
+<!DOCTYPE struts PUBLIC  
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="struts-android" namespace="/app" extends="json-default">
+		<!-- 用户管理 -->
+		<action name="accountAction" class="appAccountAction">
+			<result name="success" type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+	</package>
+</struts>  

@@ -31,9 +31,6 @@
 			<result name="success" type="json">
 				<param name="root">json</param>
 			</result>
-			<result name="list" type="json">
-				<param name="root">list</param>
-			</result>
 		</action>
 		<!-- 角色管理 -->
 		<action name="roleAction" class="roleAction">

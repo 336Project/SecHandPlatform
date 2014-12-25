@@ -50,7 +50,7 @@ public class SysUtils {
 			e.printStackTrace();
 		}
 
-		return null;
+		return password;
 	}
 	/**
 	 * 

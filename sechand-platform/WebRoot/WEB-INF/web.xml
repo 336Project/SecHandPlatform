@@ -9,7 +9,8 @@
     <param-value>
 		classpath:applicationContext.xml,
 		classpath:com/sechand/platform/applicationContext-platform.xml,
-		classpath:com/sechand/platform/webservice/app-webservices.xml
+		classpath:com/sechand/platform/webservice/app-webservices.xml,
+		classpath:com/sechand/platform/webservice/applicationContext-android.xml
 	</param-value>
   </context-param>
   <listener>
