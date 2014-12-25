@@ -1,6 +1,8 @@
 package com.sechand.platform.base.auth;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -21,7 +23,7 @@ import com.sechand.platform.utils.WebUtil;
  * 登录验证拦截器,拦截所有未登录的非法jsp操作 (直接在地址栏请求jsp)
  */
 public class AuthorityFilter implements Filter{
-
+	private List<String> urlList;
 	@Override
 	public void destroy() {
 		
@@ -33,12 +35,17 @@ public class AuthorityFilter implements Filter{
 		HttpServletRequest request= (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		String basePath=request.getContextPath();
-		String uri=request.getRequestURI().replace(basePath, "");
-		String excludeJsp=SysUtils.readFromProperties("excludeJsp", "/filter.properties");
-		if(!excludeJsp.contains(uri)){
-			Account account=(Account)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
-			if(account==null){
-				response.sendRedirect(basePath+"/error.jsp");
+		//获取请求的路径
+		String requestURI=request.getRequestURI();
+		String uri=requestURI.replace(basePath, "");
+		if(uri!=null&&!uri.equals("/")){
+			if(urlList!=null&&urlList.size()>0){
+				if(!urlList.contains(uri)){
+					Account account=(Account)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
+					if(account==null){
+						response.sendRedirect(basePath+"/error.jsp");
+					}
+				}
 			}
 		}
 		arg2.doFilter(request, response);
@@ -46,7 +53,13 @@ public class AuthorityFilter implements Filter{
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		
+		//从配置文件获取不需要拦截的路径
+		String excludeJsp=SysUtils.readFromProperties("excludeJsp", "/filter.properties");
+		if(excludeJsp!=null){
+			//拆分
+			String[] jsp_urls=excludeJsp.split(",");
+			urlList=Arrays.asList(jsp_urls);
+		}
 	}
 
 

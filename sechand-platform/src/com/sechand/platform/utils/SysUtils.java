@@ -1,7 +1,6 @@
 package com.sechand.platform.utils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
@@ -37,7 +36,9 @@ public class SysUtils {
 	 * @return 加密后的结果
 	 */
 	public static String encrypt(String password) {
-
+		if(password==null){
+			return password;
+		}
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance("MD5");
@@ -54,7 +55,7 @@ public class SysUtils {
 	}
 	/**
 	 * 
-	 * @author lixiaowei
+	 * @author Helen
 	 * 2014-12-23 下午5:28:25
 	 * @param key
 	 * @param path
