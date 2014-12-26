@@ -1,4 +1,5 @@
-#Tue Dec 23 16:28:29 CST 2014
+#Fri Dec 26 13:59:46 CST 2014
 eclipse.preferences.version=1
-validator.Checked=WebRoot/mac-bootstrap/js/jquery-ui-1.9.2.custom.min.js,WebRoot/bootstrap/js/sparklines.js,WebRoot/WEB-INF/bootstrap/js/jquery-ui-1.9.2.custom.min.js,WebRoot/mac-bootstrap/js/sparklines.js,WebRoot/bootstrap/js/jquery.js,WebRoot/mac-bootstrap/js/jquery.js,WebRoot/WEB-INF/bootstrap/js/jquery.js,WebRoot/WEB-INF/bootstrap/js/sparklines.js,src/com/sechand/platform,WebRoot/bootstrap/js/jquery-ui-1.9.2.custom.min.js
+validator.Checked=
+validator.Revalidate=true
 validator.Unchecked=
