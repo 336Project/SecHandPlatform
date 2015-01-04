@@ -38,5 +38,11 @@
 				<param name="root">roles</param>
 			</result>
 		</action>
+		<!-- 订单管理 -->
+		<action name="orderAction" class="orderAction">
+			<result name="success" type="json">
+				<!-- <param name="root">roles</param> -->
+			</result>
+		</action>
 	</package>
 </struts>  

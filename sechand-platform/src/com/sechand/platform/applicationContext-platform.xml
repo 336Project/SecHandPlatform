@@ -21,4 +21,12 @@
         	<ref bean="roleService"/>
         </property>
     </bean>
+    <!-- 订单管理 -->
+    <bean id="orderService" class="com.sechand.platform.serviceimpl.OrderServiceImpl" parent="baseService">
+    </bean>
+    <bean id="orderAction" class="com.sechand.platform.action.OrderAction" parent="baseAction">
+    	<property name="orderService">
+        	<ref bean="orderService"/>
+        </property>
+    </bean>
 </beans>

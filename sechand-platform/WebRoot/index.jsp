@@ -63,6 +63,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		页大小：<input name="pageSize"/><br/>	
 		<button type="submit" >分页查找</button>
 	</form>
+	<form action="platform/orderAction!deleteById.action" method="post" >
+		id:<input name="id"/><br/>
+		<button type="submit" >订单删除</button>
+	</form>
 	</div>
   </body>
 </html>

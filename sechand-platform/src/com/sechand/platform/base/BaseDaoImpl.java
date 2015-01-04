@@ -49,7 +49,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	public void deleteByClassNameAndId(String entityName, Serializable id) {
 		/*Object object=getByClassNameAndId(entityName, id);//getHibernateTemplate().get("cn.edu.xmut.demo.model.Account", id);
 		getHibernateTemplate().delete(object);*/
-		String hql="delete from "+entityName+" where id="+id;
+		String hql="from "+entityName+" where id="+id;
 		deleteByHQL(hql);
 	}
 
@@ -360,7 +360,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 
 			@Override
 			public Integer doInHibernate(Session session) throws HibernateException, SQLException {
-				Query query=session.createQuery(hql);
+				Query query=session.createQuery("delete "+hql);
 				return query.executeUpdate();
 			}
 		});
@@ -372,7 +372,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 
 			@Override
 			public Integer doInHibernate(Session session) throws HibernateException, SQLException {
-				Query query=session.createSQLQuery(sql);
+				Query query=session.createSQLQuery("delete "+sql);
 				return query.executeUpdate();
 			}
 		});

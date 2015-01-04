@@ -3,7 +3,6 @@ package com.sechand.platform.base;
 import java.io.Serializable;
 
 import com.opensymphony.xwork2.ActionSupport;
-
 public class BaseAction extends ActionSupport{
 	private static final long serialVersionUID = 2817071984746760965L;
 	protected BaseService baseService;

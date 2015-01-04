@@ -8,7 +8,9 @@ public class Role implements Serializable{
 	/**
 	 * 管理员编号
 	 */
-	public static final String CODE_ADMIN="001";
+	public static final String CODE_ADMIN="001";//管理员
+	public static final String CODE_COMPANY="002";//维修公司
+	public static final String CODE_USER="003";//用户
 	private static final long serialVersionUID = 7124806791366190520L;
 	private Integer id;//主键
 	private String name;//角色名称

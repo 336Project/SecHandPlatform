@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>后天管理系统</title>
+	<title>后台管理系统</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Loading Bootstrap -->
@@ -25,15 +25,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="css/custom.css" rel="stylesheet">
 
 	<link rel="shortcut icon" href="images/favicon.ico">
-
+	
+	<link href="css/jquery.Alert.css" rel="stylesheet">
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
 	<!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
 	<![endif]-->
 	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.alert.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			$.ajax({//获取角色类型
+			//弹窗初始化
+			$.Alert.create();
+			//获取角色类型
+			$.ajax({
 		        type: "POST",
 		        contentType: "application/json;utf-8",
 		        dataType: "json",
@@ -49,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            $("#role_type").append(html);
 		        }
     		});
-    		
+    		//登录按钮点击事件
 			$('#btnLogin').click(
 					function() {
 						$.ajax({
@@ -63,9 +68,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							dataType : "json",
 							success : function(data) {
 								if(data.success){
-									alert("登录成功");
+									//$.Alert.show("系统消息","登录成功!",true);
+									window.location.href='<%=path%>'+data.msg;
 								}else{
-									alert(data.msg);
+									$.Alert.show("系统消息",data.msg,true);
 								}
 							}
 						});
@@ -126,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- Create and forget links -->
 		<ul class="list-inline"><li><a href="">注册</a></li>
 			<li>&nbsp;&nbsp;</li>
-			<li><a href="javascript:alert('请联系管理员!')">忘记密码?</a></li>
+			<li><a href="javascript:$.Alert.show('系统消息','请联系管理员!',true)">忘记密码?</a></li>
 		</ul><!-- /Create and forget links -->
 	</div>
 
