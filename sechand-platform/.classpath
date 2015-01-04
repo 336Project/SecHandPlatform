@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_6_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate3.3/antlr-2.7.6.jar"/>
@@ -83,5 +82,27 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xfire/wsdl4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xfire/xfire-all-1.2.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xfire/XmlSchema-1.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/bean-validator.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.annotation.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.ejb.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.enterprise.deploy.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.jms.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.management.j2ee.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.persistence.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.resource.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.security.auth.message.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.security.jacc.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.servlet.jsp.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.servlet.jsp.jstl.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.transaction.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jaxb-api-osgi.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jsf-api.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jsf-impl.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jsr311-api.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jstl-impl.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/mail.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/webservices-api-osgi.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/weld-osgi-bundle.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
