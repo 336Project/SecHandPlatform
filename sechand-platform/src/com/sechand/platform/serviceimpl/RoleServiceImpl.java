@@ -13,7 +13,7 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 		if(type==RoleService.TYPE_INCLUDE){//包括管理员,即所有角色
 			return baseDao.listByClassName("Role");
 		}else{
-			String hql="from Role where code <> '"+Role.CODE_ADMIN+"'";
+			String hql="from Role where type <> '"+Role.TYPE_ADMIN+"'";
 			return baseDao.listByHQL(hql);
 		}
 	}

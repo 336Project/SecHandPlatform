@@ -1,6 +1,8 @@
 package com.sechand.platform.action;
 
 
+import java.util.List;
+
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.service.AccountService;
@@ -25,7 +27,7 @@ public class AccountAction extends BaseAction{
 	public String login(){
 		if(accountService.login(username, password,type)){
 			json.setSuccess(true);
-			json.setMsg("/bootstrap/index.jsp");
+			json.setMsg("/index.jsp");
 		}else{
 			json.setSuccess(false);
 			json.setMsg("用户名或密码错误!");
@@ -62,6 +64,16 @@ public class AccountAction extends BaseAction{
 		return LOGIN;
 	}
 	
+	public String listUsers(){
+		List<Account> users=accountService.listUsers();
+		if(users!=null){
+			json.setMsg(users);
+			json.setSuccess(true);
+		}else{
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	public String getUsername() {
 		return username;
 	}

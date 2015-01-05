@@ -13,8 +13,8 @@
         <property name="name" type="java.lang.String" >
             <column name="name" length="45" not-null="true" />
         </property>
-        <property name="code" type="java.lang.String" >
-            <column name="code" length="45" not-null="true" />
+        <property name="type" type="java.lang.String" >
+            <column name="type" length="45" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

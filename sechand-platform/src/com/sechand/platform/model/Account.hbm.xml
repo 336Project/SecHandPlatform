@@ -13,8 +13,8 @@
         <property name="roleId" type="java.lang.Integer" >
             <column name="role_id" not-null="true" />
         </property>
-        <property name="roleName" type="java.lang.String" >
-            <column name="role_name" length="45" not-null="true" />
+        <property name="roleType" type="java.lang.String" >
+            <column name="role_type" length="45" not-null="true" />
         </property>
         <property name="userName" type="java.lang.String" >
             <column name="user_name" length="45" not-null="true" />

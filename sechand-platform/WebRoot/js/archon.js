@@ -21,9 +21,9 @@ $('document').ready(function(){
 	$('.sidebar .nav > li > ul > li.active').parent().css('display','block')
 	
 	//data table
-	$('#example').dataTable({
+	/*$('#example').dataTable({
 	 	"sPaginationType": "bootstrap"
-	});
+	});*/
 	
 	//closes dashboard alert after 5 seconds
 	setTimeout(function() { $(".alert-dashboard").alert('close')  }, 10000);
@@ -54,10 +54,10 @@ $('document').ready(function(){
 	
 }); 	// jQuery $('document').ready(); function 
 
-
+/*
 $(function() {
 			$('.sortable').sortable();
-		});
+		});*/
 
 //SIDEBAR TOGGLE
 

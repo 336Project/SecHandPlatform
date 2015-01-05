@@ -9,7 +9,7 @@
 *	 You can find our other themes on: https://bootstrapguru.com/themes/
 ---------------------------------------------------------------------------------------------- */
 
-@import "jquery-ui-1.10.3.custom.css";
+/*@import "jquery-ui-1.10.3.custom.css";
 @import "demoTable.css";
 @import "nvd3.css";
 @import "font-awesome.css";
@@ -17,12 +17,13 @@
 @import "colorpicker.css";
 @import "jquery.gritter.css";
 @import "bootstrap-markdown.min.css";
-@import "bootstrap-progressbar.css";
+@import "bootstrap-progressbar.css";*/
 
 body {
   background-color: #eeeff2;
   font-family:"微软雅黑" 'Lato', Helvetica, Arial, sans-serif !important;
 }
+.breadcrumb{margin: 0 15px 10px 15px;}
 .toggle-sidebar {
   display: none;
 }
@@ -53,7 +54,6 @@ body a:hover {
   padding: 0 30px;
   position: relative;
   height: 50px;
-  border-left: 2px solid #5c9df5;
 }
 .navbar a {
   color: #cacaca;
@@ -103,7 +103,6 @@ body a:hover {
 .frame {
   position: relative;
   overflow: hidden;
-  min-height: 1000px;
 }
 /*= Sidebar
 ---------------------------------------------------------------------------------------------- */

@@ -1,7 +1,6 @@
-#Sun Jan 04 12:25:44 CST 2015
+#Mon Jan 05 16:02:26 CST 2015
 eclipse.preferences.version=1
-encoding//WebRoot/css/archon.css=UTF-8
-encoding//WebRoot/css/jquery.Alert.css=UTF-8
+encoding//WebRoot/inc/admin-menu.jsp=UTF-8
 encoding//src/filter.properties=UTF-8
 encoding//src/jdbc.properties=UTF-8
 encoding/<project>=UTF-8

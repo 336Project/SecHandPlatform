@@ -9,7 +9,7 @@ public class Account implements java.io.Serializable {
 	private static final long serialVersionUID = 35155233893839253L;
 	private Integer id;
 	private Integer roleId;//角色id
-	private String roleName;//角色名称
+	private String roleType;//角色类型
 	private String userName;//登录账号
 	private String password;//密码
 	private String realName;//真实姓名
@@ -28,12 +28,6 @@ public class Account implements java.io.Serializable {
 	}
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
-	}
-	public String getRoleName() {
-		return roleName;
-	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
 	}
 	public String getRealName() {
 		return realName;
@@ -112,6 +106,12 @@ public class Account implements java.io.Serializable {
 	}
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
+	}
+	public String getRoleType() {
+		return roleType;
+	}
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
 	}
 	
 }

@@ -1,6 +1,8 @@
 package com.sechand.platform.serviceimpl;
 
 
+import java.util.List;
+
 import com.sechand.platform.base.BaseServiceImpl;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.model.Role;
@@ -12,8 +14,8 @@ import com.sechand.platform.utils.WebUtil;
 public class AccountServiceImpl extends BaseServiceImpl implements AccountService{
 
 	@Override
-	public boolean login(String username, String password,String roleName) {
-		String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleName ='"+roleName+"'";
+	public boolean login(String username, String password,String roleType) {
+		String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";
 		Account account=baseDao.getByHQL(hql);
 		if(account!=null){
 			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, account);
@@ -29,9 +31,13 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 			return -1;
 		}
 		account.setRoleId(role.getId());
-		account.setRoleName(role.getName());
+		account.setRoleType(role.getType());
 		account.setPassword(SysUtils.encrypt(account.getPassword()));
 		return baseDao.save(account);
 	}
 
+	@Override
+	public List<Account> listUsers() {
+		return baseDao.listByClassName("Account");
+	}
 }

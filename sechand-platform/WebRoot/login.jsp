@@ -1,83 +1,30 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-	<meta charset="utf-8">
-	<title>后台管理系统</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<!-- Loading Bootstrap -->
-	<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-
-	<!-- Loading Stylesheets -->    
-	<link href="css/archon.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
-	<link href="css/login.css" rel="stylesheet">
-	<!-- Loading Custom Stylesheets -->    
-	<link href="css/custom.css" rel="stylesheet">
-
-	<!-- Loading Custom Stylesheets -->    
-	<link href="css/custom.css" rel="stylesheet">
-
-	<link rel="shortcut icon" href="images/favicon.ico">
-	
-	<link href="css/jquery.Alert.css" rel="stylesheet">
-	<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-	<!--[if lt IE 9]>
-	<script src="js/html5shiv.js"></script>
-	<![endif]-->
-	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="js/jquery.alert.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			//弹窗初始化
-			$.Alert.create();
-			//获取角色类型
-			$.ajax({
-		        type: "POST",
-		        contentType: "application/json;utf-8",
-		        dataType: "json",
-		        /*  data:"type:1", */
-		        url:"platform/roleAction!listRole.action?type=1",
-		        success: function (result) {
-		        	var html="" ;
-		        	$("#role_type").empty();
-		        	for ( var i = 0; i < result.length; i++) {//动态加载角色
-						var r = result[i].name;
-						html += "<option value=" + r + ">" + r + "</option>\r\n";
-					}
-		            $("#role_type").append(html);
-		        }
-    		});
-    		//登录按钮点击事件
-			$('#btnLogin').click(
-					function() {
-						$.ajax({
-							type : "POST",
-							url : "platform/accountAction!login.action",
-							data : {
-								username : $("#user_name").val(),
-								password : $("#password").val(),
-								type : $("#role_type").val()
-							},
-							dataType : "json",
-							success : function(data) {
-								if(data.success){
-									//$.Alert.show("系统消息","登录成功!",true);
-									window.location.href='<%=path%>'+data.msg;
-								}else{
-									$.Alert.show("系统消息",data.msg,true);
-								}
-							}
-						});
-					});
-		});
-	</script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理系统</title>
+<!-- bootstrap -->
+  <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+<!-- common css --> 
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+<!-- self css -->
+  <link rel="stylesheet" type="text/css" href="css/pages/login.css">
+<!-- html5 兼容 -->
+  <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+<!-- common js -->
+  <script src="js/jquery-1.11.1.min.js"></script>
+  <script src="css/bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/common.js"></script>
 </head>
 <body>
 	<div class="box-holder row">
@@ -89,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label for="userName" class="col-lg-4 control-label">用户名</label>
 				<div class="col-lg-8">
 					<div class="input-group">
-						<span class="input-group-addon"><i class="icon-user"></i></span>
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						<input type="text" class="form-control" id="user_name" placeholder="用户名">
 					</div>					  
 				</div>
@@ -98,8 +45,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label for="inputPassword1" class="col-lg-4 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 				<div class="col-lg-8">
 					<div class="input-group">
-						<span class="input-group-addon"><i class="icon-lock"></i></span>
-						<input type="password" class="form-control" id="password" placeholder="password">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+						<input type="password" class="form-control" id="password" placeholder="密码">
 					</div>					  
 				</div>
 			</div>
@@ -108,20 +55,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-lg-8">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-leaf"></i></span>
-						<select class="form-control" id="role_type">
+						<select class="form-control" id="role_type" >
 						</select>
 					</div>					  
 				</div>
 			</div>
-			<!-- <div class="form-group">
-				<div class="col-lg-offset-2 col-lg-10">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> 记住密码
-						</label>
-					</div>
-				</div>
-			</div> -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
 					<button id="btnLogin" type="button" class="btn btn-default">登录</button>
@@ -132,9 +70,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- Create and forget links -->
 		<ul class="list-inline"><li><a href="">注册</a></li>
 			<li>&nbsp;&nbsp;</li>
-			<li><a href="javascript:$.Alert.show('系统消息','请联系管理员!',true)">忘记密码?</a></li>
+			<li><a href="javascript:$.W.alert('系统消息','请联系管理员!',true)">忘记密码?</a></li>
 		</ul><!-- /Create and forget links -->
 	</div>
-
 </body>
+ <script type="text/javascript">
+		$(function() {
+			//获取角色类型
+			$.ajax({
+		        type: "POST",
+		        contentType: "application/json;utf-8",
+		        dataType: "json",
+		        /*  data:"type:1", */
+		        url:"platform/roleAction!listRole.action?type=1",
+		        success: function (result) {
+		        	var html="" ;
+		        	$("#role_type").empty();
+		        	for ( var i = 0; i < result.length; i++) {//动态加载角色
+						var r = result[i];
+						html += "<option value=" + r.type + ">" + r.name + "</option>\r\n";
+					}
+		            $("#role_type").append(html);
+		        }
+    		});
+    		
+			$('#btnLogin').click(
+					 function() {
+						$.ajax({
+							type : "POST",
+							url : "platform/accountAction!login.action",
+							data : {
+								username : $("#user_name").val(),
+								password : $("#password").val(),
+								type : $("#role_type").val()
+							},
+							dataType : "json",
+							success : function(data) {
+								if(data.success){
+									window.location.href ='<%=path%>'+data.msg;
+								}else{
+									$.W.alert("系统消息",data.msg,true);
+								}
+							}
+						}) ;
+					});
+		});
+	</script>
 </html>
