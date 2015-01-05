@@ -140,7 +140,16 @@ session.setAttribute("user", Role.TYPE_USER);
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
 								<table id="table-example" class="hover order-column">
-									
+									<!-- <thead>
+										<tr>
+											<th>ID</th>
+											<th>账号</th>
+											<th>真实姓名</th>
+											<th>昵称</th>
+											<th>邮箱</th>
+											<th>手机号码</th>
+										</tr>
+									</thead> -->
 								</table>
 							</div>
 						</div>

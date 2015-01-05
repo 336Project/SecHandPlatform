@@ -12,7 +12,7 @@
 	<li><a href=""><i class="icon-group"></i>角色管理</a></li>
 
 	<script type="text/javascript">
-		/* function listUsers(){
+		function listUsers(){
 			$.ajax({
 		        type: "POST",
 		        dataType: "json",
@@ -58,9 +58,9 @@
 						dom : "<lf<t>ip>"
 					});
 		}});
-		}; */
+		};
 
-		function retrieveData(sSource, aoData, fnCallback) {
+		/* function retrieveData(sSource, aoData, fnCallback) {
 			// 将客户名称加入参数数组  
 			//aoData.push( { "name": "customerName", "value": "asdas" } );//添加自己的额外参数  
 			alert(JSON.stringify(aoData));
@@ -80,45 +80,37 @@
 			var table=$("#table-example").dataTable({
 				"aoColumns" : [
 				//设置每个列的标题和数据
-				{
-					data : 'id',sTitle : "ID"
-				}, {
-					data : 'userName',sTitle : "账号"
-				}, {
-					data : 'realName',sTitle : "真实姓名"
-				}, {
-					data : 'nickName',sTitle : "昵称"
-				}, {
-					data : 'email',sTitle : "邮箱"
-				}, {
-					data : 'tel',sTitle : "手机号码"
+				{data : 'id',sTitle : "ID"}, 
+				{data : 'userName',sTitle : "账号"}, 
+				{data : 'realName',sTitle : "真实姓名"}, 
+				{data : 'nickName',sTitle : "昵称"}, 
+				{data : 'email',sTitle : "邮箱"}, 
+				{data : 'tel',sTitle : "手机号码"}
+				],
+				"bProcessing": true,                    //加载数据时显示正在加载信息   
+				"bServerSide": true,                    //指定从服务器端获取数据   
+				"bFilter": false,                       //不使用过滤功能   
+				"bLengthChange": false,                 //用户不可改变每页显示数量   
+				//"iDisplayLength": 8,                    //每页显示8条数据   
+				"sAjaxSource": "platform/accountAction!listUsers.action",//获取数据的url   
+				"fnServerData": retrieveData,           //获取数据的处理函数   
+				"sPaginationType": "full_numbers",      //翻页界面类型   
+				"oLanguage": {                       //汉化   
+				    "sLengthMenu": "每页显示 _MENU_ 条记录",   
+				    "sZeroRecords": "没有检索到数据",   
+				    "sInfo": "当前数据为从第 _START_ 到第 _END_ 条数据；总共有 _TOTAL_ 条记录",   
+				    "sInfoEmtpy": "没有数据",   
+				    "sProcessing": "正在加载数据...",   
+				    "oPaginate": {   
+				        "sFirst": "首页",   
+				        "sPrevious": "前页",   
+				        "sNext": "后页",   
+				        "sLast": "尾页"  
+					} 
 				}
-				
-		],
-		"bProcessing": true,                    //加载数据时显示正在加载信息   
-		"bServerSide": true,                    //指定从服务器端获取数据   
-		"bFilter": false,                       //不使用过滤功能   
-		"bLengthChange": false,                 //用户不可改变每页显示数量   
-		"iDisplayLength": 8,                    //每页显示8条数据   
-		"sAjaxSource": "platform/accountAction!listUsers.action",//获取数据的url   
-		"fnServerData": retrieveData,           //获取数据的处理函数   
-		"sPaginationType": "full_numbers",      //翻页界面类型   
-		"oLanguage": {                       //汉化   
-		    "sLengthMenu": "每页显示 _MENU_ 条记录",   
-		    "sZeroRecords": "没有检索到数据",   
-		    "sInfo": "当前数据为从第 _START_ 到第 _END_ 条数据；总共有 _TOTAL_ 条记录",   
-		    "sInfoEmtpy": "没有数据",   
-		    "sProcessing": "正在加载数据...",   
-		    "oPaginate": {   
-		        "sFirst": "首页",   
-		        "sPrevious": "前页",   
-		        "sNext": "后页",   
-		        "sLast": "尾页"  
-			} 
-		}
-		});
-		table.fnDraw();
-		}
+				});
+			table.fnDraw();
+		} */
 	</script>
 </body>
 </html>

@@ -93,11 +93,10 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.security.auth.message.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.security.jacc.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.servlet.jsp.jstl.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/javax.transaction.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jaxb-api-osgi.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jsf-api.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jaxb-api-osgi.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jsf-impl.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jsr311-api.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/EE_6/jstl-impl.jar"/>
