@@ -3,6 +3,8 @@ package com.sechand.platform.serviceimpl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.sechand.platform.base.BaseServiceImpl;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.model.Role;
@@ -39,5 +41,24 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 	@Override
 	public List<Account> listUsers() {
 		return baseDao.listByClassName("Account");
+	}
+
+	@Override
+	public List<Account> listPageRowsUsersByKeyword(int currentPage,
+			int pageSize, String keyword) {
+		String hql="from Account where 1=1";
+		if(!StringUtils.isEmpty(keyword)){
+			hql+=" and (userName like %"+keyword+"% or realName like %"+keyword+"% or realName like %"+keyword+"% or nickName like %"+keyword+"% or email like %"+keyword+"% or tel like %"+keyword+"%)";
+		}
+		return baseDao.listPageRowsByHQL(hql, currentPage, pageSize);
+	}
+
+	@Override
+	public int countByKeyword(String keyword) {
+		String hql="from Account where 1=1";
+		if(!StringUtils.isEmpty(keyword)){
+			hql+=" and (userName like %"+keyword+"% or realName like %"+keyword+"% or realName like %"+keyword+"% or nickName like %"+keyword+"% or email like %"+keyword+"% or tel like %"+keyword+"%)";
+		}
+		return baseDao.countByHQL(hql);
 	}
 }

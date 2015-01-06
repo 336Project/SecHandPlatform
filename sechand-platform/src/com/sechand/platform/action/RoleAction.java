@@ -16,7 +16,7 @@ public class RoleAction extends BaseAction {
 	 * @return 
 	 * TODO 获取角色列表
 	 */
-	public String listRole(){
+	public String listRoleByType(){
 		roles=roleService.listByType(type);
 		return "list";
 	}

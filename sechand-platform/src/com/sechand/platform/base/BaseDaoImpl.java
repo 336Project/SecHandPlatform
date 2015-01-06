@@ -194,7 +194,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 				@Override
 				public Integer doInHibernate(Session session) throws HibernateException,
 						SQLException {
-					Query query=session.createQuery(hql);
+					Query query=session.createQuery("select count(*) "+hql);
 					return ((Long) query.uniqueResult()).intValue();
 				}
 			});

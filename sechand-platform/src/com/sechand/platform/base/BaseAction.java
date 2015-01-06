@@ -7,6 +7,7 @@ public class BaseAction extends ActionSupport{
 	private static final long serialVersionUID = 2817071984746760965L;
 	protected BaseService baseService;
 	protected JsonResult json=new JsonResult();
+	//protected String dataTableParams;
 	public JsonResult getJson() {
 		return json;
 	}
@@ -34,4 +35,11 @@ public class BaseAction extends ActionSupport{
 			this.isSuccess = isSuccess;
 		}
 	}
+
+	/*public String getDataTableParams() {
+		return dataTableParams;
+	}
+	public void setDataTableParams(String dataTableParams) {
+		this.dataTableParams = dataTableParams;
+	}*/
 }

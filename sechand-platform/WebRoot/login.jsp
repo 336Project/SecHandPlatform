@@ -83,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        contentType: "application/json;utf-8",
 		        dataType: "json",
 		        /*  data:"type:1", */
-		        url:"platform/roleAction!listRole.action?type=1",
+		        url:"platform/roleAction!listRoleByType.action?type=1",
 		        success: function (result) {
 		        	var html="" ;
 		        	$("#role_type").empty();
