@@ -35,6 +35,9 @@ session.setAttribute("user", Role.TYPE_USER);
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  <script>
+  	jQuery.urlRoot = "<%=path%>";
+  </script>
 </head>
 <body>
 	<div class="frame">
@@ -164,32 +167,45 @@ session.setAttribute("user", Role.TYPE_USER);
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="inputEmail3" placeholder="未命名">
+				      <input type="text" class="form-control" id="username" name="account.userName" placeholder="用户名">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">密码</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="inputEmail3" placeholder="请用不同格式字符设置">
+				      <input type="password" class="form-control" id="password" name="account.password" placeholder="密码长度为6-20位">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">重复密码</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">确认密码</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="inputEmail3" placeholder="请保持输入一致">
+				      <input type="password" class="form-control" id="password2" placeholder="">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">Email</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">昵称</label>
 				    <div class="col-sm-8">
-				      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+				      <input type="text" class="form-control" id="nickName" placeholder="一个好的昵称，可以彰显个性" name="account.nickName">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">Email</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="inputEmail3" placeholder="Email">
+				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="account.email">
 				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">手机号码</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="account.tel">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户类型</label>
+					    <div class="col-sm-8">
+						     <select class="form-control" id="roleType" name="account.roleId" >
+							 </select>
+					    </div>
 				  </div>
 				</form>
 		      </div>

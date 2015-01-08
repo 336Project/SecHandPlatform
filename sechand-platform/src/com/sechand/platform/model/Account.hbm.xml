@@ -31,11 +31,17 @@
         <property name="email" type="java.lang.String">
             <column name="email" length="45" />
         </property>
+         <property name="tel" type="java.lang.String">
+            <column name="tel" length="45" />
+        </property>
         <property name="source" type="java.lang.String">
             <column name="source" length="45" />
         </property>
         <property name="lastLoginTime" type="java.lang.String">
             <column name="last_login_time" length="45" />
+        </property>
+        <property name="registerTime" type="java.lang.String">
+            <column name="register_time" length="45" />
         </property>
         <!-- <property name="sex" type="java.lang.String">
             <column name="sex" length="45" />

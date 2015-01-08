@@ -20,7 +20,8 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 
 	@Override
 	public boolean login(String username, String password,String roleType) {
-		String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";
+		//String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";//邮箱也可以登录
+		String hql="from Account where userName='"+username+"' and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";
 		Account account=baseDao.getByHQL(hql);
 		if(account!=null){
 			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, account);
@@ -36,6 +37,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 		if(role==null){
 			return -1;
 		}
+		account.setRegisterTime(SysUtils.getDateFormat(new Date()));
 		account.setRoleId(role.getId());
 		account.setRoleType(role.getType());
 		account.setPassword(SysUtils.encrypt(account.getPassword()));
@@ -52,7 +54,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 			int pageSize, String keyword) {
 		String hql="from Account where 1=1";
 		if(!StringUtils.isEmpty(keyword)){
-			hql+=" and (userName like %"+keyword+"% or realName like %"+keyword+"% or realName like %"+keyword+"% or nickName like %"+keyword+"% or email like %"+keyword+"% or tel like %"+keyword+"%)";
+			hql+=" and (userName like '%"+keyword+"%' or realName like '%"+keyword+"%' or nickName like '%"+keyword+"%' or email like '%"+keyword+"%' or tel like '%"+keyword+"%')";
 		}
 		return baseDao.listPageRowsByHQL(hql, currentPage, pageSize);
 	}
@@ -61,8 +63,13 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 	public int countByKeyword(String keyword) {
 		String hql="from Account where 1=1";
 		if(!StringUtils.isEmpty(keyword)){
-			hql+=" and (userName like %"+keyword+"% or realName like %"+keyword+"% or realName like %"+keyword+"% or nickName like %"+keyword+"% or email like %"+keyword+"% or tel like %"+keyword+"%)";
+			hql+=" and (userName like '%"+keyword+"%' or realName like '%"+keyword+"%' or nickName like '%"+keyword+"%' or email like '%"+keyword+"%' or tel like '%"+keyword+"%')";
 		}
 		return baseDao.countByHQL(hql);
+	}
+
+	@Override
+	public void deleteByIds(String[] ids) {
+		baseDao.deleteByClassNameAndIds("Account", ids);
 	}
 }

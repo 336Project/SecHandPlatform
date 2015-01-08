@@ -20,6 +20,7 @@ public class Account implements java.io.Serializable {
 	private String tel;//手机号码
 	private String source;//用户来源
 	private String lastLoginTime;//最后一次登录时间
+	private String registerTime;//注册时间
 	/*private String sex;//性别
 	private String age;//年龄
 	private String birthDate;//出生年月
@@ -92,6 +93,12 @@ public class Account implements java.io.Serializable {
 	}
 	public void setLastLoginTime(String lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
+	}
+	public String getRegisterTime() {
+		return registerTime;
+	}
+	public void setRegisterTime(String registerTime) {
+		this.registerTime = registerTime;
 	}
 	
 }

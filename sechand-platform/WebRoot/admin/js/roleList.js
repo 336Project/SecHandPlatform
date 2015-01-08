@@ -71,8 +71,8 @@ var view = {
 		        "fnServerData":function(n,params,fnCallback,table){
 		        	params.push({name:"sSearch",value:params[5].value.value});
 		        	$.ajax({
-		        		url:"../platform/accountAction!listUsers.action",
-		        		type:"get",
+		        		url:"platform/accountAction!listUsers.action",
+		        		type:"post",
 		        		data:params,
 		        		success:function(d){
 		        			fnCallback(d.msg);

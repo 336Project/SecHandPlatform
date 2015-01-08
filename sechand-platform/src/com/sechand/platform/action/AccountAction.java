@@ -1,12 +1,12 @@
 package com.sechand.platform.action;
 
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.DocFlavor.STRING;
+import org.apache.commons.lang.StringUtils;
+
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -14,7 +14,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.service.AccountService;
-import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
 
@@ -26,12 +25,8 @@ public class AccountAction extends BaseAction{
 	private String password;//密码
 	private String type;//角色类型
 	private String dataTableParams;
+	private String ids;
 	
-	
-	private int start;
-	private int length;
-	private int draw;
-	private String sSearch;
 
 	/**
 	 * 
@@ -83,21 +78,44 @@ public class AccountAction extends BaseAction{
 		}
 		return LOGIN;
 	}
-	
+	/**
+	 * 
+	 * 2015-1-8 下午5:59:41
+	 * @return 
+	 * TODO 后台管理员添加
+	 */
+	public String addManual(){
+		account.setSource(Account.SOURCE_MANUAL);
+		long id=accountService.add(account);
+		if(id>0){
+			json.setMsg("添加成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("添加失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * 2015-1-8 下午4:42:38
+	 * @return 
+	 * TODO 获取用户信息列表
+	 */
 	public String listUsers(){
-		//int draw=0;
-		String iDisplayStart="";
-		String iDisplayLength="";
-		String sSearch="";
-		//int start= 0;
-		//int length=10;
+		int draw=0;
+		String iDisplayStart="";//记录开始位置
+		String iDisplayLength="";//每页大小
+		String sSearch="";//搜索关键字
+		int start= 0;
+		int length=10;
+		//json解析
 		JSONArray jsonArray=JSON.parseArray(dataTableParams);
-		
 		if(jsonArray!=null){
 			for (int i = 0; i < jsonArray.size(); i++) {
 				JSONObject params=jsonArray.getJSONObject(i);
 				if(params.getString("name").equals("draw")){
-					//draw=params.getIntValue("value");
+					draw=params.getIntValue("value")+1;
 				}else if(params.getString("name").equals("start")){
 					iDisplayStart=params.getString("value");
 				}else if(params.getString("name").equals("length")){
@@ -116,20 +134,36 @@ public class AccountAction extends BaseAction{
 			length=Integer.parseInt(iDisplayLength);
 		} catch (Exception e) {
 		}
-		int curr=start/length+1;
+		int curr=start/length+1;//计算当前页
 		Map<String, Object> dataMap=new HashMap<String, Object>();
 		List<Account> users=accountService.listPageRowsUsersByKeyword(curr, length, sSearch);//accountService.listUsers();
 		int count=accountService.countByKeyword(sSearch);
 		dataMap.put("recordsTotal", count);
-		/*dataMap.put("sEcho",sEcho);*/
 		dataMap.put("recordsFiltered", count);
 		dataMap.put("draw",draw);
 		dataMap.put("data", users);
 		if(users!=null){
-			//json=(JsonResult) dataMap;
 			json.setMsg(dataMap);
 			json.setSuccess(true);
 		}else{
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * 2015-1-8 下午4:47:48
+	 * @return 
+	 * TODO 批量删除用户
+	 */
+	public String deleteUsers(){
+		if(!StringUtils.isBlank(ids)){
+			String[] idList=ids.split(",");
+			accountService.deleteByIds(idList);
+			json.setMsg("删除成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("删除失败!");
 			json.setSuccess(false);
 		}
 		return SUCCESS;
@@ -178,28 +212,10 @@ public class AccountAction extends BaseAction{
 	public void setDataTableParams(String dataTableParams) {
 		this.dataTableParams = dataTableParams;
 	}
-	public String getsSearch() {
-		return sSearch;
+	public String getIds() {
+		return ids;
 	}
-	public void setsSearch(String sSearch) {
-		this.sSearch = sSearch;
-	}
-	public int getStart() {
-		return start;
-	}
-	public void setStart(int start) {
-		this.start = start;
-	}
-	public int getLength() {
-		return length;
-	}
-	public void setLength(int length) {
-		this.length = length;
-	}
-	public int getDraw() {
-		return draw;
-	}
-	public void setDraw(int draw) {
-		this.draw = draw;
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 }
