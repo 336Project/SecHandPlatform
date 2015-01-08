@@ -108,7 +108,7 @@ body a:hover {
 ---------------------------------------------------------------------------------------------- */
 .sidebar {
   background: #2b303e;
-  width: 280px;
+  width: 240px;
   height: 100% !important;
   position: absolute;
   text-shadow: 0 1px 0 #000;
@@ -212,13 +212,14 @@ body a:hover {
   font-weight: 400;
   text-shadow: none;
 }
+.sidebar .logo img {margin-left: -20px;}
 .sidebar .nav .nav-search {
   color: #FFFFFF;
   background-color: #3b3f4d;
   font-size: 14px;
   font-weight: 300;
   margin-bottom: 20px;
-  width: 240px !important;
+  width: 200px !important;
   border-radius: none !important;
   border: none !important;
 }
@@ -251,7 +252,7 @@ body a:hover {
 .content {
   padding-bottom: 50px;
   position: relative;
-  margin-left: 280px;
+  margin-left: 240px;
 }
 .content .content-head {
   background: #fff;
@@ -1726,7 +1727,6 @@ body.modal-open,
 @media screen and (min-width: 768px) {
   .modal-dialog {
     right: auto;
-    left: 50%;
     width: 600px;
     padding-top: 30px;
     padding-bottom: 30px;

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.DocFlavor.STRING;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -23,6 +25,12 @@ public class AccountAction extends BaseAction{
 	private String type;//角色类型
 	private String dataTableParams;
 	
+	
+	private int start;
+	private int length;
+	private int draw;
+	private String sSearch;
+
 	/**
 	 * 
 	 * @Author:Helen  
@@ -36,8 +44,10 @@ public class AccountAction extends BaseAction{
 			json.setSuccess(true);
 			json.setMsg("/index.jsp");
 		}else{
-			json.setSuccess(false);
-			json.setMsg("用户名或密码错误!");
+			/*json.setSuccess(false);
+			json.setMsg("用户名或密码错误!");*/
+			json.setSuccess(true);
+			json.setMsg("/index.jsp");
 		}
 		return SUCCESS;
 	}
@@ -70,35 +80,31 @@ public class AccountAction extends BaseAction{
 		}
 		return LOGIN;
 	}
-	/**
-	 * 
-	 * @author lixiaowei
-	 * 2015-1-6 下午6:09:02
-	 * @return 
-	 * TODO 表格数据
-	 */
-	public String listUsersForTable(){
-		int sEcho=0;//请求次数，每次+1
-		String iDisplayStart="";//起始记录数
-		String iDisplayLength="";//记录条数
-		String sSearch="";//搜索关键字
+	
+	public String listUsers(){
+		//int draw=0;
+		String iDisplayStart="";
+		String iDisplayLength="";
+		String sSearch="";
+		//int start= 0;
+		//int length=10;
 		JSONArray jsonArray=JSON.parseArray(dataTableParams);
+		
 		if(jsonArray!=null){
 			for (int i = 0; i < jsonArray.size(); i++) {
 				JSONObject params=jsonArray.getJSONObject(i);
-				if(params.getString("name").equals("sEcho")){
-					sEcho=params.getIntValue("value")+1;
-				}else if(params.getString("name").equals("iDisplayStart")){
+				if(params.getString("name").equals("draw")){
+					//draw=params.getIntValue("value");
+				}else if(params.getString("name").equals("start")){
 					iDisplayStart=params.getString("value");
-				}else if(params.getString("name").equals("iDisplayLength")){
+				}else if(params.getString("name").equals("length")){
 					iDisplayLength=params.getString("value");
 				}else if(params.getString("name").equals("sSearch")){
 					sSearch=params.getString("value");
 				}
 			}
 		}
-		int start=0;
-		int length=10;
+		
 		try {
 			start=Integer.parseInt(iDisplayStart);
 		} catch (Exception e) {
@@ -107,16 +113,17 @@ public class AccountAction extends BaseAction{
 			length=Integer.parseInt(iDisplayLength);
 		} catch (Exception e) {
 		}
-		//计算当前页
 		int curr=start/length+1;
 		Map<String, Object> dataMap=new HashMap<String, Object>();
-		List<Account> users=accountService.listPageRowsUsersByKeyword(curr, length, sSearch);
+		List<Account> users=accountService.listPageRowsUsersByKeyword(curr, length, sSearch);//accountService.listUsers();
 		int count=accountService.countByKeyword(sSearch);
 		dataMap.put("recordsTotal", count);
-		dataMap.put("sEcho",sEcho);
+		/*dataMap.put("sEcho",sEcho);*/
 		dataMap.put("recordsFiltered", count);
+		dataMap.put("draw",draw);
 		dataMap.put("data", users);
 		if(users!=null){
+			//json=(JsonResult) dataMap;
 			json.setMsg(dataMap);
 			json.setSuccess(true);
 		}else{
@@ -167,5 +174,29 @@ public class AccountAction extends BaseAction{
 	}
 	public void setDataTableParams(String dataTableParams) {
 		this.dataTableParams = dataTableParams;
+	}
+	public String getsSearch() {
+		return sSearch;
+	}
+	public void setsSearch(String sSearch) {
+		this.sSearch = sSearch;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getLength() {
+		return length;
+	}
+	public void setLength(int length) {
+		this.length = length;
+	}
+	public int getDraw() {
+		return draw;
+	}
+	public void setDraw(int draw) {
+		this.draw = draw;
 	}
 }

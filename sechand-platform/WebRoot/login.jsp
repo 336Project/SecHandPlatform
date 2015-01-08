@@ -34,8 +34,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- Login Form -->
 		<form class="form-horizontal">
 			<div class="form-group">
-				<label for="userName" class="col-lg-4 control-label">用户名</label>
-				<div class="col-lg-8">
+				<label for="userName" class="col-lg-3 control-label">用户名</label>
+				<div class="col-lg-9">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 						<input type="text" class="form-control" id="user_name" placeholder="用户名">
@@ -43,8 +43,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputPassword1" class="col-lg-4 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-				<div class="col-lg-8">
+				<label for="inputPassword1" class="col-lg-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+				<div class="col-lg-9">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
 						<input type="password" class="form-control" id="password" placeholder="密码">
@@ -52,8 +52,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputPassword1" class="col-lg-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;色</label>
-				<div class="col-lg-8">
+				<label for="inputPassword1" class="col-lg-3 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;色</label>
+				<div class="col-lg-9">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-leaf"></i></span>
 						<select class="form-control" id="role_type" >
@@ -62,8 +62,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-lg-offset-2 col-lg-10">
-					<button id="btnLogin" type="button" class="btn btn-default">登录</button>
+				<div class="" style="text-align:center;">
+					<button id="btnLogin" type="button" class="btn col-xs-offset-4 col-xs-4  btn-primary">登录</button>
 				</div>
 			</div>
 		</form>
@@ -83,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        contentType: "application/json;utf-8",
 		        dataType: "json",
 		        /*  data:"type:1", */
-		        url:"platform/roleAction!listRoleByType.action?type=1",
+		        url:"platform/roleAction!listRole.action?type=1",
 		        success: function (result) {
 		        	var html="" ;
 		        	$("#role_type").empty();

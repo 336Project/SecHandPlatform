@@ -22,10 +22,10 @@ session.setAttribute("user", Role.TYPE_USER);
 <!-- common css --> 
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/archon.css">
-  <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="css/jquery.dataTables_themeroller.css">
+  <link rel="stylesheet" type="text/css" href="js/lib/datatables/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="js/lib/datatables/css/jquery.dataTables_themeroller.css">
 <!-- self css -->
-  <link rel="stylesheet" type="text/css" href="css/pages/login.css">
+  <link rel="stylesheet" type="text/css" href="css/pages/index.css">
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
@@ -34,7 +34,7 @@ session.setAttribute("user", Role.TYPE_USER);
   <script src="js/jquery-1.11.1.min.js"></script>
   <script src="css/bootstrap/js/bootstrap.min.js"></script>
   <script src="js/common.js"></script>
-  <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="js/lib/datatables/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 	<div class="frame">
@@ -76,7 +76,7 @@ session.setAttribute("user", Role.TYPE_USER);
 		<div class="content">
 			<div class="navbar">
 				<a href="" class="btn pull-left toggle-sidebar"><i class="icon-list"></i></a>
-				<a class="navbar-brand" href="index.html">Archon</a>
+				<a class="navbar-brand" href="index.html">后台管理</a>
 
 				<!-- 右上角 user menu -->
 				<ul class="nav navbar-nav user-menu pull-right">
@@ -120,9 +120,8 @@ session.setAttribute("user", Role.TYPE_USER);
 				<div class="row">
 					<div class="col-mod-12">
 						<ul class="breadcrumb">
-							<li><a href="index.html">面包屑1</a></li>
-							<li><a href="index.html">面包屑2</a></li>
-							<li class="active">面包屑3</li>
+							<li><a href="index.jsp">系统管理</a></li>
+							<li class="active">账户信息</li>
 						</ul>
 					</div>
 				</div>
@@ -131,7 +130,7 @@ session.setAttribute("user", Role.TYPE_USER);
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
-								<h3 class="panel-title">内容
+								<h3 class="panel-title">账户信息
 									<span class="pull-right">
 										<a href="#" class="panel-minimize"><i class="glyphicon glyphicon-chevron-up"></i></a>
 									</span>
@@ -139,18 +138,48 @@ session.setAttribute("user", Role.TYPE_USER);
 							</div>
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
-								<table id="table-example" class="hover order-column">
-									<!-- <thead>
-										<tr>
-											<th>ID</th>
-											<th>账号</th>
-											<th>真实姓名</th>
-											<th>昵称</th>
-											<th>邮箱</th>
-											<th>手机号码</th>
-										</tr>
-									</thead> -->
-								</table>
+								<blockquote>
+								  <p>欢迎使用"sechand"信息管理系统</p>
+								  <footer>您当前账户的权限为： <cite title="Source Title">{用户权限级别}</cite></footer>
+								</blockquote>
+								<div class="row userMsg">
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>用户名</dt>
+									  <dd>张三</dd>
+									  <dt>邮箱地址</dt>
+									  <dd>张三</dd>
+									  <dt>手机号</dt>
+									  <dd>张三</dd>
+									</dl>
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>上次登入时间</dt>
+									  <dd>123</dd>
+									  <dt>用户名</dt>
+									  <dd>张三</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row" style="display:none">
+					<div class="col-md-12">
+						<div class="panel panel-archon main-graph">
+							<div class="panel-heading">
+								<h3 class="panel-title">角色管理
+									<span class="pull-right">
+										<a href="#" class="panel-minimize"><i class="glyphicon glyphicon-chevron-up"></i></a>
+									</span>
+								</h3>
+							</div>
+							<div class="panel-body" style="overflow: hidden; display: block;">
+								<!-- 放置表格或其他内容 -->
+								<div class="tb-tools">
+									<button type="button" class="btn btn-warning">删 除</button>
+									<button type="button" class="btn btn-primary">新 增</button>
+								</div>
+								<table id="table-role" class="hover order-column"></table>
 							</div>
 						</div>
 					</div>

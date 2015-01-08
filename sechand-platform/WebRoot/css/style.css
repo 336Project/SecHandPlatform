@@ -1,7 +1,8 @@
-/*-- 简易消息提示框 --*/
+/*-- 绠�槗娑堟伅鎻愮ず妗�--*/
 .tech-alert{z-index: 2000;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.2);}
 .tech-alert>div{font-size: 16px;z-index: 2001;position: fixed;top: 40%;left: 36%;min-width: 240px;min-height: 100px;padding: 12px;padding-bottom: 4px;background: #fff;border: 3px solid #aaa;}
 .tech-alert .close{float: right;}
 .tech-alert .title{border-bottom: 1px solid #ddd;padding-bottom: 5px;}
 .tech-alert .message{text-align: center;}
-.tech-alert .alert-btn{margin-top: 16px;text-align: center;display: none;}
+.tech-alert .alert-btn{margin-top: 16px;text-align: center;display: none; }
+.tech-alert .btn{margin-right:4px;};
