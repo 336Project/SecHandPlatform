@@ -42,7 +42,7 @@ var view = {
 			});
 			
 			//提交新增用户的表单
-			$("#btn-addUser").off('click.save').on("click.save",function(){
+			$("#btn-addRole").off('click.save').on("click.save",function(){
 				//这里写入执行提交
 			});
 		},
@@ -51,7 +51,7 @@ var view = {
 		 * return datatable 对象
 		 */		
 		initUserTable:function(){
-			return $("#table-user").dataTable({
+			return $("#table-role").dataTable({
 				"columns":[
 							{ data: 'id',sTitle:"",
 					        	render: function(id) {
@@ -71,7 +71,7 @@ var view = {
 		        "fnServerData":function(n,params,fnCallback,table){
 		        	params.push({name:"sSearch",value:params[5].value.value});
 		        	$.ajax({
-		        		url:"platform/accountAction!listUsers.action",
+		        		url:"../platform/accountAction!listUsers.action",
 		        		type:"get",
 		        		data:params,
 		        		success:function(d){
