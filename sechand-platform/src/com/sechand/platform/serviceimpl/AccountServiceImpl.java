@@ -1,7 +1,10 @@
 package com.sechand.platform.serviceimpl;
 
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,6 +24,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 		Account account=baseDao.getByHQL(hql);
 		if(account!=null){
 			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, account);
+			baseDao.updateColumnById("Account", "lastLoginTime", SysUtils.getDateFormat(new Date()), account.getId());
 			return true;
 		}
 		return false;

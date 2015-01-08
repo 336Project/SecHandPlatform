@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 import org.hibernate.HibernateException;
@@ -375,6 +376,57 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 				Query query=session.createSQLQuery("delete "+sql);
 				return query.executeUpdate();
 			}
+		});
+	}
+
+	@Override
+	public void updateColumnById(String entityName, String columnName,
+			Object value, Serializable id) {
+		StringBuffer sb=new StringBuffer();
+		sb.append("update "+entityName+" set "+columnName);
+		if(value instanceof String){
+			sb.append("='"+value+"' where id="+id);
+		}else{
+			sb.append("="+value+" where id="+id);
+		}
+		final String hql=sb.toString();
+		getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+			@Override
+			public Integer doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query=session.createQuery(hql);
+				return query.executeUpdate();
+			}
+			
+		});
+	}
+
+	@Override
+	public void updateColumnsByParmas(String entityName, Serializable id,
+			Map<String, Object> parmas) {
+		StringBuffer sb=new StringBuffer();
+		sb.append("update "+entityName+" set ");
+		Set<String> keys=parmas.keySet();
+		for (String key : keys) {
+			Object value=parmas.get(key);
+			if(value instanceof String){
+				sb.append(key+"='"+value+"',");
+			}else{
+				sb.append(key+"="+value+",");
+			}
+		}
+		//去掉最后一个,
+		sb.replace(sb.length()-1, sb.length(), "");
+		sb.append(" where id="+id);
+		final String hql=sb.toString();
+		getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+			@Override
+			public Integer doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query=session.createQuery(hql);
+				return query.executeUpdate();
+			}
+			
 		});
 	}
 

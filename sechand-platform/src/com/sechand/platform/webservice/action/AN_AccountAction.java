@@ -41,7 +41,6 @@ public class AN_AccountAction extends BaseAction{
 				if(account!=null){
 					Map<String, String> map=new HashMap<String, String>();
 					map.put("name", account.getNickName());
-					map.put("age", account.getAge());
 					map.put("username", account.getUserName());
 					json.setSuccess(true);
 					json.setMsg(map);

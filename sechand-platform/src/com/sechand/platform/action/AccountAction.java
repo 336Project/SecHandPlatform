@@ -1,6 +1,7 @@
 package com.sechand.platform.action;
 
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.service.AccountService;
+import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
 
@@ -70,10 +72,11 @@ public class AccountAction extends BaseAction{
 	 * 2014-12-24下午8:48:39
 	 * @return
 	 * String
-	 * @TODO 注册
+	 * @TODO 自行注册
 	 */
 	public String register(){
 		//注册完跳到登录页
+		account.setSource(Account.SOURCE_PLATFORM);
 		long id=accountService.add(account);
 		if(id<0){
 			return ERROR;

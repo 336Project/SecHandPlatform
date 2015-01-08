@@ -3,6 +3,9 @@ package com.sechand.platform.utils;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.springframework.core.io.ClassPathResource;
@@ -13,6 +16,17 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 public class SysUtils {
 	
+	/**
+	 * 
+	 * 2015-1-8 下午1:22:44
+	 * @param date
+	 * @return 
+	 * TODO 获取格式化后的时间字符串
+	 */
+	public static String getDateFormat(Date date){
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+		return format.format(date);
+	}
 	/**
 	 * 判断是否是数字
 	 * @param isNumber

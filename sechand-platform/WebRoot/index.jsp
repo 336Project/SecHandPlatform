@@ -86,7 +86,7 @@ session.setAttribute("user", Role.TYPE_USER);
 						<img src="images/theme/avatarSeven.png" class="user-avatar" alt="" />${sessionScope.account.nickName}</a>
 							<ul class="dropdown-menu right inbox user">
 								<li class="user-avatar">
-								<!-- 角色名称 -->
+								<!-- 用户名称 -->
 									<img src="images/theme/avatarSeven.png" class="user-avatar" alt="" />
 									${sessionScope.account.userName}
 								</li>
@@ -140,22 +140,37 @@ session.setAttribute("user", Role.TYPE_USER);
 								<!-- 放置表格或其他内容 -->
 								<blockquote>
 								  <p>欢迎使用"sechand"信息管理系统</p>
-								  <footer>您当前账户的权限为： <cite title="Source Title">{用户权限级别}</cite></footer>
+								<footer>用户类型：
+								   <cite title="Source Title">
+								  	<!-- 管理员 -->
+									<s:if test='#session.account.roleType==#session.admin'>
+										管理员
+									</s:if>
+									<!-- 维修公司 -->
+									<s:elseif test='#session.account.roleType==#session.company'>
+										维修公司
+									</s:elseif>
+									<!-- 普通用户 -->
+									<s:elseif test='#session.account.roleType==#session.user'>
+										普通用户
+									</s:elseif>
+								  </cite>
+								</footer>
 								</blockquote>
 								<div class="row userMsg">
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>用户名</dt>
-									  <dd>张三</dd>
+									  <dd>${sessionScope.account.userName}</dd>
 									  <dt>邮箱地址</dt>
-									  <dd>张三</dd>
+									  <dd>${sessionScope.account.email}</dd>
 									  <dt>手机号</dt>
-									  <dd>张三</dd>
+									  <dd>${sessionScope.account.tel}</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
-									  <dd>123</dd>
-									  <dt>用户名</dt>
-									  <dd>张三</dd>
+									  <dd>${sessionScope.account.lastLoginTime}</dd>
+									  <dt>账户来源</dt>
+									  <dd>${sessionScope.account.source}</dd>
 									</dl>
 								</div>
 							</div>

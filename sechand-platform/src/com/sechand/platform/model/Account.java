@@ -4,7 +4,9 @@ package com.sechand.platform.model;
  * 用户表
  */
 public class Account implements java.io.Serializable {
-
+	public static final String SOURCE_MANUAL="手动录入";
+	public static final String SOURCE_PLATFORM="平台注册";
+	public static final String SOURCE_APP="客户端注册";
 	// Fields
 	private static final long serialVersionUID = 35155233893839253L;
 	private Integer id;
@@ -16,13 +18,15 @@ public class Account implements java.io.Serializable {
 	private String nickName;//昵称，显示名称
 	private String email;//邮箱
 	private String tel;//手机号码
-	private String sex;//性别
+	private String source;//用户来源
+	private String lastLoginTime;//最后一次登录时间
+	/*private String sex;//性别
 	private String age;//年龄
 	private String birthDate;//出生年月
 	private String portrait;//头像,图片url
 	private String address;//地址,居住地
 	private String identification;//身份证号
-	
+*/	
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -34,24 +38,6 @@ public class Account implements java.io.Serializable {
 	}
 	public void setRealName(String realName) {
 		this.realName = realName;
-	}
-	public String getPortrait() {
-		return portrait;
-	}
-	public void setPortrait(String portrait) {
-		this.portrait = portrait;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getIdentification() {
-		return identification;
-	}
-	public void setIdentification(String identification) {
-		this.identification = identification;
 	}
 	public Integer getId() {
 		return id;
@@ -89,29 +75,23 @@ public class Account implements java.io.Serializable {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-	public String getAge() {
-		return age;
-	}
-	public void setAge(String age) {
-		this.age = age;
-	}
-	public String getBirthDate() {
-		return birthDate;
-	}
-	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
-	}
 	public String getRoleType() {
 		return roleType;
 	}
 	public void setRoleType(String roleType) {
 		this.roleType = roleType;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
+	public String getLastLoginTime() {
+		return lastLoginTime;
+	}
+	public void setLastLoginTime(String lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
 	}
 	
 }
