@@ -1,6 +1,7 @@
 package com.sechand.platform.action;
 
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.service.AccountService;
+import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
 
@@ -37,14 +39,20 @@ public class AccountAction extends BaseAction{
 	 * @TODO 登录
 	 */
 	public String login(){
-		if(accountService.login(username, password,type)){
-			json.setSuccess(true);
-			json.setMsg("/index.jsp");
-		}else{
-			/*json.setSuccess(false);
-			json.setMsg("用户名或密码错误!");*/
-			json.setSuccess(true);
-			json.setMsg("/index.jsp");
+		Account a=accountService.login(username, password,type);
+		if(a!=null){
+			if(!Account.STATUS_NORMAL.equals(a.getStatus())){
+				json.setSuccess(false);
+				json.setMsg("该账户出现异常，请联系管理员!");
+			}else{
+				WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
+				accountService.updateColumnById("Account", "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
+				json.setSuccess(true);
+				json.setMsg("/index.jsp");
+			}
+		}else {
+			json.setSuccess(false);
+			json.setMsg("用户名或密码错误!");
 		}
 		return SUCCESS;
 	}

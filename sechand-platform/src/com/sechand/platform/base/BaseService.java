@@ -23,6 +23,8 @@ public interface BaseService {
 	public void deleteBySQL(String sql);
 	public void update(Object entity);
 	public void update(String entityName, Object entity);
+	public void updateColumnById(String entityName,String columnName,Object value,Serializable id);
+	public void updateColumnsByParmas(String entityName,Serializable id,Map<String, Object> parmas);
 	public int countByClassName(String entityName);
 	public int countByHQL(String hql);
 	public int countBySQL(String sql);

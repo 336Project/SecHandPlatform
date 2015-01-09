@@ -161,6 +161,10 @@ session.setAttribute("user", Role.TYPE_USER);
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>用户名</dt>
 									  <dd>${sessionScope.account.userName}</dd>
+									  <dt>昵称</dt>
+									  <dd>${sessionScope.account.nickName}</dd>
+									  <dt>真实姓名</dt>
+									  <dd>${sessionScope.account.realName}</dd>
 									  <dt>邮箱地址</dt>
 									  <dd>${sessionScope.account.email}</dd>
 									  <dt>手机号</dt>
@@ -169,8 +173,12 @@ session.setAttribute("user", Role.TYPE_USER);
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
 									  <dd>${sessionScope.account.lastLoginTime}</dd>
+									  <dt>账户状态</dt>
+									  <dd>${sessionScope.account.status}</dd>
 									  <dt>账户来源</dt>
 									  <dd>${sessionScope.account.source}</dd>
+									  <dt>注册时间</dt>
+									  <dd>${sessionScope.account.registerTime}</dd>
 									</dl>
 								</div>
 							</div>

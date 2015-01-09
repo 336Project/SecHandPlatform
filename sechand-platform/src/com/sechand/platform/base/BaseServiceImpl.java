@@ -197,4 +197,16 @@ public class BaseServiceImpl implements BaseService{
 		return baseDao;
 	}
 
+	@Override
+	public void updateColumnById(String entityName, String columnName,
+			Object value, Serializable id) {
+		baseDao.updateColumnById(entityName, columnName, value, id);
+	}
+
+	@Override
+	public void updateColumnsByParmas(String entityName, Serializable id,
+			Map<String, Object> parmas) {
+		baseDao.updateColumnsByParmas(entityName, id, parmas);
+	}
+
 }

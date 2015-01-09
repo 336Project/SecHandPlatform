@@ -2,9 +2,7 @@ package com.sechand.platform.serviceimpl;
 
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -19,16 +17,16 @@ import com.sechand.platform.utils.WebUtil;
 public class AccountServiceImpl extends BaseServiceImpl implements AccountService{
 
 	@Override
-	public boolean login(String username, String password,String roleType) {
+	public Account login(String username, String password,String roleType) {
 		//String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";//邮箱也可以登录
 		String hql="from Account where userName='"+username+"' and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";
 		Account account=baseDao.getByHQL(hql);
-		if(account!=null){
+		/*if(account!=null){
 			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, account);
 			baseDao.updateColumnById("Account", "lastLoginTime", SysUtils.getDateFormat(new Date()), account.getId());
 			return true;
-		}
-		return false;
+		}*/
+		return account;
 	}
 
 	@Override
@@ -41,6 +39,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 		account.setRoleId(role.getId());
 		account.setRoleType(role.getType());
 		account.setPassword(SysUtils.encrypt(account.getPassword()));
+		account.setStatus(Account.STATUS_NORMAL);
 		return baseDao.save(account);
 	}
 

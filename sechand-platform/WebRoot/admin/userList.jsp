@@ -123,9 +123,8 @@ session.setAttribute("user", Role.TYPE_USER);
 				<div class="row">
 					<div class="col-mod-12">
 						<ul class="breadcrumb">
-							<li><a href="index.html">面包屑1</a></li>
-							<li><a href="index.html">面包屑2</a></li>
-							<li class="active">面包屑3</li>
+							<li><a href="<%=path %>/index.jsp">系统管理</a></li>
+							<li class="active">用户管理</li>
 						</ul>
 					</div>
 				</div>
@@ -179,7 +178,7 @@ session.setAttribute("user", Role.TYPE_USER);
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">确认密码</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="password2" placeholder="">
+				      <input type="password" class="form-control" id="password2" placeholder="请再次输入密码">
 				    </div>
 				  </div>
 				  <div class="form-group">

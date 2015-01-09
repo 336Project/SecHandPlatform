@@ -16,12 +16,12 @@ $(document).ready(function(){
 	}else{
 		tables.user._fnReDraw();
 	}
-	//获取角色类型
+	//添加用户的时候，获取角色下拉列表的值
 	$.ajax({
         type: "POST",
         contentType: "application/json;utf-8",
         dataType: "json",
-        url:$.urlRoot+"/platform/roleAction!listRole.action?type=2",
+        url:$.urlRoot+"/platform/roleAction!listRole.action?type=1",
         success: function (result) {
         	var html="" ;
         	$("#roleType").empty();
@@ -113,7 +113,8 @@ var view = {
 							{data : 'tel',sTitle : "手机号码"},
 							{data : 'registerTime',sTitle : "注册时间"},
 							{data : 'source',sTitle : "来源"},
-							{data : 'lastLoginTime',sTitle : "最后一次登录时间"}
+							{data : 'lastLoginTime',sTitle : "最后一次登录时间"},
+							{data : 'status',sTitle : "状态"}
 						],
 				"order": [[ 2, 'asc' ]],
 				"processing": true,

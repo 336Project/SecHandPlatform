@@ -4,11 +4,15 @@ package com.sechand.platform.model;
  * 用户表
  */
 public class Account implements java.io.Serializable {
+	// Fields
+	private static final long serialVersionUID = 35155233893839253L;
+	//状态
+	public static final String STATUS_NORMAL="正常";
+	public static final String STATUS_DISABLE="禁用";
+	//来源
 	public static final String SOURCE_MANUAL="手动录入";
 	public static final String SOURCE_PLATFORM="平台注册";
 	public static final String SOURCE_APP="客户端注册";
-	// Fields
-	private static final long serialVersionUID = 35155233893839253L;
 	private Integer id;
 	private Integer roleId;//角色id
 	private String roleType;//角色类型
@@ -21,6 +25,7 @@ public class Account implements java.io.Serializable {
 	private String source;//用户来源
 	private String lastLoginTime;//最后一次登录时间
 	private String registerTime;//注册时间
+	private String status;//账户状态
 	/*private String sex;//性别
 	private String age;//年龄
 	private String birthDate;//出生年月
@@ -99,6 +104,12 @@ public class Account implements java.io.Serializable {
 	}
 	public void setRegisterTime(String registerTime) {
 		this.registerTime = registerTime;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

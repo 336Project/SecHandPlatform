@@ -9,7 +9,7 @@ import com.sechand.platform.model.Account;
 
 
 public interface AccountService extends BaseService{
-	public boolean login(String username,String password,String roleName);
+	public Account login(String username,String password,String roleName);
 	public long add(Account account);
 	public List<Account> listUsers();
 	/**
