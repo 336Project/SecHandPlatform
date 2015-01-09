@@ -15,7 +15,7 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 	@Override
 	public List<Role> listByType(int type) {
 		if(type==RoleService.TYPE_INCLUDE){//包括管理员,即所有角色
-			return baseDao.listByClassName("Role");
+			return baseDao.listByClassName(Role.class);
 		}else{
 			String hql="from Role where code <> '"+Role.CODE_ADMIN+"'";
 			return baseDao.listByHQL(hql);
@@ -43,14 +43,14 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 
 	@Override
 	public void deleteByIds(String[] ids) {
-		baseDao.deleteByClassNameAndIds("Role", ids);
+		baseDao.deleteByClassNameAndIds(Role.class, ids);
 	}
 
 	@Override
 	public Role getRoleByCode(String code) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
 		whereParams.put("code", code);
-		return baseDao.getByClassNameAndParams("Role", whereParams);
+		return baseDao.getByClassNameAndParams(Role.class, whereParams);
 	}
 
 }

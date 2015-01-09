@@ -12,8 +12,8 @@ public class BaseServiceImpl implements BaseService{
 	}
 	
 	@Override
-	public int save(String entityName, Object entity) {
-		return baseDao.save(entityName, entity);
+	public int save(Class<?> entityClass, Object entity) {
+		return baseDao.save(entityClass, entity);
 	}
 
 
@@ -24,14 +24,14 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public void saveOrUpdate(String entityName, Object entity) {
-		baseDao.saveOrUpdate(entityName, entity);
+	public void saveOrUpdate(Class<?> entityClass, Object entity) {
+		baseDao.saveOrUpdate(entityClass, entity);
 	}
 
 
 	@Override
-	public <T> T getByClassNameAndId(String entityName, Serializable id) {
-		return baseDao.getByClassNameAndId(entityName, id);
+	public <T> T getByClassNameAndId(Class<?> entityClass, Serializable id) {
+		return baseDao.getByClassNameAndId(entityClass, id);
 	}
 
 
@@ -54,9 +54,9 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public <T> T getByClassNameAndParams(String entityName,
+	public <T> T getByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams) {
-		return baseDao.getByClassNameAndParams(entityName, whereParams);
+		return baseDao.getByClassNameAndParams(entityClass, whereParams);
 	}
 
 
@@ -67,27 +67,27 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public void delete(String entityName, Object entity) {
-		baseDao.delete(entityName, entity);
+	public void delete(Class<?> entityClass, Object entity) {
+		baseDao.delete(entityClass, entity);
 	}
 
 
 	@Override
-	public void deleteByClassNameAndId(String entityName, Serializable id) {
-		baseDao.deleteByClassNameAndId(entityName, id);
+	public void deleteByClassNameAndId(Class<?> entityClass, Serializable id) {
+		baseDao.deleteByClassNameAndId(entityClass, id);
 	}
 
 
 	@Override
-	public void deleteByClassNameAndIds(String entityName, Serializable[] ids) {
-		baseDao.deleteByClassNameAndIds(entityName, ids);
+	public void deleteByClassNameAndIds(Class<?> entityClass, Serializable[] ids) {
+		baseDao.deleteByClassNameAndIds(entityClass, ids);
 	}
 
 
 	@Override
-	public void deleteByClassNameAndParams(String entityName,
+	public void deleteByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams) {
-		baseDao.deleteByClassNameAndParams(entityName, whereParams);
+		baseDao.deleteByClassNameAndParams(entityClass, whereParams);
 	}
 
 
@@ -98,14 +98,14 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public void update(String entityName, Object entity) {
-		baseDao.update(entityName, entity);
+	public void update(Class<?> entityClass, Object entity) {
+		baseDao.update(entityClass, entity);
 	}
 
 
 	@Override
-	public int countByClassName(String entityName) {
-		return baseDao.countByClassName(entityName);
+	public int countByClassName(Class<?> entityClass) {
+		return baseDao.countByClassName(entityClass);
 	}
 
 
@@ -122,15 +122,15 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public int countByClassNameAndParams(String entityName,
+	public int countByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams) {
-		return baseDao.countByClassNameAndParams(entityName, whereParams);
+		return baseDao.countByClassNameAndParams(entityClass, whereParams);
 	}
 
 
 	@Override
-	public <T> List<T> listByClassName(String entityName) {
-		return baseDao.listByClassName(entityName);
+	public <T> List<T> listByClassName(Class<?> entityClass) {
+		return baseDao.listByClassName(entityClass);
 	}
 
 
@@ -147,16 +147,16 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public <T> List<T> listByClassNameAndParams(String entityName,
+	public <T> List<T> listByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams) {
-		return baseDao.listByClassNameAndParams(entityName, whereParams);
+		return baseDao.listByClassNameAndParams(entityClass, whereParams);
 	}
 
 
 	@Override
-	public <T> List<T> listPageRowsByClassName(String entityName,
+	public <T> List<T> listPageRowsByClassName(Class<?> entityClass,
 			int currentPage, int pageSize) {
-		return baseDao.listPageRowsByClassName(entityName, currentPage, pageSize);
+		return baseDao.listPageRowsByClassName(entityClass, currentPage, pageSize);
 	}
 
 
@@ -175,9 +175,9 @@ public class BaseServiceImpl implements BaseService{
 
 
 	@Override
-	public <T> List<T> listPageRowsByClassNameAndParams(String entityName,
+	public <T> List<T> listPageRowsByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams, int currentPage, int pageSize) {
-		return baseDao.listPageRowsByClassNameAndParams(entityName, whereParams, currentPage, pageSize);
+		return baseDao.listPageRowsByClassNameAndParams(entityClass, whereParams, currentPage, pageSize);
 	}
 	
 	@Override
@@ -198,15 +198,15 @@ public class BaseServiceImpl implements BaseService{
 	}
 
 	@Override
-	public void updateColumnById(String entityName, String columnName,
+	public void updateColumnById(Class<?> entityClass, String columnName,
 			Object value, Serializable id) {
-		baseDao.updateColumnById(entityName, columnName, value, id);
+		baseDao.updateColumnById(entityClass, columnName, value, id);
 	}
 
 	@Override
-	public void updateColumnsByParmas(String entityName, Serializable id,
+	public void updateColumnsByParmas(Class<?> entityClass, Serializable id,
 			Map<String, Object> parmas) {
-		baseDao.updateColumnsByParmas(entityName, id, parmas);
+		baseDao.updateColumnsByParmas(entityClass, id, parmas);
 	}
 
 }

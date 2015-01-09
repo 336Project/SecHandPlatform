@@ -28,7 +28,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 	public long add(Account account) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
 		whereParams.put("code", account.getRoleCode());
-		Role role=baseDao.getByClassNameAndParams("Role", whereParams);
+		Role role=baseDao.getByClassNameAndParams(Role.class, whereParams);
 		if(role==null){
 			return -1;
 		}
@@ -42,7 +42,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 
 	@Override
 	public List<Account> listUsers() {
-		return baseDao.listByClassName("Account");
+		return baseDao.listByClassName(Account.class);
 	}
 
 	@Override
@@ -66,6 +66,6 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 
 	@Override
 	public void deleteByIds(String[] ids) {
-		baseDao.deleteByClassNameAndIds("Account", ids);
+		baseDao.deleteByClassNameAndIds(Account.class, ids);
 	}
 }

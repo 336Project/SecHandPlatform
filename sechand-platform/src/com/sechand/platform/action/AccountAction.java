@@ -46,7 +46,7 @@ public class AccountAction extends BaseAction{
 				//将用户添加到session
 				WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
 				//更新最后一次登录时间
-				accountService.updateColumnById("Account", "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
+				accountService.updateColumnById(Account.class, "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
 				json.setSuccess(true);
 				json.setMsg("/index.jsp");
 			}
@@ -155,7 +155,7 @@ public class AccountAction extends BaseAction{
 	 * TODO 重置用户密码(123456)
 	 */
 	public String resetPassword(){
-		accountService.updateColumnById("Account", "password", SysUtils.encrypt("123456"), ids);
+		accountService.updateColumnById(Account.class, "password", SysUtils.encrypt("123456"), ids);
 		json.setMsg("重置成功！密码为:123456");
 		json.setSuccess(true);
 		return SUCCESS;

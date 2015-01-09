@@ -22,8 +22,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public int save(String entityName, Object entity) {
-		return (Integer) getHibernateTemplate().save(entityName, entity);
+	public int save(Class<?> entityClass, Object entity) {
+		return (Integer) getHibernateTemplate().save(entityClass.getSimpleName(), entity);
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public void saveOrUpdate(String entityName, Object entity) {
-		getHibernateTemplate().saveOrUpdate(entityName,entity);
+	public void saveOrUpdate(Class<?> entityClass, Object entity) {
+		getHibernateTemplate().saveOrUpdate(entityClass.getSimpleName(),entity);
 	}
 
 	@Override
@@ -42,21 +42,21 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public void delete(String entityName, Object entity) {
-		getHibernateTemplate().delete(entityName, entity);
+	public void delete(Class<?> entityClass, Object entity) {
+		getHibernateTemplate().delete(entityClass.getSimpleName(), entity);
 	}
 	
 	@Override
-	public void deleteByClassNameAndId(String entityName, Serializable id) {
-		/*Object object=getByClassNameAndId(entityName, id);//getHibernateTemplate().get("cn.edu.xmut.demo.model.Account", id);
+	public void deleteByClassNameAndId(Class<?> entityClass, Serializable id) {
+		/*Object object=getByClassNameAndId(entityClass.getSimpleName(), id);//getHibernateTemplate().get("cn.edu.xmut.demo.model.Account", id);
 		getHibernateTemplate().delete(object);*/
-		String hql="from "+entityName+" where id="+id;
+		String hql="from "+entityClass.getSimpleName()+" where id="+id;
 		deleteByHQL(hql);
 	}
 
 	@Override
-	public <T> T getByClassNameAndId(String entityName, Serializable id) {
-		final String hql="from "+entityName+" where id="+id;
+	public <T> T getByClassNameAndId(Class<?> entityClass, Serializable id) {
+		final String hql="from "+entityClass.getSimpleName()+" where id="+id;
 		return (T) getByHQL(hql);
 	}
 
@@ -85,9 +85,9 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 	
 	@Override
-	public <T> T getByClassNameAndParams(String entityName,Map<String, Object> whereParams) {
-		final String hql=BaseUtil.getHqlString(entityName, whereParams);
-		/*List<T> objects=getHibernateTemplate().find(BaseUtil.getHqlString(entityName, whereParams));
+	public <T> T getByClassNameAndParams(Class<?> entityClass,Map<String, Object> whereParams) {
+		final String hql=BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams);
+		/*List<T> objects=getHibernateTemplate().find(BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams));
 		if(objects!=null&&objects.size()>0){
 			return objects.get(0);
 		}
@@ -109,13 +109,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 		return null;
 	}
 	@Override
-	public void deleteByClassNameAndIds(String entityName,final Serializable[] ids) {
+	public void deleteByClassNameAndIds(Class<?> entityClass,final Serializable[] ids) {
 		if(ids!=null){
 			/*for (Serializable id : ids) {
-				deleteByClassNameAndId(entityName, id);
+				deleteByClassNameAndId(entityClass.getSimpleName(), id);
 			}*/
 			StringBuffer sb=new StringBuffer();
-			sb.append("delete from "+entityName+" where ");
+			sb.append("delete from "+entityClass.getSimpleName()+" where ");
 			for (int i = 0; i < ids.length; i++) {
 				if(i==0){
 					sb.append("id="+ids[i]);
@@ -123,7 +123,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 					sb.append("or id="+ids[i]);
 				}
 			}
-			//final String hql = "delete from "+entityName+" where id in (:ids)";
+			//final String hql = "delete from "+entityClass.getSimpleName()+" where id in (:ids)";
 			final String hql = sb.toString();
 			getHibernateTemplate().execute(new HibernateCallback<Object>() {
 				@Override
@@ -140,13 +140,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public void deleteByClassNameAndParams(String entityName, Map<String, Object> whereParams) {
-		/*List<Object> objects=getHibernateTemplate().find(BaseUtil.getHqlString(entityName, whereParams));
+	public void deleteByClassNameAndParams(Class<?> entityClass, Map<String, Object> whereParams) {
+		/*List<Object> objects=getHibernateTemplate().find(BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams));
 		if(objects!=null){
 			//一条一条删的
 			getHibernateTemplate().deleteAll(objects);
 		}*/
-		final String hql="delete "+BaseUtil.getHqlString(entityName, whereParams);
+		final String hql="delete "+BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams);
 		//getHibernateTemplate().bulkUpdate(hql);
 		getHibernateTemplate().execute(new HibernateCallback<Object>() {
 
@@ -164,13 +164,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public void update(String entityName, Object entity) {
-		getHibernateTemplate().update(entityName, entity);
+	public void update(Class<?> entityClass, Object entity) {
+		getHibernateTemplate().update(entityClass.getSimpleName(), entity);
 	}
 
 	@Override
-	public int countByClassName(String entityName) {
-		final String hql = "select count(*) from "+entityName;
+	public int countByClassName(Class<?> entityClass) {
+		final String hql = "select count(*) from "+entityClass.getSimpleName();
 		int count=0;
 		try{
 			count=getHibernateTemplate().execute(new HibernateCallback<Integer>() {
@@ -205,8 +205,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public int countByClassNameAndParams(final String entityName,final Map<String, Object> whereParams) {
-		final String hql="select count(*)"+BaseUtil.getHqlString(entityName, whereParams);
+	public int countByClassNameAndParams(final Class<?> entityClass,final Map<String, Object> whereParams) {
+		final String hql="select count(*)"+BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams);
 		int count=0;
 		try{
 			count=getHibernateTemplate().execute(new HibernateCallback<Integer>() {
@@ -223,8 +223,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public <T> List<T> listByClassName(String entityName) {
-		return getHibernateTemplate().find("from "+entityName);
+	public <T> List<T> listByClassName(Class<?> entityClass) {
+		return getHibernateTemplate().find("from "+entityClass.getSimpleName());
 	}
 
 	@Override
@@ -233,15 +233,15 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public <T> List<T> listByClassNameAndParams(String entityName,
+	public <T> List<T> listByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams) {
-		return getHibernateTemplate().find(BaseUtil.getHqlString(entityName, whereParams));
+		return getHibernateTemplate().find(BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams));
 	}
 
 	@Override
-	public <T> List<T> listPageRowsByClassName(String entityName,
+	public <T> List<T> listPageRowsByClassName(Class<?> entityClass,
 			final int currentPage, final int pageSize) {
-		final String hql="from "+entityName;
+		final String hql="from "+entityClass.getSimpleName();
 		List<T> objects=getHibernateTemplate().executeFind(new HibernateCallback<List<T>>() {
 			@Override
 			public List<T> doInHibernate(Session session)
@@ -272,9 +272,9 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public <T> List<T> listPageRowsByClassNameAndParams(String entityName,
+	public <T> List<T> listPageRowsByClassNameAndParams(Class<?> entityClass,
 			Map<String, Object> whereParams, final int currentPage, final int pageSize) {
-		final String hql=BaseUtil.getHqlString(entityName, whereParams);
+		final String hql=BaseUtil.getHqlString(entityClass.getSimpleName(), whereParams);
 		List<T> objects=getHibernateTemplate().executeFind(new HibernateCallback<List<T>>() {
 			@Override
 			public List<T> doInHibernate(Session session)
@@ -380,10 +380,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public void updateColumnById(String entityName, String columnName,
+	public void updateColumnById(Class<?> entityClass, String columnName,
 			Object value, Serializable id) {
 		StringBuffer sb=new StringBuffer();
-		sb.append("update "+entityName+" set "+columnName);
+		sb.append("update "+entityClass.getSimpleName()+" set "+columnName);
 		if(value instanceof String){
 			sb.append("='"+value+"' where id="+id);
 		}else{
@@ -402,10 +402,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 	}
 
 	@Override
-	public void updateColumnsByParmas(String entityName, Serializable id,
+	public void updateColumnsByParmas(Class<?> entityClass, Serializable id,
 			Map<String, Object> parmas) {
 		StringBuffer sb=new StringBuffer();
-		sb.append("update "+entityName+" set ");
+		sb.append("update "+entityClass.getSimpleName()+" set ");
 		Set<String> keys=parmas.keySet();
 		for (String key : keys) {
 			Object value=parmas.get(key);
