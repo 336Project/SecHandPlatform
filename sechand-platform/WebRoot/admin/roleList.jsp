@@ -4,9 +4,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-session.setAttribute("admin", Role.TYPE_ADMIN);
-session.setAttribute("company", Role.TYPE_COMPANY);
-session.setAttribute("user", Role.TYPE_USER);
+session.setAttribute("admin", Role.CODE_ADMIN);
+session.setAttribute("company", Role.CODE_COMPANY);
+session.setAttribute("user", Role.CODE_USER);
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -35,6 +35,9 @@ session.setAttribute("user", Role.TYPE_USER);
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  <script>
+  	jQuery.urlRoot = "<%=path%>";
+  </script>
 </head>
 <body>
 	<div class="frame">
@@ -42,7 +45,7 @@ session.setAttribute("user", Role.TYPE_USER);
 		<div class="sidebar">
 			<div class="wrapper">
 				<!-- Replace the src of the image with your logo -->
-				<a href="index.jsp" class="logo"><img src="../images/logo.png" alt="后台管理" /></a>
+				<a href="<%=path %>/index.jsp" class="logo"><img src="../images/logo.png" alt="后台管理" /></a>
 				<ul class="nav nav-list">
 
 					<!-- sidebar input search box -->
@@ -56,15 +59,15 @@ session.setAttribute("user", Role.TYPE_USER);
 					<!-- Sidebar header @add class nav-header for sidebar header -->
 					<!-- 根据不同的角色加载不同的左边菜单栏 -->
 					<!-- 管理员 -->
-					<s:if test='#session.account.roleType==#session.admin'>
+					<s:if test='#session.account.roleCode==#session.admin'>
 						<jsp:include page="../inc/admin-menu.jsp"></jsp:include>
 					</s:if>
 					<!-- 维修公司 -->
-					<s:elseif test='#session.account.roleType==#session.company'>
+					<s:elseif test='#session.account.roleCode==#session.company'>
 						<jsp:include page="../inc/company-menu.jsp"></jsp:include>
 					</s:elseif>
 					<!-- 普通用户 -->
-					<s:elseif test='#session.account.roleType==#session.user'>
+					<s:elseif test='#session.account.roleCode==#session.user'>
 						<jsp:include page="../inc/user-menu.jsp"></jsp:include>
 					</s:elseif>
 				</ul>
@@ -120,35 +123,13 @@ session.setAttribute("user", Role.TYPE_USER);
 				<div class="row">
 					<div class="col-mod-12">
 						<ul class="breadcrumb">
-							<li><a href="index.jsp">系统管理</a></li>
+							<li><a href="<%=path %>/index.jsp">系统管理</a></li>
 							<li class="active">角色管理</li>
 						</ul>
 					</div>
 				</div>
 				<!-- 面板 -->
-				<div class="row">
-					<div class="col-md-12">
-						<div class="panel panel-archon main-graph">
-							<div class="panel-heading">
-								<h3 class="panel-title">角色管理
-									<span class="pull-right">
-										<a href="#" class="panel-minimize"><i class="glyphicon glyphicon-chevron-up"></i></a>
-									</span>
-								</h3>
-							</div>
-							<div class="panel-body" style="overflow: hidden; display: block;">
-								<!-- 放置表格或其他内容 -->
-								<div class="tb-tools">
-									<button  id="btn-delete" type="button" class="btn btn-warning">删 除</button>
-									<button type="button" class="btn btn-primary">新 增</button>
-								</div>
-								<table id="table-user" class="hover order-column"></table>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="row" style="display:none">
+				<div class="row" style="display:block;">
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
@@ -175,7 +156,7 @@ session.setAttribute("user", Role.TYPE_USER);
 
 		</div>
 		<!-- 主要内容 end'-->
-		<!-- 新增用户弹出框 start  -->
+		<!-- 新增角色弹出框 start  -->
 		<div class="modal fade" id="addRole" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -186,33 +167,15 @@ session.setAttribute("user", Role.TYPE_USER);
 		      <div class="modal-body row">
 		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">角色名称</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="inputEmail3" placeholder="未命名">
+				      <input type="text" class="form-control" id="roleName" placeholder="">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">密码</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">角色编号</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="inputEmail3" placeholder="请用不同格式字符设置">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">重复密码</label>
-				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="inputEmail3" placeholder="请保持输入一致">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">Email</label>
-				    <div class="col-sm-8">
-				      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">Email</label>
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="inputEmail3" placeholder="Email">
+				      <input type="text" class="form-control" id="roleCode" placeholder="1:管理员2:维修公司3:普通用户">
 				    </div>
 				  </div>
 				</form>

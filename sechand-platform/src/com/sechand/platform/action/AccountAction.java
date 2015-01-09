@@ -9,12 +9,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.service.AccountService;
+import com.sechand.platform.utils.DataTableParams;
 import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
@@ -26,7 +24,7 @@ public class AccountAction extends BaseAction{
 	private String username;//用户名
 	private String password;//密码
 	private String type;//角色类型
-	private String dataTableParams;
+	private String dataTableParams;//表单参数,json格式
 	private String ids;
 	
 
@@ -43,9 +41,11 @@ public class AccountAction extends BaseAction{
 		if(a!=null){
 			if(!Account.STATUS_NORMAL.equals(a.getStatus())){
 				json.setSuccess(false);
-				json.setMsg("该账户出现异常，请联系管理员!");
+				json.setMsg("该账户被禁用，请联系管理员!");
 			}else{
+				//将用户添加到session
 				WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
+				//更新最后一次登录时间
 				accountService.updateColumnById("Account", "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
 				json.setSuccess(true);
 				json.setMsg("/index.jsp");
@@ -90,9 +90,9 @@ public class AccountAction extends BaseAction{
 	 * 
 	 * 2015-1-8 下午5:59:41
 	 * @return 
-	 * TODO 后台管理员添加
+	 * TODO 后台管理员手动添加
 	 */
-	public String addManual(){
+	public String addByManual(){
 		account.setSource(Account.SOURCE_MANUAL);
 		long id=accountService.add(account);
 		if(id>0){
@@ -110,52 +110,24 @@ public class AccountAction extends BaseAction{
 	 * @return 
 	 * TODO 获取用户信息列表
 	 */
-	public String listUsers(){
-		int draw=0;
-		String iDisplayStart="";//记录开始位置
-		String iDisplayLength="";//每页大小
-		String sSearch="";//搜索关键字
-		int start= 0;
-		int length=10;
-		//json解析
-		JSONArray jsonArray=JSON.parseArray(dataTableParams);
-		if(jsonArray!=null){
-			for (int i = 0; i < jsonArray.size(); i++) {
-				JSONObject params=jsonArray.getJSONObject(i);
-				if(params.getString("name").equals("draw")){
-					draw=params.getIntValue("value")+1;
-				}else if(params.getString("name").equals("start")){
-					iDisplayStart=params.getString("value");
-				}else if(params.getString("name").equals("length")){
-					iDisplayLength=params.getString("value");
-				}else if(params.getString("name").equals("sSearch")){
-					sSearch=params.getString("value");
-				}
-			}
-		}
-		
-		try {
-			start=Integer.parseInt(iDisplayStart);
-		} catch (Exception e) {
-		}
-		try {
-			length=Integer.parseInt(iDisplayLength);
-		} catch (Exception e) {
-		}
-		int curr=start/length+1;//计算当前页
+	public String listUsersByParams(){
+		DataTableParams params=DataTableParams.getInstance();
+		params.parse(dataTableParams);
 		Map<String, Object> dataMap=new HashMap<String, Object>();
-		List<Account> users=accountService.listPageRowsUsersByKeyword(curr, length, sSearch);//accountService.listUsers();
-		int count=accountService.countByKeyword(sSearch);
+		List<Account> users=accountService.listPageRowsUsersByKeyword(params.current_page, params.page_size, params.keyword);//accountService.listUsers();
+		int count=accountService.countByKeyword(params.keyword);
 		dataMap.put("recordsTotal", count);
 		dataMap.put("recordsFiltered", count);
-		dataMap.put("draw",draw);
+		dataMap.put("draw",params.draw);
 		dataMap.put("data", users);
-		if(users!=null){
+		json.setMsg(dataMap);
+		json.setSuccess(true);
+		/*if(users!=null){
 			json.setMsg(dataMap);
 			json.setSuccess(true);
 		}else{
 			json.setSuccess(false);
-		}
+		}*/
 		return SUCCESS;
 	}
 	/**
@@ -164,7 +136,7 @@ public class AccountAction extends BaseAction{
 	 * @return 
 	 * TODO 批量删除用户
 	 */
-	public String deleteUsers(){
+	public String deleteUserByIds(){
 		if(!StringUtils.isBlank(ids)){
 			String[] idList=ids.split(",");
 			accountService.deleteByIds(idList);
@@ -176,6 +148,19 @@ public class AccountAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
+	/**
+	 * 
+	 * 2015-1-9 下午2:48:14
+	 * @return 
+	 * TODO 重置用户密码(123456)
+	 */
+	public String resetPassword(){
+		accountService.updateColumnById("Account", "password", SysUtils.encrypt("123456"), ids);
+		json.setMsg("重置成功！密码为:123456");
+		json.setSuccess(true);
+		return SUCCESS;
+	}
+	
 	public String getUsername() {
 		return username;
 	}

@@ -4,9 +4,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-session.setAttribute("admin", Role.TYPE_ADMIN);
-session.setAttribute("company", Role.TYPE_COMPANY);
-session.setAttribute("user", Role.TYPE_USER);
+session.setAttribute("admin", Role.CODE_ADMIN);
+session.setAttribute("company", Role.CODE_COMPANY);
+session.setAttribute("user", Role.CODE_USER);
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -45,7 +45,7 @@ session.setAttribute("user", Role.TYPE_USER);
 		<div class="sidebar">
 			<div class="wrapper">
 				<!-- Replace the src of the image with your logo -->
-				<a href="index.jsp" class="logo"><img src="../images/logo.png" alt="后台管理" /></a>
+				<a href="<%=path %>/index.jsp" class="logo"><img src="../images/logo.png" alt="后台管理" /></a>
 				<ul class="nav nav-list">
 
 					<!-- sidebar input search box -->
@@ -59,15 +59,15 @@ session.setAttribute("user", Role.TYPE_USER);
 					<!-- Sidebar header @add class nav-header for sidebar header -->
 					<!-- 根据不同的角色加载不同的左边菜单栏 -->
 					<!-- 管理员 -->
-					<s:if test='#session.account.roleType==#session.admin'>
+					<s:if test='#session.account.roleCode==#session.admin'>
 						<jsp:include page="../inc/admin-menu.jsp"></jsp:include>
 					</s:if>
 					<!-- 维修公司 -->
-					<s:elseif test='#session.account.roleType==#session.company'>
+					<s:elseif test='#session.account.roleCode==#session.company'>
 						<jsp:include page="../inc/company-menu.jsp"></jsp:include>
 					</s:elseif>
 					<!-- 普通用户 -->
-					<s:elseif test='#session.account.roleType==#session.user'>
+					<s:elseif test='#session.account.roleCode==#session.user'>
 						<jsp:include page="../inc/user-menu.jsp"></jsp:include>
 					</s:elseif>
 				</ul>
@@ -142,8 +142,10 @@ session.setAttribute("user", Role.TYPE_USER);
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
 								<div class="tb-tools">
+									<button id="btn-reset-password" type="button" class="btn btn-warning">重置密码</button>
 									<button id="btn-delete" type="button" class="btn btn-warning">删 除</button>
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUser">新 增</button>
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUser">修改</button>
 								</div>
 								<table id="table-user" class="hover order-column"></table>
 							</div>
@@ -217,6 +219,69 @@ session.setAttribute("user", Role.TYPE_USER);
 		</div>
 		
 		<!-- 新增用户弹出框  end  -->
+		<!-- 修改用户弹出框 start  -->
+		<div class="modal fade" id="updateUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">添加新用户</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        	<input type="text" class="form-control" id="id" name="account.id" style="display: none;">
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="username" name="account.userName" placeholder="用户名" disabled="disabled">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">密码</label>
+				    <div class="col-sm-8">
+				      <input type="password" class="form-control" id="password" name="account.password" placeholder="密码长度为6-20位">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">确认密码</label>
+				    <div class="col-sm-8">
+				      <input type="password" class="form-control" id="password2" placeholder="请再次输入密码">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">昵称</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="nickName" placeholder="一个好的昵称，可以彰显个性" name="account.nickName">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label>
+				    <div class="col-sm-8">
+				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="account.email">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">手机号码</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="account.tel">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户类型</label>
+					    <div class="col-sm-8">
+						     <input type="text" class="form-control" id="roleName" name="account.roleName" placeholder="角色名称" disabled="disabled">
+					    </div>
+				  </div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button id="btn-addUser" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- 修改用户弹出框  end  -->
 		<div class="row footer">
 			<div class="col-md-12 text-center">
 				© 2015 <a href="#">版权申明</a>

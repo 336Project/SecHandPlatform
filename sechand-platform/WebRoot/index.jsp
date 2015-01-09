@@ -4,9 +4,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-session.setAttribute("admin", Role.TYPE_ADMIN);
-session.setAttribute("company", Role.TYPE_COMPANY);
-session.setAttribute("user", Role.TYPE_USER);
+session.setAttribute("admin", Role.CODE_ADMIN);
+session.setAttribute("company", Role.CODE_COMPANY);
+session.setAttribute("user", Role.CODE_USER);
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -56,15 +56,15 @@ session.setAttribute("user", Role.TYPE_USER);
 					<!-- Sidebar header @add class nav-header for sidebar header -->
 					<!-- 根据不同的角色加载不同的左边菜单栏 -->
 					<!-- 管理员 -->
-					<s:if test='#session.account.roleType==#session.admin'>
+					<s:if test='#session.account.roleCode==#session.admin'>
 						<jsp:include page="inc/admin-menu.jsp"></jsp:include>
 					</s:if>
 					<!-- 维修公司 -->
-					<s:elseif test='#session.account.roleType==#session.company'>
+					<s:elseif test='#session.account.roleCode==#session.company'>
 						<jsp:include page="inc/company-menu.jsp"></jsp:include>
 					</s:elseif>
 					<!-- 普通用户 -->
-					<s:elseif test='#session.account.roleType==#session.user'>
+					<s:elseif test='#session.account.roleCode==#session.user'>
 						<jsp:include page="inc/user-menu.jsp"></jsp:include>
 					</s:elseif>
 				</ul>
@@ -142,18 +142,7 @@ session.setAttribute("user", Role.TYPE_USER);
 								  <p>欢迎使用"sechand"信息管理系统</p>
 								<footer>用户类型：
 								   <cite title="Source Title">
-								  	<!-- 管理员 -->
-									<s:if test='#session.account.roleType==#session.admin'>
-										管理员
-									</s:if>
-									<!-- 维修公司 -->
-									<s:elseif test='#session.account.roleType==#session.company'>
-										维修公司
-									</s:elseif>
-									<!-- 普通用户 -->
-									<s:elseif test='#session.account.roleType==#session.user'>
-										普通用户
-									</s:elseif>
+								  	${sessionScope.account.roleName}
 								  </cite>
 								</footer>
 								</blockquote>
@@ -186,7 +175,7 @@ session.setAttribute("user", Role.TYPE_USER);
 					</div>
 				</div>
 				
-				<div class="row" style="display:none">
+				<!-- <div class="row" style="display:none">
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
@@ -197,7 +186,7 @@ session.setAttribute("user", Role.TYPE_USER);
 								</h3>
 							</div>
 							<div class="panel-body" style="overflow: hidden; display: block;">
-								<!-- 放置表格或其他内容 -->
+								放置表格或其他内容
 								<div class="tb-tools">
 									<button type="button" class="btn btn-warning">删 除</button>
 									<button type="button" class="btn btn-primary">新 增</button>
@@ -206,7 +195,7 @@ session.setAttribute("user", Role.TYPE_USER);
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 
 			</div>

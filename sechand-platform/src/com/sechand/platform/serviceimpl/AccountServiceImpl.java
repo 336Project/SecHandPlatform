@@ -2,7 +2,9 @@ package com.sechand.platform.serviceimpl;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -11,7 +13,6 @@ import com.sechand.platform.model.Account;
 import com.sechand.platform.model.Role;
 import com.sechand.platform.service.AccountService;
 import com.sechand.platform.utils.SysUtils;
-import com.sechand.platform.utils.WebUtil;
 
 
 public class AccountServiceImpl extends BaseServiceImpl implements AccountService{
@@ -19,25 +20,21 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 	@Override
 	public Account login(String username, String password,String roleType) {
 		//String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";//邮箱也可以登录
-		String hql="from Account where userName='"+username+"' and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";
-		Account account=baseDao.getByHQL(hql);
-		/*if(account!=null){
-			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, account);
-			baseDao.updateColumnById("Account", "lastLoginTime", SysUtils.getDateFormat(new Date()), account.getId());
-			return true;
-		}*/
-		return account;
+		String hql="from Account where userName='"+username+"' and password ='"+SysUtils.encrypt(password)+"' and roleCode ='"+roleType+"'";
+		return baseDao.getByHQL(hql);
 	}
 
 	@Override
 	public long add(Account account) {
-		Role role=baseDao.getByClassAndId(Role.class, account.getRoleId());
+		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("code", account.getRoleCode());
+		Role role=baseDao.getByClassNameAndParams("Role", whereParams);
 		if(role==null){
 			return -1;
 		}
 		account.setRegisterTime(SysUtils.getDateFormat(new Date()));
-		account.setRoleId(role.getId());
-		account.setRoleType(role.getType());
+		account.setRoleCode(role.getCode());
+		account.setRoleName(role.getName());
 		account.setPassword(SysUtils.encrypt(account.getPassword()));
 		account.setStatus(Account.STATUS_NORMAL);
 		return baseDao.save(account);

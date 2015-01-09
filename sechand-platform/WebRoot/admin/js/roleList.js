@@ -1,11 +1,11 @@
 /*
  * 全局对象-表格 完成初始化后方可使用
  * 获取方式:tables.user or tables.role
- * 获取表中数据:tables.user.data 
+ * 获取表中数据:tables.user.data
  * 获取表中行数据:tables.user.row(i)
 */
 var tables = {
-		user:null
+		roles:null
 };
 
 //页面加载完成后执行
@@ -18,62 +18,89 @@ $(document).ready(function(){
 //页面内ui的控制
 var view = {
 		init:function(){
-			//执行初始化用户列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
-			tables.user = this.initUserTable();
+			//执行初始化角色列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
+			tables.roles = this.initRoleTable();
 			this.tableTool();
 		},
 		tableTool:function(){
 			//删除
 			$("#btn-delete").on("click.delete",function(){
-				$.W.alert("确定删除",function(){
-					//这里写提交删除事件
-					var idList = [];//被选中的用户
-					var $userId = $("#table-user [name='slecteUser']:checked");
+				var idList = [];//被选中的用户
+				var $userId = $("#table-role [name='slecteRole']:checked");
+				if($userId.length>0){
 					for(var i =0;i<$userId.length;i++){
 						idList.push($userId.eq(i).data("uid"));
 					}
-					//console.log(idList);
-					
-					//这里写ajax提交删除
-					
-					//删除后刷新表格
-					tables.user._fnReDraw();
-				});
+					$.W.alert("确定删除"+idList.length+"条记录？",function(){
+						//console.log(idList);
+						//ajax提交删除
+						$.ajax({
+			        		url:$.urlRoot+"/platform/roleAction!deleteRoleByIds.action",
+			        		type:"post",
+			        		dataType:"json",
+			        		data:{ids:idList.toString()},
+			        		success:function(d){
+			        			$.W.alert(d.msg,true);
+			        			//删除后刷新表格
+			        			if(d.success){
+			        				tables.roles._fnReDraw();
+			        			}
+			        		}
+			        	});
+					});
+				}else{
+					$.W.alert("请选择要删除的记录！",true);
+				}
 			});
 			
-			//提交新增用户的表单
+			//提交新增角色的表单
 			$("#btn-addRole").off('click.save').on("click.save",function(){
-				//这里写入执行提交
+				$.ajax({
+	        		url:$.urlRoot+"/platform/roleAction!addRole.action",
+	        		type:"post",
+	        		dataType:"json",
+	        		data:{
+	        			"role.name":$("#roleName").val(),
+	        			"role.code":$("#roleCode").val()
+	        			},
+	        		success:function(d){
+	        			$.W.alert(d.msg,true);
+	        			//添加后刷新表格
+	        			if(d.success){
+	        				tables.roles._fnReDraw();
+	        			}
+	        		}
+	        	});
 			});
 		},
 		/*
 		 * 初始化用户列表
 		 * return datatable 对象
 		 */		
-		initUserTable:function(){
+		initRoleTable:function(){
 			return $("#table-role").dataTable({
 				"columns":[
 							{ data: 'id',sTitle:"",
 					        	render: function(id) {
-									var str = "<input name='slecteUser' data-uid='"+id+"' type=checkbox>";
+									var str = "<input name='slecteRole' data-uid='"+id+"' type=checkbox>";
 									return str;
 					        	}
 							},
 							{data : 'id',sTitle : "ID"}, 
-							{data : 'userName',sTitle : "账号"}, 
-							{data : 'realName',sTitle : "真实姓名"}, 
-							{data : 'nickName',sTitle : "昵称"}, 
-							{data : 'email',sTitle : "邮箱"}, 
-							{data : 'tel',sTitle : "手机号码"}
+							{data : 'name',sTitle : "角色名称"}, 
+							{data : 'code',sTitle : "类型"}
 						],
 				"processing": true,
 		        "serverSide": true,
+		        "bAutoWidth": false,//自适应宽度
+		        "aLengthMenu": [10, 20, 30, 50],//定义每页显示数据数量
 		        "fnServerData":function(n,params,fnCallback,table){
 		        	params.push({name:"sSearch",value:params[5].value.value});
 		        	$.ajax({
-		        		url:"platform/accountAction!listUsers.action",
+		        		url:$.urlRoot+"/platform/roleAction!listRoleByParams.action",
 		        		type:"post",
-		        		data:params,
+		        		dataType:"json",
+		        		data:{dataTableParams:JSON.stringify(params)},
 		        		success:function(d){
 		        			fnCallback(d.msg);
 		        		}
@@ -83,7 +110,7 @@ var view = {
 				"language": {
 					"search":"快速搜索",                    //汉化   
 				    "lengthMenu": "每页显示 _MENU_ 条记录",   
-				    "zeroRecords": "没有检索到数据",
+				    "zeroRecords": "没有查询到相关数据",
 				    "info" : "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
 				    "infoEmtpy": "没有数据",   
 				    "processing": "正在加载数据...",   

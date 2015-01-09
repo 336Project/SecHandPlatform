@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	$("#role_type").empty();
 		        	for ( var i = 0; i < result.length; i++) {//动态加载角色
 						var r = result[i];
-						html += "<option value=" + r.type + ">" + r.name + "</option>\r\n";
+						html += "<option value=" + r.code + ">" + r.name + "</option>\r\n";
 					}
 		            $("#role_type").append(html);
 		        }

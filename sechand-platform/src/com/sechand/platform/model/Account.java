@@ -14,8 +14,8 @@ public class Account implements java.io.Serializable {
 	public static final String SOURCE_PLATFORM="平台注册";
 	public static final String SOURCE_APP="客户端注册";
 	private Integer id;
-	private Integer roleId;//角色id
-	private String roleType;//角色类型
+	private String roleCode;//角色编号
+	private String roleName;//角色名称
 	private String userName;//登录账号
 	private String password;//密码
 	private String realName;//真实姓名
@@ -33,12 +33,6 @@ public class Account implements java.io.Serializable {
 	private String address;//地址,居住地
 	private String identification;//身份证号
 */	
-	public Integer getRoleId() {
-		return roleId;
-	}
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
 	public String getRealName() {
 		return realName;
 	}
@@ -81,12 +75,6 @@ public class Account implements java.io.Serializable {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String getRoleType() {
-		return roleType;
-	}
-	public void setRoleType(String roleType) {
-		this.roleType = roleType;
-	}
 	public String getSource() {
 		return source;
 	}
@@ -110,6 +98,18 @@ public class Account implements java.io.Serializable {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getRoleCode() {
+		return roleCode;
+	}
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+	public String getRoleName() {
+		return roleName;
+	}
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 	
 }

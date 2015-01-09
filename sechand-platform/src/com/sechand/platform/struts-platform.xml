@@ -3,7 +3,7 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="struts-platform" namespace="/platform" extends="json-default">
-		<!-- 登录验证 -->
+		<!-- 权限验证 -->
 		<interceptors>
 			<interceptor name="AuthInterceptors"
 				class="com.sechand.platform.base.auth.AuthorityInterceptor">
@@ -22,15 +22,15 @@
 				/error.jsp
 			</result>
 			<result name="login" type="redirect">/login.jsp</result>
-			<!-- <result name="success" type="redirect">
-				/bootstrap/index.jsp
-			</result> -->
-		</global-results>
-		<!-- 用户管理 -->
-		<action name="accountAction" class="accountAction">
 			<result name="success" type="json">
 				<param name="root">json</param>
 			</result>
+		</global-results>
+		<!-- 用户管理 -->
+		<action name="accountAction" class="accountAction">
+			<!-- <result name="success" type="json">
+				<param name="root">json</param>
+			</result> -->
 		</action>
 		<!-- 角色管理 -->
 		<action name="roleAction" class="roleAction">
@@ -40,9 +40,6 @@
 		</action>
 		<!-- 订单管理 -->
 		<action name="orderAction" class="orderAction">
-			<result name="success" type="json">
-				<!-- <param name="root">roles</param> -->
-			</result>
 		</action>
 	</package>
 </struts>  
