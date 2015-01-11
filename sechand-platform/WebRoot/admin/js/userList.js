@@ -23,6 +23,7 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
+			
 			//删除
 			$("#btn-delete").on("click.delete",function(){
 				$.W.alert("确定删除",function(){
@@ -37,7 +38,7 @@ var view = {
 					//这里写ajax提交删除
 					
 					//删除后刷新表格
-					tables.user._fnReDraw();
+					tables.user.draw();
 				});
 			});
 			
@@ -47,14 +48,17 @@ var view = {
 			});
 			
 			//点击行选中或取消选中用户行
-		    $("#table-user").on("click.select","tr",function(){
+		    /*$("#table-user").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
+		    	
 		    	if($check.prop("checked")){
 		    		$check.prop("checked",false);
+		    		$(this).removeClass("selected");
 		    	}else{
 		    		$check.prop("checked",true);
+		    		$(this).addClass("selected");
 		    	}
-		    });
+		    });*/
 		    
 		    $("#table-user").on("dblclick.edict","tr",function(){
 		    	//编辑用户
@@ -66,7 +70,7 @@ var view = {
 		 * return datatable 对象
 		 */		
 		initUserTable:function(){
-			return $("#table-user").dataTable({
+			var t =  $("#table-user").DataTable({
 				"order": [[ 1, 'asc' ]],
 		        "columnDefs": [ {
 		            "searchable": false,
@@ -89,9 +93,10 @@ var view = {
 							{data : 'nickName',sTitle : "昵称"}, 
 							{data : 'email',sTitle : "邮箱"}, 
 							{data : 'tel',sTitle : "手机号码"},
-							{ data: 'id',sTitle:"状态",
-					        	render: function(id) {
-					        		var str ="";
+							{ data: ' ',sTitle:"状态",
+					        	render: function(state) {
+					        		var isChecked = (state == "启用")? "chencked":"";
+					        		var str ='<input  type="checkbox" class="input-switch" '+isChecked+' />';
 									return str;
 					        	}
 							},
@@ -107,6 +112,20 @@ var view = {
 		        		data:params,
 		        		success:function(d){
 		        			fnCallback(d.msg);
+		        			$('.input-switch').bootstrapSwitch({
+		        				onText:"启用",
+		        				offText:"禁用",
+		        				size:"mini",
+		        				onSwitchChange:function($me,state){
+		        					//ajax提交状态改变
+		        					//当前的userID
+		        					var $tr = $(this).parent().parent().parent().parent();
+		        					var user = tables.user.row($tr).data(); //这一行的用户所有数据包括name什么的
+		        					var currentState = arguments[1];//或者 arguments[1] = state;效果一致
+		        					var userId = user.id();
+		        					
+		        				}
+		        			});
 		        		}
 		        	});
 		        },
@@ -126,6 +145,8 @@ var view = {
 					} 
 				}
 			});
+
+			return t;
 		}
 };
 

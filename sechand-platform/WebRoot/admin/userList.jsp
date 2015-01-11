@@ -22,6 +22,7 @@ session.setAttribute("user", Role.TYPE_USER);
 <!-- common css --> 
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <link rel="stylesheet" type="text/css" href="../css/archon.css">
+  <link rel="stylesheet" href="../js/lib/switch/css/bootstrap-switch.min.css" type="text/css"></link>
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables_themeroller.css">
 <!-- self css -->
@@ -244,13 +245,13 @@ session.setAttribute("user", Role.TYPE_USER);
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button id="btn-addUser" type="button" class="btn btn-primary" data-dismiss="modal">添加</button>
+		        <button id="btn-addUser" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
 		      </div>
 		    </div>
 		  </div>
 		</div>
 		
-		<!-- 新增用户弹出框  end  -->
+		<!-- 编辑用户弹出框  end  -->
 		<div class="row footer">
 			<div class="col-md-12 text-center">
 				© 2015 <a href="#">版权申明</a>
@@ -260,5 +261,6 @@ session.setAttribute("user", Role.TYPE_USER);
 
 	<script src="../js/archon.js"></script>
 	<script type="text/javascript" src="js/userList.js"></script>
+	<script type="text/javascript" src="../js/lib/switch/js/bootstrap-switch.min.js"></script>
 </body>
 </html>
