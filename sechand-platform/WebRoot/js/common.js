@@ -40,6 +40,20 @@ jQuery.W = {
 			$talert.find('.alert-btn').hide();
 		};
 		$talert.show();
+	},
+	setButton:function(){
+		if(typeof arguments[0] == "string"){
+			$(".tech-alert .sure").text(arguments[0]);
+		};
+		if(typeof arguments[1] == "string"){
+			$(".tech-alert .cancel").text(arguments[1]);
+		};
+		//复位按钮
+		$(".tech-alert").on('click.reset', '.close,.sure,.cancel', function(event) {
+			$(".tech-alert .sure").text("确定");
+			$(".tech-alert .cancel").text("取消");
+	        $(".tech-alert").off('click.reset');
+	    });
 	}
 };
 

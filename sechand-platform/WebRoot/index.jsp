@@ -160,11 +160,11 @@ session.setAttribute("user", Role.TYPE_USER);
 								<div class="row userMsg">
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>用户名</dt>
-									  <dd>${sessionScope.account.userName}</dd>
+									  <dd class="d-userName">${sessionScope.account.userName}</dd>
 									  <dt>邮箱地址</dt>
-									  <dd>${sessionScope.account.email}</dd>
+									  <dd class="d-userEmail">${sessionScope.account.email}</dd>
 									  <dt>手机号</dt>
-									  <dd>${sessionScope.account.tel}</dd>
+									  <dd class="d-userTel">${sessionScope.account.tel}</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
@@ -172,6 +172,34 @@ session.setAttribute("user", Role.TYPE_USER);
 									  <dt>账户来源</dt>
 									  <dd>${sessionScope.account.source}</dd>
 									</dl>
+									<button id="btn-edict" type="button" class="btn btn-primary">编辑</button>
+								</div>
+								<div class="row userMsgEdict">
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>用户名</dt>
+									  <dd> 
+										  <input type="text" class="form-control" value="{user.name}">
+									  </dd>
+									  <dt>邮箱地址</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.email}">
+									  </dd>
+									  <dt>手机号</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.tel}">
+									  </dd>
+									</dl>
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>上次登入时间</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.xxx}">
+									  </dd>
+									  <dt>用户名</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.xxx}">
+									  </dd>
+									</dl>
+									<button id="btn-save" type="button" class="btn btn-primary">保存</button>
 								</div>
 							</div>
 						</div>

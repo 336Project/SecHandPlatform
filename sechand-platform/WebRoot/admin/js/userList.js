@@ -42,6 +42,7 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
+			
 			//删除
 			$("#btn-delete").on("click.delete",function(){
 				var idList = [];//被选中的用户
@@ -91,21 +92,48 @@ var view = {
 	        		}
 	        	});
 			});
+			
+			//点击行选中或取消选中用户行
+		    /*$("#table-user").on("click.select","tr",function(){
+		    	var $check = $(this).find(".tcheckbox");
+		    	
+		    	if($check.prop("checked")){
+		    		$check.prop("checked",false);
+		    		$(this).removeClass("selected");
+		    	}else{
+		    		$check.prop("checked",true);
+		    		$(this).addClass("selected");
+		    	}
+		    });*/
+		    
+		    $("#table-user").on("dblclick.edict","tr",function(){
+		    	//编辑用户
+		    	$('#edictUser').modal('show');
+		    });
 		},
 		/*
 		 * 初始化用户列表
 		 * return datatable 对象
 		 */		
 		initUserTable:function(){
-			return $("#table-user").dataTable({
-				"columns":[//定义要显示的列名
+			var t =  $("#table-user").DataTable({
+				"order": [[ 1, 'asc' ]],
+		        "columnDefs": [ {
+		            "searchable": false,
+		            "orderable": false,
+		            "targets": 0
+		        } ],
+				"columns":[
 							{ data: 'id',sTitle:"",
 					        	render: function(id) {
-									var str = "<input name='slecteUser' data-uid='"+id+"' type=checkbox>";
+					        		var cell = arguments[3];
+					        		var index = (cell.settings._iDisplayStart+cell.row+1);
+									var str = "<input class='tcheckbox' id='d"+index+"' name='slecteUser' data-uid='"+id+"' type=checkbox> "
+									   +"<label for='d"+index+"'>"+index+"</label>";
 									return str;
 					        	}
 							},
-							{data : 'id',sTitle : "ID"}, 
+							/*{data : 'id',sTitle : "ID"},*/ 
 							{data : 'userName',sTitle : "账号"}, 
 							{data : 'realName',sTitle : "真实姓名"}, 
 							{data : 'nickName',sTitle : "昵称"}, 
@@ -114,8 +142,14 @@ var view = {
 							{data : 'registerTime',sTitle : "注册时间"},
 							{data : 'source',sTitle : "来源"},
 							{data : 'lastLoginTime',sTitle : "最后一次登录时间"}
+							{ data: 'status',sTitle:"状态",
+					        	render: function(state) {
+					        		var isChecked = (state == "启用")? "chencked":"";
+					        		var str ='<input  type="checkbox" class="input-switch" '+isChecked+' />';
+									return str;
+					        	}
+							},
 						],
-				"order": [[ 2, 'asc' ]],
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
@@ -130,6 +164,20 @@ var view = {
 		        		data:{dataTableParams:JSON.stringify(params)},
 		        		success:function(d){
 		        			fnCallback(d.msg);
+		        			$('.input-switch').bootstrapSwitch({
+		        				onText:"启用",
+		        				offText:"禁用",
+		        				size:"mini",
+		        				onSwitchChange:function($me,state){
+		        					//ajax提交状态改变
+		        					//当前的userID
+		        					var $tr = $(this).parent().parent().parent().parent();
+		        					var user = tables.user.row($tr).data(); //这一行的用户所有数据包括name什么的
+		        					var currentState = arguments[1];//或者 arguments[1] = state;效果一致
+		        					var userId = user.id();
+		        					
+		        				}
+		        			});
 		        		}
 		        	});
 		        },
@@ -149,6 +197,7 @@ var view = {
 					} 
 				}
 			});
+			return t;
 		}
 };
 
