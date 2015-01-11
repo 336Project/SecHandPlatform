@@ -145,18 +145,46 @@ session.setAttribute("user", Role.TYPE_USER);
 								<div class="row userMsg">
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>用户名</dt>
-									  <dd>张三</dd>
+									  <dd class="d-userName">user.name</dd>
 									  <dt>邮箱地址</dt>
-									  <dd>张三</dd>
+									  <dd class="d-userEmail">user.email</dd>
 									  <dt>手机号</dt>
-									  <dd>张三</dd>
+									  <dd class="d-userTel">user.tel</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
-									  <dd>123</dd>
+									  <dd>user.xxx</dd>
 									  <dt>用户名</dt>
-									  <dd>张三</dd>
+									  <dd>user.xxx</dd>
 									</dl>
+									<button id="btn-edict" type="button" class="btn btn-primary">编辑</button>
+								</div>
+								<div class="row userMsgEdict">
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>用户名</dt>
+									  <dd> 
+										  <input type="text" class="form-control" value="{user.name}">
+									  </dd>
+									  <dt>邮箱地址</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.email}">
+									  </dd>
+									  <dt>手机号</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.tel}">
+									  </dd>
+									</dl>
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>上次登入时间</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.xxx}">
+									  </dd>
+									  <dt>用户名</dt>
+									  <dd>
+										  <input type="text" class="form-control" value="{user.xxx}">
+									  </dd>
+									</dl>
+									<button id="btn-save" type="button" class="btn btn-primary">保存</button>
 								</div>
 							</div>
 						</div>

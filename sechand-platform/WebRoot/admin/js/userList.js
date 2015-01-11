@@ -45,6 +45,21 @@ var view = {
 			$("#btn-addUser").off('click.save').on("click.save",function(){
 				//这里写入执行提交
 			});
+			
+			//点击行选中或取消选中用户行
+		    $("#table-user").on("click.select","tr",function(){
+		    	var $check = $(this).find(".tcheckbox");
+		    	if($check.prop("checked")){
+		    		$check.prop("checked",false);
+		    	}else{
+		    		$check.prop("checked",true);
+		    	}
+		    });
+		    
+		    $("#table-user").on("dblclick.edict","tr",function(){
+		    	//编辑用户
+		    	$('#edictUser').modal('show');
+		    });
 		},
 		/*
 		 * 初始化用户列表
@@ -52,22 +67,38 @@ var view = {
 		 */		
 		initUserTable:function(){
 			return $("#table-user").dataTable({
+				"order": [[ 1, 'asc' ]],
+		        "columnDefs": [ {
+		            "searchable": false,
+		            "orderable": false,
+		            "targets": 0
+		        } ],
 				"columns":[
 							{ data: 'id',sTitle:"",
 					        	render: function(id) {
-									var str = "<input name='slecteUser' data-uid='"+id+"' type=checkbox>";
+					        		var cell = arguments[3];
+					        		var index = (cell.settings._iDisplayStart+cell.row+1);
+									var str = "<input class='tcheckbox' id='d"+index+"' name='slecteUser' data-uid='"+id+"' type=checkbox> "
+									   +"<label for='d"+index+"'>"+index+"</label>";
 									return str;
 					        	}
 							},
-							{data : 'id',sTitle : "ID"}, 
+							/*{data : 'id',sTitle : "ID"},*/ 
 							{data : 'userName',sTitle : "账号"}, 
 							{data : 'realName',sTitle : "真实姓名"}, 
 							{data : 'nickName',sTitle : "昵称"}, 
 							{data : 'email',sTitle : "邮箱"}, 
-							{data : 'tel',sTitle : "手机号码"}
+							{data : 'tel',sTitle : "手机号码"},
+							{ data: 'id',sTitle:"状态",
+					        	render: function(id) {
+					        		var str ="";
+									return str;
+					        	}
+							},
 						],
 				"processing": true,
 		        "serverSide": true,
+		        
 		        "fnServerData":function(n,params,fnCallback,table){
 		        	params.push({name:"sSearch",value:params[5].value.value});
 		        	$.ajax({

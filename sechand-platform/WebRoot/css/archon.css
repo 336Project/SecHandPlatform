@@ -28,7 +28,7 @@ body {
   display: none;
 }
 #main-content {
-  padding: 20px;
+  padding: 20px;min-height: 500px;
 }
 #main-content.white {
   background: #FFFFFF;
