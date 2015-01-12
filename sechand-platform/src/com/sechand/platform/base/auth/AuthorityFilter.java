@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.sechand.platform.model.Account;
 import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
@@ -53,12 +55,15 @@ public class AuthorityFilter implements Filter{
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
+		String value=arg0.getInitParameter(CConfing.CC_KEY_EXCLUDE_JSP);
 		//从配置文件获取不需要拦截的路径
-		String excludeJsp=SysUtils.readFromProperties("excludeJsp", "/filter.properties");
-		if(excludeJsp!=null){
-			//拆分
-			String[] jsp_urls=excludeJsp.split(",");
-			urlList=Arrays.asList(jsp_urls);
+		if(StringUtils.isNotBlank(value)){
+			String excludeJsp=SysUtils.readFromProperties(CConfing.CC_KEY_EXCLUDE_JSP, value);
+			if(excludeJsp!=null){
+				//拆分
+				String[] jsp_urls=excludeJsp.split(",");
+				urlList=Arrays.asList(jsp_urls);
+			}
 		}
 	}
 
