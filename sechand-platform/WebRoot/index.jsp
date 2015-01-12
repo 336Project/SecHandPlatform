@@ -74,47 +74,7 @@ session.setAttribute("user", Role.CODE_USER);
 
 		<!-- 主要内容 start-->
 		<div class="content">
-			<div class="navbar">
-				<a href="" class="btn pull-left toggle-sidebar"><i class="icon-list"></i></a>
-				<a class="navbar-brand" href="index.html">后台管理</a>
-
-				<!-- 右上角 user menu -->
-				<ul class="nav navbar-nav user-menu pull-right">
-					<li class="dropdown user-name">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-						<!-- 用户名称 -->
-						<img src="images/theme/avatarSeven.png" class="user-avatar" alt="" />${sessionScope.account.nickName}</a>
-							<ul class="dropdown-menu right inbox user">
-								<li class="user-avatar">
-								<!-- 用户名称 -->
-									<img src="images/theme/avatarSeven.png" class="user-avatar" alt="" />
-									${sessionScope.account.userName}
-								</li>
-							<li>
-								<i class="icon-user avatar"></i>
-								<div class="message">
-									<span class="username">个人信息</span> 
-								</div>
-							</li>
-							<li>
-								<i class="icon-cogs avatar"></i>
-								<div class="message">
-									<span class="username">系统设置 </span> 
-								</div>
-							</li>
-							<!-- <li>
-								<i class="icon-book avatar"></i>
-								<div class="message">
-									<span class="username">帮助手册 </span> 
-								</div>
-							</li> -->
-							<li><a href="<%=path%>/platform/accountAction!logout.action">注销</a></li>
-						</ul>
-					</li><!-- / dropdown -->				
-				</ul><!-- / Top right user menu 点击右上角的admin展开-->
-
-			</div><!-- / Navbar-->
-
+			<jsp:include page="inc/top-nav.jsp"></jsp:include>
 			<div id="main-content">
 				<!--面包屑导航-->
 				<div class="row">
@@ -149,15 +109,15 @@ session.setAttribute("user", Role.CODE_USER);
 								<div class="row userMsg">
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>用户名</dt>
-									  <dd>${sessionScope.account.userName}</dd>
+									  <dd class="d-userName">${sessionScope.account.userName}</dd>
 									  <dt>昵称</dt>
-									  <dd>${sessionScope.account.nickName}</dd>
+									  <dd class="d-nickName">${sessionScope.account.nickName}</dd>
 									  <dt>真实姓名</dt>
-									  <dd>${sessionScope.account.realName}</dd>
+									  <dd class="d-realName">${sessionScope.account.realName}</dd>
 									  <dt>邮箱地址</dt>
-									  <dd>${sessionScope.account.email}</dd>
+									  <dd class="d-email">${sessionScope.account.email}</dd>
 									  <dt>手机号</dt>
-									  <dd>${sessionScope.account.tel}</dd>
+									  <dd class="d-tel">${sessionScope.account.tel}</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
@@ -169,33 +129,42 @@ session.setAttribute("user", Role.CODE_USER);
 									  <dt>注册时间</dt>
 									  <dd>${sessionScope.account.registerTime}</dd>
 									</dl>
+									<button id="btn-edict" type="button" class="btn btn-primary">编辑</button>
+								</div>
+								<div class="row userMsgEdict">
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>用户名</dt>
+									  <dd>
+									  	<input type="text" class="form-control" value="${sessionScope.account.userName}"/>
+									  </dd>
+									  <dt>昵称</dt>
+									  <dd>
+									  	<input type="text" class="form-control" value="${sessionScope.account.nickName}"></dd>
+									  <dt>真实姓名</dt>
+									  <dd><input type="text" class="form-control" value="${sessionScope.account.realName}"></dd>
+									  <dt>邮箱地址</dt>
+									  <dd><input type="text" class="form-control" value="${sessionScope.account.email}"></dd>
+									  <dt>手机号</dt>
+									  <dd><input type="text" class="form-control" value="${sessionScope.account.tel}"></dd>
+									</dl>
+									<dl class="dl-horizontal col-xs-6">
+									  <dt>上次登入时间</dt>
+									  <dd>${sessionScope.account.lastLoginTime}</dd>
+									  <dt>账户状态</dt>
+									  <dd>${sessionScope.account.status}</dd>
+									  <dt>账户来源</dt>
+									  <dd>${sessionScope.account.source}</dd>
+									  <dt>注册时间</dt>
+									  <dd>${sessionScope.account.registerTime}</dd>
+									</dl>
+									<button id="btn-save" type="button" class="btn btn-primary">保存</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				
-				<!-- <div class="row" style="display:none">
-					<div class="col-md-12">
-						<div class="panel panel-archon main-graph">
-							<div class="panel-heading">
-								<h3 class="panel-title">角色管理
-									<span class="pull-right">
-										<a href="#" class="panel-minimize"><i class="glyphicon glyphicon-chevron-up"></i></a>
-									</span>
-								</h3>
-							</div>
-							<div class="panel-body" style="overflow: hidden; display: block;">
-								放置表格或其他内容
-								<div class="tb-tools">
-									<button type="button" class="btn btn-warning">删 除</button>
-									<button type="button" class="btn btn-primary">新 增</button>
-								</div>
-								<table id="table-role" class="hover order-column"></table>
-							</div>
-						</div>
-					</div>
-				</div> -->
+				
 
 
 			</div>

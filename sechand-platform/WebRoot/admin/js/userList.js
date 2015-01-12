@@ -14,7 +14,7 @@ $(document).ready(function(){
 	if(tables.user==null){
 		view.init();
 	}else{
-		tables.user._fnReDraw();
+		tables.user.draw();
 	}
 	//添加用户的时候，获取角色下拉列表的值
 	$.ajax({
@@ -98,7 +98,7 @@ var view = {
 					$.W.alert("请选中要重置密码的用户！",true);
 				}
 			});
-			
+
 			//提交新增用户的表单
 			$("#btn-addUser").off('click.save').on("click.save",function(){
 				$.ajax({
@@ -106,59 +106,103 @@ var view = {
 	        		type:"post",
 	        		dataType:"json",
 	        		data:{
-	        			"account.userName":$("#username").val(),
-	        			"account.password":$("#password").val(),
-	        			"account.nickName":$("#nickName").val(),
-	        			"account.email":$("#email").val(),
-	        			"account.tel":$("#tel").val(),
-	        			"account.roleCode":$("#roleType").val()
-	        			},
+	        			"account":{
+	        				"userName":$("#addUser").find("[name=userName]").val(),
+	        				"password":$("#addUser").find("[name=password]").val(),
+	        				"nickName":$("#addUser").find("[name=nickName]").val(),
+	        				"email":$("#addUser").find("[name=email]").val(),
+	        				"tel":$("#addUser").find("[name=tel]").val(),
+	        				"roleCode":$("#addUser").find("[name=nickName]").val()
+	        			}
+	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
 	        			//添加后刷新表格
 	        			if(d.success){
 	        				tables.user._fnReDraw();
 	        			}
+	        			//重置表单,ps:form元素才有reset
+	        			$("#addUser").find("form")[0].reset();
 	        		}
 	        	});
+				
+			});
+			
+			//为修改的表单赋值
+			$("#updateUser").click(function(){
+				//选中的行
+				var $tr = $("#table-user [name='slecteUser']:checked").parent().parent();
+				if($tr.length>1){
+					$.W.alert("不能同时编辑多个用户",true);
+				}else{
+					//获取到该行用户的所有信息
+					var account = tables.user.row($tr.eq(0)).data();
+					//将用户信息填充到表单上
+					$("#update-username").val(account.username);
+					$("#update-password").val(account.password);
+					$("#update-nickName").val(account.nickName);
+					$("#update-email").val(account.email);
+					$("#update-tel").val(account.tel);
+					$("#update-roleCode").val(account.roleCode);
+				}
+				
 			});
 			//提交修改用户的表单
 			$("#btn-updateUser").off('click.save').on("click.save",function(){
+				var userId = $("#table-user [name='slecteUser']:checked").eq(0).data("uid");
 				$.ajax({
 	        		url:$.urlRoot+"/platform/accountAction!updateUser.action",
 	        		type:"post",
 	        		dataType:"json",
 	        		data:{
-	        			"account.id":$("#id").val(),
-	        			"account.password":$("#password").val(),
-	        			"account.nickName":$("#nickName").val(),
-	        			"account.email":$("#email").val(),
-	        			"account.tel":$("#tel").val()
-	        			},
+	        			"account":{
+	        				"id":userId,//被修改的用户的id
+	        				"userName":$("#updateUser").find("[name=userName]").val(),
+	        				"password":$("#updateUser").find("[name=password]").val(),
+	        				"nickName":$("#updateUser").find("[name=nickName]").val(),
+	        				"email":$("#updateUser").find("[name=email]").val(),
+	        				"tel":$("#updateUser").find("[name=tel]").val(),
+	        				"roleCode":$("#updateUser").find("[name=nickName]").val()
+	        			}
+	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
 	        			//添加后刷新表格
 	        			if(d.success){
-	        				tables.user._fnReDraw();
+	        				tables.user.draw();
 	        			}
 	        		}
 	        	});
 			});
+			//点击行选中或取消选中用户行
+			$("#table-user").on("click.select","tr",function(){
+		    	var $check = $(this).find(".tcheckbox");
+		    	
+		    	if($check.prop("checked")){
+		    		$check.prop("checked",false);
+		    		$(this).removeClass("selected");
+		    	}else{
+		    		$check.prop("checked",true);
+		    		$(this).addClass("selected");
+		    	}
+		    });
 		},//end tableTool
 		/*
 		 * 初始化用户列表
 		 * return datatable 对象
 		 */		
 		initUserTable:function(){
-			return $("#table-user").dataTable({
+			return $("#table-user").DataTable({
 				"columns":[//定义要显示的列名
 							{ data: 'id',sTitle:"",
-					        	render: function(id) {
-									var str = "<input name='slecteUser' data-uid='"+id+"' type=checkbox>";
+								render: function(id) {
+					        		var cell = arguments[3];
+					        		var index = (cell.settings._iDisplayStart+cell.row+1);
+									var str = "<input class='tcheckbox' id='d"+index+"' name='slecteUser' data-uid='"+id+"' type=checkbox> "
+									   +"<label for='d"+index+"'>"+index+"</label>";
 									return str;
 					        	}
 							},
-							{data : 'id',sTitle : "ID"}, 
 							{data : 'userName',sTitle : "账号"}, 
 							{data : 'roleName',sTitle : "角色名称"}, 
 							{data : 'realName',sTitle : "真实姓名"}, 
@@ -169,14 +213,17 @@ var view = {
 							{data : 'source',sTitle : "来源"},
 							{data : 'lastLoginTime',sTitle : "最后一次登录时间"},
 							{data : 'status',sTitle : "状态"},
-							{data : 'id',sTitle:"操作",
-					        	render: function(id) {
-									var str = "<input name='oper' type=button value='启用/禁用' onclick='operation('"+id+"')'>";
+							{ data: 'status',sTitle:"操作",
+					        	render: function(state) {
+					        		var isChecked = (state == "正常")? "chencked":"";
+					        		var str ='<input  type="checkbox" class="input-switch" '+isChecked+' />';
 									return str;
 					        	}
 							}
 						],
 				"order": [[ 2, 'asc' ]],
+				"scrollX": true,
+				"scrollXInner":"120%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
@@ -191,6 +238,20 @@ var view = {
 		        		data:{dataTableParams:JSON.stringify(params)},
 		        		success:function(d){
 		        			fnCallback(d.msg);
+		        			$('.input-switch').bootstrapSwitch({
+		        				onText:"启用",
+		        				offText:"禁用",
+		        				size:"mini",
+		        				onSwitchChange:function($me,state){
+		        					//ajax提交状态改变
+		        					//当前的userID
+		        					var $tr = $(this).parent().parent().parent().parent();
+		        					var user = tables.user.row($tr).data(); //这一行的用户所有数据包括name什么的
+		        					var currentState = arguments[1];//或者 arguments[1] = state;效果一致
+		        					var userId = user.id();
+		        					/*$.ajax()*/
+		        				}
+		        			});
 		        		}
 		        	});
 		        },

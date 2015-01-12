@@ -24,8 +24,11 @@ session.setAttribute("user", Role.CODE_USER);
   <link rel="stylesheet" type="text/css" href="../css/archon.css">
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables_themeroller.css">
+
 <!-- self css -->
-  <link rel="stylesheet" type="text/css" href="../css/pages/index.css">
+  <link rel="stylesheet" href="../js/lib/switch/css/bootstrap-switch.min.css" type="text/css"></link>
+  <link rel="stylesheet" type="text/css" href="css/userList.css">
+  
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
@@ -77,47 +80,7 @@ session.setAttribute("user", Role.CODE_USER);
 
 		<!-- 主要内容 start-->
 		<div class="content">
-			<div class="navbar">
-				<a href="" class="btn pull-left toggle-sidebar"><i class="icon-list"></i></a>
-				<a class="navbar-brand" href="index.html">后台管理</a>
-
-				<!-- 右上角 user menu -->
-				<ul class="nav navbar-nav user-menu pull-right">
-					<li class="dropdown user-name">
-						<a class="dropdown-toggle" data-toggle="dropdown">
-						<!-- 用户名称 -->
-						<img src="../images/theme/avatarSeven.png" class="user-avatar" alt="" />${sessionScope.account.nickName}</a>
-							<ul class="dropdown-menu right inbox user">
-								<li class="user-avatar">
-								<!-- 角色名称 -->
-									<img src="../images/theme/avatarSeven.png" class="user-avatar" alt="" />
-									${sessionScope.account.userName}
-								</li>
-							<li>
-								<i class="icon-user avatar"></i>
-								<div class="message">
-									<span class="username">个人信息</span> 
-								</div>
-							</li>
-							<li>
-								<i class="icon-cogs avatar"></i>
-								<div class="message">
-									<span class="username">系统设置 </span> 
-								</div>
-							</li>
-							<!-- <li>
-								<i class="icon-book avatar"></i>
-								<div class="message">
-									<span class="username">帮助手册 </span> 
-								</div>
-							</li> -->
-							<li><a href="<%=path%>/platform/accountAction!logout.action">注销</a></li>
-						</ul>
-					</li><!-- / dropdown -->				
-				</ul><!-- / Top right user menu 点击右上角的admin展开-->
-
-			</div><!-- / Navbar-->
-
+			<jsp:include page="../inc/top-nav.jsp"></jsp:include>
 			<div id="main-content">
 				<!--面包屑导航-->
 				<div class="row">
@@ -168,13 +131,13 @@ session.setAttribute("user", Role.CODE_USER);
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="username" name="account.userName" placeholder="用户名">
+				      <input type="text" class="form-control" id="username" name="userName" placeholder="用户名">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">密码</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="password" name="account.password" placeholder="密码长度为6-20位">
+				      <input type="password" class="form-control" id="password" name="password" placeholder="密码长度为6-20位">
 				    </div>
 				  </div>
 				  <div class="form-group">
@@ -186,25 +149,25 @@ session.setAttribute("user", Role.CODE_USER);
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">昵称</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="nickName" placeholder="一个好的昵称，可以彰显个性" name="account.nickName">
+				      <input type="text" class="form-control" id="nickName" placeholder="一个好的昵称，可以彰显个性" name="nickName">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label>
 				    <div class="col-sm-8">
-				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="account.email">
+				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="email">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">手机号码</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="account.tel">
+				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="tel">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">用户类型</label>
 					    <div class="col-sm-8">
-						     <select class="form-control" id="roleType" name="account.roleId" >
+						     <select class="form-control" id="roleType" name="roleId" >
 							 </select>
 					    </div>
 				  </div>
@@ -225,52 +188,51 @@ session.setAttribute("user", Role.CODE_USER);
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">添加新用户</h4>
+		        <h4 class="modal-title" id="myModalLabel">编辑用户信息</h4>
 		      </div>
 		      <div class="modal-body row">
 		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
-		        	<input type="text" class="form-control" id="id" name="account.id" style="display: none;">
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
+				    <label for="update-username" class="col-sm-4 control-label">用户名</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="username" name="account.userName" placeholder="用户名" disabled="disabled">
+				      <input type="text" class="form-control" id="update-username" name="userName" placeholder="用户名" disabled="disabled">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">密码</label>
+				    <label for="update-password" class="col-sm-4 control-label">密码</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="password" name="account.password" placeholder="密码长度为6-20位">
+				      <input type="password" class="form-control" id="update-password" name="password" placeholder="密码长度为6-20位">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">确认密码</label>
+				    <label for="update-password2" class="col-sm-4 control-label">确认密码</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="password2" placeholder="请再次输入密码">
+				      <input type="password" class="form-control" id="update-password2" placeholder="请再次输入密码">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">昵称</label>
+				    <label for="update-nickName" class="col-sm-4 control-label">昵称</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="nickName" placeholder="一个好的昵称，可以彰显个性" name="account.nickName">
+				      <input type="text" class="form-control" id="update-nickName" placeholder="一个好的昵称，可以彰显个性" name="nickName">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label>
+				    <label for="update-email" class="col-sm-4 control-label">邮箱</label>
 				    <div class="col-sm-8">
-				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="account.email">
+				      <input type="email" class="form-control" id="update-email" placeholder="请正确输入邮箱格式" name="email">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">手机号码</label>
+				    <label for="update-tel" class="col-sm-4 control-label">手机号码</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="account.tel">
+				      <input type="text" class="form-control" id="update-tel" placeholder="请输入正确的手机格式" name="tel">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">用户类型</label>
-					    <div class="col-sm-8">
-						     <input type="text" class="form-control" id="roleName" name="account.roleName" placeholder="角色名称" disabled="disabled">
-					    </div>
+				    <label for="update-roleName" class="col-sm-4 control-label">用户类型</label>
+				    <div class="col-sm-8">
+					     <input type="text" class="form-control" id="update-roleName" name="roleName" placeholder="角色名称" disabled="disabled">
+				    </div>
 				  </div>
 				</form>
 		      </div>
@@ -290,6 +252,7 @@ session.setAttribute("user", Role.CODE_USER);
 	</div>
 
 	<script src="../js/archon.js"></script>
+	<script type="text/javascript" src="../js/lib/switch/js/bootstrap-switch.min.js"></script>
 	<script type="text/javascript" src="js/userList.js"></script>
 </body>
 </html>

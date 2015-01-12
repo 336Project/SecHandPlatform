@@ -29,7 +29,8 @@ var view={
 				 * url:"...",
 				 * data:{"user":newUser}
 				 * success:function(data){
-				 *   view.refresh(data.msg.user);//刷新页面上的数据
+				 *   view.refresh(data.msg.user);//刷新页面上的数据主要跟新后面这些属性{userName,nickName,realName,email,tel}
+				 *   //嫌麻烦的话执行执行页面刷新也是可以的 ：window.location.reload();
 				 * }
 				});*/
 				
@@ -46,7 +47,7 @@ var view={
 			var user = view.getFormVal();
 			
 			for(key in user){
-				$("dd.d-"+key).text(user.key);
+				$("dd.d-"+key).text(user[key]);
 			}
 		},
 		getFormVal:function(){
