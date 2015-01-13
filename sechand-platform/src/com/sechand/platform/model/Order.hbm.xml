@@ -25,5 +25,14 @@
         <property name="status" type="java.lang.String" >
             <column name="status" length="45"/>
         </property>
+        <property name="repairContent" type="java.lang.String" >
+            <column name="repair_content" length="300"/>
+        </property>
+         <property name="customerUser" type="java.lang.String" >
+            <column name="customer_user" length="45"/>
+        </property>
+         <property name="customerCompany" type="java.lang.String" >
+            <column name="customer_company" length="300"/>
+        </property>
     </class>
 </hibernate-mapping>

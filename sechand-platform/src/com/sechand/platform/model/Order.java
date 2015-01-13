@@ -11,12 +11,16 @@ public class Order implements Serializable{
 	public static final String STATUS_NEW="新订单";
 	public static final String STATUS_CONFIRM="已确认";
 	public static final String STATUS_CANCEL="已取消";
+	public static final String STATUS_INVALID="已作废";
 	
 	private Integer id;
 	private Integer userId;//需要维修的用户id
 	private Integer companyId;//维修电器公司id
+	private String customerUser;//用户账户名称
+	private String customerCompany;//维修公司账户名称
 	private String createTime;//创建时间
 	private String completeTime;//完成时间
+	private String repairContent;//报修内容
 	private String status;//状态
 	public Integer getId() {
 		return id;
@@ -53,6 +57,24 @@ public class Order implements Serializable{
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getRepairContent() {
+		return repairContent;
+	}
+	public void setRepairContent(String repairContent) {
+		this.repairContent = repairContent;
+	}
+	public String getCustomerUser() {
+		return customerUser;
+	}
+	public void setCustomerUser(String customerUser) {
+		this.customerUser = customerUser;
+	}
+	public String getCustomerCompany() {
+		return customerCompany;
+	}
+	public void setCustomerCompany(String customerCompany) {
+		this.customerCompany = customerCompany;
 	}
 	
 }
