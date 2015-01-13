@@ -26,6 +26,7 @@ public class Account implements java.io.Serializable {
 	private String lastLoginTime;//最后一次登录时间
 	private String registerTime;//注册时间
 	private String status;//账户状态
+	private String introduction;//简介
 	/*private String sex;//性别
 	private String age;//年龄
 	private String birthDate;//出生年月
@@ -110,6 +111,12 @@ public class Account implements java.io.Serializable {
 	}
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+	public String getIntroduction() {
+		return introduction;
+	}
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}
 	
 }

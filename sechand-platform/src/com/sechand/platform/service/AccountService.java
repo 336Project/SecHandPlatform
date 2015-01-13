@@ -37,4 +37,12 @@ public interface AccountService extends BaseService{
 	 * TODO 批量删除
 	 */
 	public void deleteByIds(String[] ids);
+	/**
+	 * 
+	 * 2015-1-13 上午11:21:33
+	 * @param account
+	 * @return 
+	 * TODO 更新用户信息
+	 */
+	public boolean updateUser(Account account);
 }

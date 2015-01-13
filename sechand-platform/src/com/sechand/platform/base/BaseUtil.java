@@ -32,8 +32,10 @@ public class BaseUtil {
 					}else{
 						sb.append(" or ");
 					}
+					key=key.replace("or_", "");
 				}else{//以and_开头的
 					sb.append(" and ");
+					key=key.replace("and_", "");
 				}//end if
 				
 				if(key.indexOf("_not_like") != -1 && key.indexOf("_not_like") == (key.length() - 9)){
@@ -77,8 +79,13 @@ public class BaseUtil {
 	
 	public static void main(String[] args) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
-		whereParams.put("code", "001");
-		String rst=BaseUtil.getHqlString("Role", whereParams);
+		whereParams.put("or_userName_like", "正常");
+		whereParams.put("or_realName_like", "正常");
+		whereParams.put("or_nickName_like", "正常");
+		whereParams.put("or_email_like", "正常");
+		whereParams.put("or_tel_like", "正常");
+		whereParams.put("or_status_like", "正常");
+		String rst=BaseUtil.getHqlString("Account", whereParams);
 		System.out.println(rst);
 	}
 }

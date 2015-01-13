@@ -160,6 +160,40 @@ public class AccountAction extends BaseAction{
 		json.setSuccess(true);
 		return SUCCESS;
 	}
+	/**
+	 * 
+	 * 2015-1-13 上午11:14:03
+	 * @return 
+	 * TODO 修改用户信息
+	 */
+	public String updateUser(){
+		if(accountService.updateUser(account)){
+			json.setMsg("修改成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("修改失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * 2015-1-13 上午11:52:17
+	 * @return 
+	 * TODO 修改用户状态：启用or禁用
+	 */
+	public String updateStatus(){
+		String status=account.getStatus();
+		if(account!=null&&account.getId()!=null&&(Account.STATUS_DISABLE.equals(status)||Account.STATUS_NORMAL.equals(status))){
+			accountService.updateColumnById(Account.class, "status", status, account.getId());
+			json.setMsg("修改状态成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("修改状态失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	
 	public String getUsername() {
 		return username;

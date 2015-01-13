@@ -46,6 +46,9 @@
         <property name="status" type="java.lang.String">
             <column name="status" length="45" />
         </property>
+         <property name="introduction" type="java.lang.String">
+            <column name="introduction" length="300" />
+        </property>
         <!-- <property name="sex" type="java.lang.String">
             <column name="sex" length="45" />
         </property>

@@ -107,8 +107,8 @@ session.setAttribute("user", Role.CODE_USER);
 								<div class="tb-tools">
 									<button id="btn-reset-password" type="button" class="btn btn-warning">重置密码</button>
 									<button id="btn-delete" type="button" class="btn btn-warning">删 除</button>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUser">新 增</button>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUser">修改</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-adduser">新 增</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-updateuser">修改</button>
 								</div>
 								<table id="table-user" class="hover order-column"></table>
 							</div>
@@ -153,6 +153,12 @@ session.setAttribute("user", Role.CODE_USER);
 				    </div>
 				  </div>
 				  <div class="form-group">
+				    <label for="update-realName" class="col-sm-4 control-label">真实姓名</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="realName" placeholder="请填写真实姓名或称呼" name="realName">
+				    </div>
+				  </div>
+				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label>
 				    <div class="col-sm-8">
 				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="email">
@@ -167,7 +173,7 @@ session.setAttribute("user", Role.CODE_USER);
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">用户类型</label>
 					    <div class="col-sm-8">
-						     <select class="form-control" id="roleType" name="roleId" >
+						     <select class="form-control" id="roleType" name="roleCode" >
 							 </select>
 					    </div>
 				  </div>
@@ -199,21 +205,21 @@ session.setAttribute("user", Role.CODE_USER);
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="update-password" class="col-sm-4 control-label">密码</label>
+				    <label for="update-roleName" class="col-sm-4 control-label">用户类型</label>
 				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="update-password" name="password" placeholder="密码长度为6-20位">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="update-password2" class="col-sm-4 control-label">确认密码</label>
-				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="update-password2" placeholder="请再次输入密码">
+					     <input type="text" class="form-control" id="update-roleName" name="roleName" placeholder="角色名称" disabled="disabled">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="update-nickName" class="col-sm-4 control-label">昵称</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="update-nickName" placeholder="一个好的昵称，可以彰显个性" name="nickName">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="update-realName" class="col-sm-4 control-label">真实姓名</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-realName" placeholder="请填写真实姓名或称呼" name="realName">
 				    </div>
 				  </div>
 				  <div class="form-group">
@@ -228,17 +234,11 @@ session.setAttribute("user", Role.CODE_USER);
 				      <input type="text" class="form-control" id="update-tel" placeholder="请输入正确的手机格式" name="tel">
 				    </div>
 				  </div>
-				  <div class="form-group">
-				    <label for="update-roleName" class="col-sm-4 control-label">用户类型</label>
-				    <div class="col-sm-8">
-					     <input type="text" class="form-control" id="update-roleName" name="roleName" placeholder="角色名称" disabled="disabled">
-				    </div>
-				  </div>
 				</form>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button id="btn-addUser" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+		        <button id="btn-updateUser" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
 		      </div>
 		    </div>
 		  </div>

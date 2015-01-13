@@ -16,22 +16,6 @@ $(document).ready(function(){
 	}else{
 		tables.user.draw();
 	}
-	//添加用户的时候，获取角色下拉列表的值
-	$.ajax({
-        type: "POST",
-        contentType: "application/json;utf-8",
-        dataType: "json",
-        url:$.urlRoot+"/platform/roleAction!listRole.action?type=1",
-        success: function (result) {
-        	var html="" ;
-        	$("#roleType").empty();
-        	for ( var i = 0; i < result.length; i++) {//动态加载角色
-				var r = result[i];
-				html += "<option value=" + r.code + ">" + r.name + "</option>\r\n";
-			}
-            $("#roleType").append(html);
-        }
-	});
 });
 
 //页面内ui的控制
@@ -50,7 +34,7 @@ var view = {
 					for(var i =0;i<$userId.length;i++){
 						idList.push($userId.eq(i).data("uid"));
 					}
-					$.W.alert("确定删除"+idList.length+"条记录？",function(){
+					$.W.alert("确定删除"+idList.length+"条记录？",true,function(){
 						//console.log(idList);
 						//ajax提交删除
 						$.ajax({
@@ -62,7 +46,7 @@ var view = {
 			        			$.W.alert(d.msg,true);
 			        			//删除后刷新表格
 			        			if(d.success){
-			        				tables.user._fnReDraw();
+			        				tables.user.draw();
 			        			}
 			        		}
 			        	});
@@ -86,10 +70,10 @@ var view = {
 				        		data:{ids:$userId.eq(0).data("uid")},
 				        		success:function(d){
 				        			$.W.alert(d.msg,true);
-				        			/*//重置后刷新表格
+				        			//重置后刷新表格
 				        			if(d.success){
-				        				tables.user._fnReDraw();
-				        			}*/
+				        				tables.user.draw();
+				        			}
 				        		}
 				        	});
 						});
@@ -98,7 +82,25 @@ var view = {
 					$.W.alert("请选中要重置密码的用户！",true);
 				}
 			});
-
+			//点击新增按钮时，加载角色类型下拉框
+			$("#btn-modal-adduser").click(function(){
+				$.ajax({
+			        type: "POST",
+			        contentType: "application/json;utf-8",
+			        dataType: "json",
+			        url:$.urlRoot+"/platform/roleAction!listRole.action?type=1",
+			        success: function (result) {
+			        	var html="" ;
+			        	$("#roleType").empty();
+			        	for ( var i = 0; i < result.length; i++) {//动态加载角色
+							var r = result[i];
+							html += "<option value=" + r.code + ">" + r.name + "</option>\r\n";
+						}
+			            $("#roleType").append(html);
+			        }
+				});
+				$("#addUser").modal("show");
+			});
 			//提交新增用户的表单
 			$("#btn-addUser").off('click.save').on("click.save",function(){
 				$.ajax({
@@ -106,20 +108,19 @@ var view = {
 	        		type:"post",
 	        		dataType:"json",
 	        		data:{
-	        			"account":{
-	        				"userName":$("#addUser").find("[name=userName]").val(),
-	        				"password":$("#addUser").find("[name=password]").val(),
-	        				"nickName":$("#addUser").find("[name=nickName]").val(),
-	        				"email":$("#addUser").find("[name=email]").val(),
-	        				"tel":$("#addUser").find("[name=tel]").val(),
-	        				"roleCode":$("#addUser").find("[name=nickName]").val()
-	        			}
+	        				"account.userName":$("#addUser").find("[name=userName]").val(),
+	        				"account.realName":$("#addUser").find("[name=realName]").val(),
+	        				"account.password":$("#addUser").find("[name=password]").val(),
+	        				"account.nickName":$("#addUser").find("[name=nickName]").val(),
+	        				"account.email":$("#addUser").find("[name=email]").val(),
+	        				"account.tel":$("#addUser").find("[name=tel]").val(),
+	        				"account.roleCode":$("#addUser").find("[name=roleCode]").val()
 	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
 	        			//添加后刷新表格
 	        			if(d.success){
-	        				tables.user._fnReDraw();
+	        				tables.user.draw();
 	        			}
 	        			//重置表单,ps:form元素才有reset
 	        			$("#addUser").find("form")[0].reset();
@@ -129,23 +130,25 @@ var view = {
 			});
 			
 			//为修改的表单赋值
-			$("#updateUser").click(function(){
+			$("#btn-modal-updateuser").click(function(){
 				//选中的行
 				var $tr = $("#table-user [name='slecteUser']:checked").parent().parent();
 				if($tr.length>1){
-					$.W.alert("不能同时编辑多个用户",true);
+					$.W.alert("不能同时编辑多个用户!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再点击修改!",true);
 				}else{
 					//获取到该行用户的所有信息
 					var account = tables.user.row($tr.eq(0)).data();
 					//将用户信息填充到表单上
-					$("#update-username").val(account.username);
-					$("#update-password").val(account.password);
+					$("#update-username").val(account.userName);
 					$("#update-nickName").val(account.nickName);
+					$("#update-realName").val(account.realName);
 					$("#update-email").val(account.email);
 					$("#update-tel").val(account.tel);
-					$("#update-roleCode").val(account.roleCode);
+					$("#update-roleName").val(account.roleName);
+					$("#updateUser").modal("show");
 				}
-				
 			});
 			//提交修改用户的表单
 			$("#btn-updateUser").off('click.save').on("click.save",function(){
@@ -155,15 +158,12 @@ var view = {
 	        		type:"post",
 	        		dataType:"json",
 	        		data:{
-	        			"account":{
-	        				"id":userId,//被修改的用户的id
-	        				"userName":$("#updateUser").find("[name=userName]").val(),
-	        				"password":$("#updateUser").find("[name=password]").val(),
-	        				"nickName":$("#updateUser").find("[name=nickName]").val(),
-	        				"email":$("#updateUser").find("[name=email]").val(),
-	        				"tel":$("#updateUser").find("[name=tel]").val(),
-	        				"roleCode":$("#updateUser").find("[name=nickName]").val()
-	        			}
+	        				"account.id":userId,//被修改的用户的id
+	        				"account.userName":$("#updateUser").find("[name=userName]").val(),
+	        				"account.realName":$("#updateUser").find("[name=realName]").val(),
+	        				"account.nickName":$("#updateUser").find("[name=nickName]").val(),
+	        				"account.email":$("#updateUser").find("[name=email]").val(),
+	        				"account.tel":$("#updateUser").find("[name=tel]").val()
 	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
@@ -186,7 +186,9 @@ var view = {
 		    		$(this).addClass("selected");
 		    	}
 		    });
+			
 		},//end tableTool
+		
 		/*
 		 * 初始化用户列表
 		 * return datatable 对象
@@ -213,17 +215,17 @@ var view = {
 							{data : 'source',sTitle : "来源"},
 							{data : 'lastLoginTime',sTitle : "最后一次登录时间"},
 							{data : 'status',sTitle : "状态"},
-							{ data: 'status',sTitle:"操作",
+							{data : 'status',sTitle:"操作",
 					        	render: function(state) {
-					        		var isChecked = (state == "正常")? "chencked":"";
+					        		var isChecked = (state == "正常")? "":"checked=checked";
 					        		var str ='<input  type="checkbox" class="input-switch" '+isChecked+' />';
 									return str;
 					        	}
 							}
 						],
 				"order": [[ 2, 'asc' ]],
-				"scrollX": true,
-				"scrollXInner":"120%",
+				/*"scrollX": true,//水平滚动条
+				"scrollXInner":"120%",*/
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
@@ -244,12 +246,28 @@ var view = {
 		        				size:"mini",
 		        				onSwitchChange:function($me,state){
 		        					//ajax提交状态改变
+		        					var status=state==true?"禁用":"正常"
 		        					//当前的userID
 		        					var $tr = $(this).parent().parent().parent().parent();
 		        					var user = tables.user.row($tr).data(); //这一行的用户所有数据包括name什么的
-		        					var currentState = arguments[1];//或者 arguments[1] = state;效果一致
-		        					var userId = user.id();
-		        					/*$.ajax()*/
+		        					var userId = user.id;
+		        					$.ajax({
+		        		        		url:$.urlRoot+"/platform/accountAction!updateStatus.action",
+		        		        		type:"post",
+		        		        		dataType:"json",
+		        		        		data:{
+		        		        				"account.id":userId,//被修改的用户的id
+		        		        				"account.status":status,
+		        		        		},
+		        		        		success:function(d){
+		        		        			//添加后刷新表格
+		        		        			if(d.success){
+		        		        				tables.user.draw();
+		        		        			}else{
+		        		        				$.W.alert(d.msg,true);
+		        		        			}
+		        		        		}
+		        		        	});
 		        				}
 		        			});
 		        		}
