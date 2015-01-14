@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.sechand.platform.model.Role;
-import com.sechand.platform.utils.SysUtils;
-
 
 public class BaseUtil {
 	
@@ -19,6 +16,8 @@ public class BaseUtil {
 		String hql="";
 		hql="from "+entityName+" where 1=1 ";
 		StringBuffer sb=new StringBuffer();
+		StringBuffer orSB=new StringBuffer();//拼接or语句
+		StringBuffer andSB=new StringBuffer();//拼接and语句
 		if(params!=null){
 			Set<String> keys=params.keySet();
 			for (String key : keys) {
@@ -27,42 +26,20 @@ public class BaseUtil {
 					continue;
 				}
 				if(key.indexOf("or_") == 0){//以or_开头的
-					if(sb.length()==0){
-						sb.append(" and ");
-					}else{
-						sb.append(" or ");
+					if(orSB.length()!=0){
+						orSB.append(" or ");
 					}
 					key=key.replace("or_", "");
+					orSB=getHQLBuffer(orSB, key, obj);
 				}else{//以and_开头的
-					sb.append(" and ");
+					andSB.append(" and ");
 					key=key.replace("and_", "");
+					andSB=getHQLBuffer(andSB, key, obj);
 				}//end if
-				
-				if(key.indexOf("_not_like") != -1 && key.indexOf("_not_like") == (key.length() - 9)){
-					sb.append(key.substring(0, key.length() - 9) + " not like '%" + obj + "%'");
-				}else if(key.indexOf("_like") != -1 && key.indexOf("_like") == (key.length() - 5)){
-					sb.append(key.substring(0, key.length() - 5) + " like '%" + obj + "%'");
-				}else if(key.indexOf("_not_in") != -1 && key.indexOf("_not_in") == (key.length() - 7)){
-					sb.append(key.substring(0, key.length() - 7) + " not in (" + obj + ")");
-				}else if(key.indexOf("_in") != -1 && key.indexOf("_in") == (key.length() - 3)){
-					sb.append(key.substring(0, key.length() - 3) + " in (" + obj + ")");
-				}else if(key.indexOf("_<>")!=-1&&key.indexOf("_<>")==(key.length() - 3)){
-					sb.append(key.substring(0, key.length() - 3) + " <> '" + obj + "'");
-				}else if(key.indexOf("_>")!=-1&&key.indexOf("_>")==(key.length() - 3)){
-					sb.append(key.substring(0, key.length() - 3)  + " > " +obj );
-				}else if(key.indexOf("_<")!=-1&&key.indexOf("_<")==(key.length() -3)){
-					sb.append(key.substring(0, key.length() - 3)  + " < " +obj );
-				}else if(key.indexOf("_<=")!=-1&&key.indexOf("_<=")==(key.length() - 3)){
-					sb.append(key.substring(0, key.length() - 3)  + " <= " +obj );
-				}else if(key.indexOf("_>=")!=-1&&key.indexOf("_>=")==(key.length() - 3)){
-					sb.append(key.substring(0, key.length() - 3)  + " >= " +obj );
-				}else{
-					if(obj instanceof String){
-						sb.append(key + " = '" + obj + "'");
-					}else{
-						sb.append(key + " = " +obj );
-					}
-				}
+			}
+			sb.append(andSB);
+			if(orSB.length()!=0){
+				sb.append(" and ( ").append(orSB).append(" )");
 			}
 			//排序条件
 			if(params.containsKey("order_by")){
@@ -75,16 +52,57 @@ public class BaseUtil {
 		}
 		return hql+sb.toString();
 	}
-	
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-14下午9:41:11
+	 * @param sb
+	 * @param key
+	 * @param obj
+	 * @return
+	 * StringBuffer
+	 * @TODO 拼接HQL
+	 */
+	private static StringBuffer getHQLBuffer(StringBuffer sb,String key,Object obj){
+		if(key.indexOf("_not_like") != -1 && key.indexOf("_not_like") == (key.length() - 9)){
+			sb.append(key.substring(0, key.length() - 9) + " not like '%" + obj + "%'");
+		}else if(key.indexOf("_like") != -1 && key.indexOf("_like") == (key.length() - 5)){
+			sb.append(key.substring(0, key.length() - 5) + " like '%" + obj + "%'");
+		}else if(key.indexOf("_not_in") != -1 && key.indexOf("_not_in") == (key.length() - 7)){
+			sb.append(key.substring(0, key.length() - 7) + " not in (" + obj + ")");
+		}else if(key.indexOf("_in") != -1 && key.indexOf("_in") == (key.length() - 3)){
+			sb.append(key.substring(0, key.length() - 3) + " in (" + obj + ")");
+		}else if(key.indexOf("_<>")!=-1&&key.indexOf("_<>")==(key.length() - 3)){
+			sb.append(key.substring(0, key.length() - 3) + " <> '" + obj + "'");
+		}else if(key.indexOf("_>")!=-1&&key.indexOf("_>")==(key.length() - 3)){
+			sb.append(key.substring(0, key.length() - 3)  + " > " +obj );
+		}else if(key.indexOf("_<")!=-1&&key.indexOf("_<")==(key.length() -3)){
+			sb.append(key.substring(0, key.length() - 3)  + " < " +obj );
+		}else if(key.indexOf("_<=")!=-1&&key.indexOf("_<=")==(key.length() - 3)){
+			sb.append(key.substring(0, key.length() - 3)  + " <= " +obj );
+		}else if(key.indexOf("_>=")!=-1&&key.indexOf("_>=")==(key.length() - 3)){
+			sb.append(key.substring(0, key.length() - 3)  + " >= " +obj );
+		}else{
+			if(obj instanceof String){
+				sb.append(key + " = '" + obj + "'");
+			}else{
+				sb.append(key + " = " +obj );
+			}
+		}
+		return sb;
+	}
 	
 	public static void main(String[] args) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("and_id", 1);
 		whereParams.put("or_userName_like", "正常");
 		whereParams.put("or_realName_like", "正常");
 		whereParams.put("or_nickName_like", "正常");
 		whereParams.put("or_email_like", "正常");
 		whereParams.put("or_tel_like", "正常");
 		whereParams.put("or_status_like", "正常");
+		whereParams.put("order_by", "id_asc");
+		whereParams.put("limit", 10);
 		String rst=BaseUtil.getHqlString("Account", whereParams);
 		System.out.println(rst);
 	}

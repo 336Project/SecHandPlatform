@@ -99,6 +99,8 @@ var view = {
 			            $("#roleType").append(html);
 			        }
 				});
+				//重置表单,ps:form元素才有reset
+    			$("#addUser").find("form")[0].reset();
 				$("#addUser").modal("show");
 			});
 			//提交新增用户的表单
@@ -122,8 +124,6 @@ var view = {
 	        			if(d.success){
 	        				tables.user.draw();
 	        			}
-	        			//重置表单,ps:form元素才有reset
-	        			$("#addUser").find("form")[0].reset();
 	        		}
 	        	});
 				

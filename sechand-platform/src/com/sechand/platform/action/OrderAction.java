@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Order;
 import com.sechand.platform.service.OrderService;
@@ -14,10 +16,10 @@ public class OrderAction extends BaseAction{
 	private OrderService orderService;
 	private String ids;
 	private String dataTableParams;//表单参数,json格式
+	private String status;//订单状态
 	
 	/**
 	 * 
-	 * @author lixiaowei
 	 * 2015-1-13 下午5:48:57
 	 * @return 
 	 * TODO 获取所有订单列表信息
@@ -26,7 +28,7 @@ public class OrderAction extends BaseAction{
 		DataTableParams params=DataTableParams.getInstance();
 		params.parse(dataTableParams);
 		Map<String, Object> dataMap=new HashMap<String, Object>();
-		List<Order> orders=orderService.listOrdersByPageRows(params.current_page, params.page_size, params.keyword);//accountService.listUsers();
+		List<Order> orders=orderService.listOrdersByPageRows(params.current_page, params.page_size, params.keyword);
 		int count=orderService.countByKeyword(params.keyword);
 		dataMap.put("recordsTotal", count);
 		dataMap.put("recordsFiltered", count);
@@ -40,7 +42,7 @@ public class OrderAction extends BaseAction{
 	 * 
 	 * 2015-1-14 下午5:28:40
 	 * @return 
-	 * TODO 根据ids批量作废订单
+	 * TODO 根据ids批量作废订单(只有用于管理员操作)
 	 */
 	public String disableOrderByIds(){
 		if(orderService.disableByIds(ids)){
@@ -52,7 +54,65 @@ public class OrderAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
-	
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-14下午9:12:57
+	 * @return
+	 * String
+	 * @TODO 获取普通用户的订单列表信息
+	 */
+	public String listCustomerOrdersByParams(){
+		DataTableParams params=DataTableParams.getInstance();
+		params.parse(dataTableParams);
+		Map<String, Object> dataMap=new HashMap<String, Object>();
+		List<Order> orders=orderService.listCustomerOrdersByPageRows(8,params.current_page, params.page_size, params.keyword);
+		int count=orderService.countCustomerByKeyword(8,params.keyword);
+		dataMap.put("recordsTotal", count);
+		dataMap.put("recordsFiltered", count);
+		dataMap.put("draw",params.draw);
+		dataMap.put("data", orders);
+		json.setMsg(dataMap);
+		json.setSuccess(true);
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-14下午10:28:01
+	 * @return
+	 * String
+	 * @TODO 批量更新订单状态
+	 */
+	public String updateStatusByIds(){
+		if(orderService.updateStatusByIds(ids, status)){
+			json.setMsg("操作成功!");
+			json.setSuccess(true);
+		}else {
+			json.setMsg("操作失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-14下午10:40:44
+	 * @return
+	 * String
+	 * @TODO 批量删除订单
+	 */
+	public String deleteOrderByIds(){
+		if(StringUtils.isNotBlank(ids)){
+			orderService.deleteByClassNameAndIds(Order.class, ids.split(","));
+			json.setMsg("删除成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("删除失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	
 	
 	public OrderService getOrderService() {
@@ -76,5 +136,11 @@ public class OrderAction extends BaseAction{
 
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

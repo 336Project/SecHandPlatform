@@ -29,6 +29,6 @@ session.setAttribute("user", Role.CODE_USER);
 	</s:elseif>
 	<!-- 普通用户 -->
 	<s:elseif test='#session.account.roleCode==#session.user'>
-		<jsp:include page="user-menu.jsp"></jsp:include>
+		<jsp:include page="customer-menu.jsp"></jsp:include>
 	</s:elseif>
 </ul>

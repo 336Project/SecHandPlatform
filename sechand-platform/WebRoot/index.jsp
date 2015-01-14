@@ -59,17 +59,22 @@ session.setAttribute("user", Role.CODE_USER);
 				<div class="row">
 					<div class="col-mod-12">
 						<ul class="breadcrumb">
-							<li><a href="index.jsp">系统管理</a></li>
-							<li class="active">账户信息</li>
+							<li>
+							<a href="index.jsp">
+								<s:if test='#session.account.roleCode==#session.admin'>系统管理</s:if>
+								<s:else>用户管理</s:else>
+							</a>
+							</li>
+							<li class="active">用户信息</li>
 						</ul>
 					</div>
 				</div>
-				<!-- 面板 -->
+				<!-- 用户信息面板 -->
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
-								<h3 class="panel-title">账户信息
+								<h3 class="panel-title">用户信息
 									<span class="pull-right">
 										<a href="#" class="panel-minimize"><i class="glyphicon glyphicon-chevron-up"></i></a>
 									</span>
@@ -143,9 +148,6 @@ session.setAttribute("user", Role.CODE_USER);
 						</div>
 					</div>
 				</div>
-				
-				
-
 
 			</div>
 
