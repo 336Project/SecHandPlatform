@@ -226,7 +226,7 @@ var view = {
 						],
 				"order": [[ 2, 'asc' ]],
 				"scrollX": true,//水平滚动条
-				"scrollXInner":"120%",
+				"scrollXInner":"100%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度

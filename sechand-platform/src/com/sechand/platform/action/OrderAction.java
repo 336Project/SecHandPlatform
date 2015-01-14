@@ -12,13 +12,9 @@ import com.sechand.platform.utils.DataTableParams;
 
 public class OrderAction extends BaseAction{
 	private OrderService orderService;
-	private String id;
+	private String ids;
 	private String dataTableParams;//表单参数,json格式
 	
-	public String deleteById(){
-		orderService.delete(id);
-		return SUCCESS;
-	}
 	/**
 	 * 
 	 * @author lixiaowei
@@ -40,6 +36,25 @@ public class OrderAction extends BaseAction{
 		json.setSuccess(true);
 		return SUCCESS;
 	}
+	/**
+	 * 
+	 * 2015-1-14 下午5:28:40
+	 * @return 
+	 * TODO 根据ids批量作废订单
+	 */
+	public String disableOrderByIds(){
+		if(orderService.disableByIds(ids)){
+			json.setMsg("作废成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("作废失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	
+	
+	
 	public OrderService getOrderService() {
 		return orderService;
 	}
@@ -48,17 +63,18 @@ public class OrderAction extends BaseAction{
 		this.orderService = orderService;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getDataTableParams() {
 		return dataTableParams;
 	}
 	public void setDataTableParams(String dataTableParams) {
 		this.dataTableParams = dataTableParams;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 }

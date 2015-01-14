@@ -26,6 +26,37 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
+			//作废
+			$("#btn-disable").on("click.delete",function(){
+				var idList = [];//被选中的订单
+				var $orderId = $("#table-order [name='slecteOrder']:checked");
+				console.log(idList);
+				if($orderId.length>0){
+					for(var i =0;i<$orderId.length;i++){
+						idList.push($orderId.eq(i).data("uid"));
+					}
+					$.W.alert("确定作废"+idList.length+"条记录？",true,function(){
+						//console.log(idList);
+						//ajax提交作废
+						$.ajax({
+			        		url:$.urlRoot+"/platform/orderAction!disableOrderByIds.action",
+			        		type:"post",
+			        		dataType:"json",
+			        		data:{ids:idList.toString()},
+			        		success:function(d){
+			        			$.W.alert(d.msg,true);
+			        			//作废后刷新表格
+			        			if(d.success){
+			        				tables.order.draw();
+			        			}
+			        		}
+			        	});
+					});
+				}else{
+					$.W.alert("请选中要作废的订单！",true);
+				}
+			});
+			
 			//点击行选中或取消选中用户行
 			$("#table-order").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
@@ -51,7 +82,7 @@ var view = {
 								render: function(id) {
 					        		var cell = arguments[3];
 					        		var index = (cell.settings._iDisplayStart+cell.row+1);
-									var str = "<input class='tcheckbox' id='d"+index+"' name='slecteUser' data-uid='"+id+"' type=checkbox> "
+									var str = "<input class='tcheckbox' id='d"+index+"' name='slecteOrder' data-uid='"+id+"' type=checkbox> "
 									   +"<label for='d"+index+"'>"+index+"</label>";
 									return str;
 					        	}
@@ -64,8 +95,8 @@ var view = {
 							{data : 'status',sTitle : "状态"}
 						],
 				"order": [[ 1, 'asc' ]],
-				/*"scrollX": true,//水平滚动条
-				"scrollXInner":"120%",*/
+				"scrollX": true,//水平滚动条
+				"scrollXInner":"100%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度

@@ -76,12 +76,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
-								<!-- <div class="tb-tools">
-									<button id="btn-reset-password" type="button" class="btn btn-warning">重置密码</button>
-									<button id="btn-delete" type="button" class="btn btn-warning">删 除</button>
-									<button type="button" class="btn btn-primary" id="btn-modal-adduser">新 增</button>
-									<button type="button" class="btn btn-primary" id="btn-modal-updateuser">修改</button>
-								</div> -->
+								<div class="tb-tools">
+									<button id="btn-disable" type="button" class="btn btn-warning">作废</button>
+								</div>
 								<table id="table-order" class="hover order-column"></table>
 							</div>
 						</div>

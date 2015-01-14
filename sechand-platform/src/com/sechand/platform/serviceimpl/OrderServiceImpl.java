@@ -12,15 +12,6 @@ import com.sechand.platform.service.OrderService;
 
 public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 
-	@Override
-	public void delete(String id) {
-		baseDao.deleteByClassNameAndId(Order.class, id);
-		/*Order order=baseDao.getByClassAndId(Order.class, Integer.valueOf(id));
-		if(order!=null){
-			baseDao.deleteByHQL("from OrderItem where orderId="+order.getId());
-			baseDao.delete(order);
-		}*/
-	}
 
 	@Override
 	public List<Order> listOrdersByPageRows(int currentPage, int pageSize,
@@ -45,5 +36,17 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 			whereParams.put("or_status_like",keyword);
 		}
 		return baseDao.countByClassNameAndParams(Order.class, whereParams);
+	}
+
+	@Override
+	public boolean disableByIds(String ids) {
+		try{
+			if(StringUtils.isNotBlank(ids)){
+				baseDao.updateColumnByIds(Order.class, "status", Order.STATUS_INVALID, ids.split(","));
+				return true;
+			}
+		}catch (Exception e) {
+		}
+		return false;
 	}
 }

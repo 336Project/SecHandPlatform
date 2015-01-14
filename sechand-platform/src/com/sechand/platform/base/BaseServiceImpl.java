@@ -209,4 +209,16 @@ public class BaseServiceImpl implements BaseService{
 		baseDao.updateColumnsByParmas(entityClass, id, parmas);
 	}
 
+	@Override
+	public void updateColumnByIds(Class<?> entityClass, String columnName,
+			Object value, Serializable[] ids) {
+		baseDao.updateColumnByIds(entityClass, columnName, value, ids);
+	}
+
+	@Override
+	public void updateColumnsByParmas(Class<?> entityClass, Serializable[] ids,
+			Map<String, Object> parmas) {
+		baseDao.updateColumnsByParmas(entityClass, ids, parmas);
+	}
+
 }

@@ -430,4 +430,69 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao{
 		});
 	}
 
+	@Override
+	public void updateColumnByIds(Class<?> entityClass, String columnName,
+			Object value, Serializable[] ids) {
+		StringBuffer sb=new StringBuffer();
+		sb.append("update "+entityClass.getSimpleName()+" set "+columnName);
+		if(value instanceof String){
+			sb.append("='"+value+"'");
+		}else{
+			sb.append("="+value);
+		}
+		sb.append(" where ");
+		for (int i = 0; i < ids.length; i++) {
+			if(i==0){
+				sb.append("id="+ids[i]);
+			}else{
+				sb.append(" or id="+ids[i]);
+			}
+		}
+		final String hql=sb.toString();
+		getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+			@Override
+			public Integer doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query=session.createQuery(hql);
+				return query.executeUpdate();
+			}
+		});
+	}
+
+	@Override
+	public void updateColumnsByParmas(Class<?> entityClass, Serializable[] ids,
+			Map<String, Object> parmas) {
+		StringBuffer sb=new StringBuffer();
+		sb.append("update "+entityClass.getSimpleName()+" set ");
+		Set<String> keys=parmas.keySet();
+		for (String key : keys) {
+			Object value=parmas.get(key);
+			if(value instanceof String){
+				sb.append(key+"='"+value+"',");
+			}else{
+				sb.append(key+"="+value+",");
+			}
+		}
+		//去掉最后一个,
+		sb.replace(sb.length()-1, sb.length(), "");
+		sb.append(" where ");
+		for (int i = 0; i < ids.length; i++) {
+			if(i==0){
+				sb.append("id="+ids[i]);
+			}else{
+				sb.append(" or id="+ids[i]);
+			}
+		}
+		final String hql=sb.toString();
+		getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+			@Override
+			public Integer doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query=session.createQuery(hql);
+				return query.executeUpdate();
+			}
+			
+		});
+	}
+
 }

@@ -26,6 +26,7 @@ session.setAttribute("user", Role.CODE_USER);
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables_themeroller.css">
 <!-- self css -->
   <link rel="stylesheet" type="text/css" href="../css/pages/index.css">
+  <link rel="stylesheet" type="text/css" href="css/userList.css">
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
@@ -156,6 +157,7 @@ session.setAttribute("user", Role.CODE_USER);
 	</div>
 
 	<script src="../js/archon.js"></script>
+	<script type="text/javascript" src="../js/lib/switch/js/bootstrap-switch.min.js"></script>
 	<script type="text/javascript" src="js/roleList.js"></script>
 </body>
 </html>

@@ -23,6 +23,17 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
+			//点击行选中或取消选中用户行
+			$("#table-role").on("click.select","tr",function(){
+		    	var $check = $(this).find(".tcheckbox");
+		    	if($check.prop("checked")){
+		    		$check.prop("checked",false);
+		    		$(this).removeClass("selected");
+		    	}else{
+		    		$check.prop("checked",true);
+		    		$(this).addClass("selected");
+		    	}
+		    });
 			//删除
 			$("#btn-delete").on("click.delete",function(){
 				var idList = [];//被选中的用户
@@ -81,15 +92,19 @@ var view = {
 			return $("#table-role").dataTable({
 				"columns":[
 							{ data: 'id',sTitle:"",
-					        	render: function(id) {
-									var str = "<input name='slecteRole' data-uid='"+id+"' type=checkbox>";
+								render: function(id) {
+					        		var cell = arguments[3];
+					        		var index = (cell.settings._iDisplayStart+cell.row+1);
+									var str = "<input class='tcheckbox' id='d"+index+"' name='slecteRole' data-uid='"+id+"' type=checkbox> "
+									   +"<label for='d"+index+"'>"+index+"</label>";
 									return str;
 					        	}
 							},
-							{data : 'id',sTitle : "ID"}, 
 							{data : 'name',sTitle : "角色名称"}, 
 							{data : 'code',sTitle : "类型"}
 						],
+				"scrollX": true,//水平滚动条
+				"scrollXInner":"100%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
