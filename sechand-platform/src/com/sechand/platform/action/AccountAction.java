@@ -178,6 +178,24 @@ public class AccountAction extends BaseAction{
 	}
 	/**
 	 * 
+	 * 2015-1-14 上午11:13:28
+	 * @return 
+	 * TODO 修改用户并更新session
+	 */
+	public String updateUserAndSession(){
+		if(accountService.updateUser(account)){
+			Account a=accountService.getByClassAndId(Account.class, account.getId());
+			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
+			json.setMsg("修改成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("修改失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
 	 * 2015-1-13 上午11:52:17
 	 * @return 
 	 * TODO 修改用户状态：启用or禁用

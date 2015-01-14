@@ -25,14 +25,25 @@ var view={
 				$(".userMsg").show();
 				var newUser = view.getFormVal();
 				//ajax提交保存并刷新页面上的数据
-				/*$.ajax({
-				 * url:"...",
-				 * data:{"user":newUser}
-				 * success:function(data){
-				 *   view.refresh(data.msg.user);//刷新页面上的数据主要跟新后面这些属性{userName,nickName,realName,email,tel}
-				 *   //嫌麻烦的话执行执行页面刷新也是可以的 ：window.location.reload();
-				 * }
-				});*/
+				$.ajax({
+				  url:$.urlRoot+"/platform/accountAction!updateUserAndSession.action",
+				  type:"post",
+				  dataType:"json",
+				  data:{
+					  "account.id":newUser.id,
+					  "account.nickName":newUser.nickName,
+					  "account.realName":newUser.realName,
+					  "account.email":newUser.email,
+					  "account.tel":newUser.tel,
+					  "account.introduction":newUser.introduction
+				  },
+				  success:function(data){
+				    //view.refresh(data.msg.user);//刷新页面上的数据
+					  if(data.success){
+						  view.refresh(newUser)
+					  }
+				  }
+				});
 				
 			});
 		},
@@ -52,11 +63,13 @@ var view={
 		},
 		getFormVal:function(){
 			//获取表单上的数据，请分离开来写，这样代码可以复用
-			var userMsg = new Object();
-			userMsg.name = $("input[name='name']").val();
-			userMsg.name = $("input[name='email']").val();
-			
-			//返回数据案例：{name:"...",email:"..."}
-			return userMsg;
+			var account = new Object();
+			account.id = $(".userMsgEdict input[name='id']").val();
+			account.nickName = $(".userMsgEdict input[name='nickName']").val();
+			account.realName = $(".userMsgEdict input[name='realName']").val();
+			account.email = $(".userMsgEdict input[name='email']").val();
+			account.tel = $(".userMsgEdict input[name='tel']").val();
+			account.introduction = $(".userMsgEdict input[name='introduction']").val();
+			return account;
 		}
 };

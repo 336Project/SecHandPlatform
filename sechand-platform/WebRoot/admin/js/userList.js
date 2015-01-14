@@ -214,6 +214,7 @@ var view = {
 							{data : 'registerTime',sTitle : "注册时间"},
 							{data : 'source',sTitle : "来源"},
 							{data : 'lastLoginTime',sTitle : "最后一次登录时间"},
+							{data : 'introduction',sTitle : "简介"},
 							{data : 'status',sTitle : "状态"},
 							{data : 'status',sTitle:"操作",
 					        	render: function(state) {
@@ -224,8 +225,8 @@ var view = {
 							}
 						],
 				"order": [[ 2, 'asc' ]],
-				/*"scrollX": true,//水平滚动条
-				"scrollXInner":"120%",*/
+				"scrollX": true,//水平滚动条
+				"scrollXInner":"120%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度

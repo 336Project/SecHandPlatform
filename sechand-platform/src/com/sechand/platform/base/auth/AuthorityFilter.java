@@ -45,6 +45,7 @@ public class AuthorityFilter implements Filter{
 				if(!urlList.contains(uri)){
 					Account account=(Account)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
 					if(account==null){
+						System.out.println("调用jsp时,Session Account为空");
 						response.sendRedirect(basePath+"/error.jsp");
 					}
 				}

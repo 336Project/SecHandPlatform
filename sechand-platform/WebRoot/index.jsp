@@ -35,6 +35,9 @@ session.setAttribute("user", Role.CODE_USER);
   <script src="css/bootstrap/js/bootstrap.min.js"></script>
   <script src="js/common.js"></script>
   <script type="text/javascript" src="js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  <script>
+  	jQuery.urlRoot = "<%=path%>";
+  </script>
 </head>
 <body>
 	<div class="frame">
@@ -94,6 +97,8 @@ session.setAttribute("user", Role.CODE_USER);
 									  <dd class="d-email">${sessionScope.account.email}</dd>
 									  <dt>手机号</dt>
 									  <dd class="d-tel">${sessionScope.account.tel}</dd>
+									  <dt>简介</dt>
+									  <dd class="d-introduction">${sessionScope.account.introduction}</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
@@ -109,19 +114,18 @@ session.setAttribute("user", Role.CODE_USER);
 								</div>
 								<div class="row userMsgEdict">
 									<dl class="dl-horizontal col-xs-6">
-									  <dt>用户名</dt>
-									  <dd>
-									  	<input type="text" class="form-control" value="${sessionScope.account.userName}"/>
-									  </dd>
+									 <dt>用户名</dt>
+									  <dd class="d-userName">${sessionScope.account.userName}<input type="text" class="form-control" name="id" style="display: none;" value="${sessionScope.account.id}"></dd>
 									  <dt>昵称</dt>
-									  <dd>
-									  	<input type="text" class="form-control" value="${sessionScope.account.nickName}"></dd>
+									  	<dd><input type="text" class="form-control" name="nickName" value="${sessionScope.account.nickName}"></dd>
 									  <dt>真实姓名</dt>
-									  <dd><input type="text" class="form-control" value="${sessionScope.account.realName}"></dd>
+									  	<dd><input type="text" class="form-control" name="realName" value="${sessionScope.account.realName}"></dd>
 									  <dt>邮箱地址</dt>
-									  <dd><input type="text" class="form-control" value="${sessionScope.account.email}"></dd>
+									 	 <dd><input type="text" class="form-control" name="email" value="${sessionScope.account.email}"></dd>
 									  <dt>手机号</dt>
-									  <dd><input type="text" class="form-control" value="${sessionScope.account.tel}"></dd>
+									  	<dd><input type="text" class="form-control" name="tel" value="${sessionScope.account.tel}"></dd>
+									  <dt>简介</dt>
+									  	<dd><input type="text" class="form-control" name="introduction" value="${sessionScope.account.introduction}"></dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
