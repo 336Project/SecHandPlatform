@@ -230,7 +230,7 @@ var view = {
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
-		        "aLengthMenu": [10, 20, 30, 50],//定义每页显示数据数量
+		        "aLengthMenu": [5,10, 20, 30, 50],//定义每页显示数据数量
 		        "fnServerData":function(n,params,fnCallback,table){//向后台请求列表数据
 		        	//alert(JSON.stringify(params));
 		        	params.push({name:"sSearch",value:params[5].value.value});

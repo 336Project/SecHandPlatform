@@ -80,6 +80,8 @@ var view = {
 	        			if(d.success){
 	        				tables.roles._fnReDraw();
 	        			}
+	        			//重置表单,ps:form元素才有reset
+	        			$("#addRole").find("form")[0].reset();
 	        		}
 	        	});
 			});
@@ -108,7 +110,7 @@ var view = {
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
-		        "aLengthMenu": [10, 20, 30, 50],//定义每页显示数据数量
+		        "aLengthMenu": [5,10, 20, 30, 50],//定义每页显示数据数量
 		        "fnServerData":function(n,params,fnCallback,table){
 		        	params.push({name:"sSearch",value:params[5].value.value});
 		        	$.ajax({
