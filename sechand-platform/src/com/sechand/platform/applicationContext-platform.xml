@@ -13,6 +13,22 @@
         	<ref bean="userService"/>
         </property>
     </bean>
+    <!-- 账户管理 -->
+    <bean id="accountService" class="com.sechand.platform.serviceimpl.AccountServiceImpl" parent="baseService">
+    </bean>
+    <bean id="accountAction" class="com.sechand.platform.action.AccountAction" parent="baseAction">
+    	<property name="accountService">
+        	<ref bean="accountService"/>
+        </property>
+    </bean>
+    <!-- 交易管理 -->
+    <bean id="tradeService" class="com.sechand.platform.serviceimpl.TradeServiceImpl" parent="baseService">
+    </bean>
+    <bean id="tradeAction" class="com.sechand.platform.action.TradeAction" parent="baseAction">
+    	<property name="tradeService">
+        	<ref bean="tradeService"/>
+        </property>
+    </bean>
 	<!-- 角色管理 -->
     <bean id="roleService" class="com.sechand.platform.serviceimpl.RoleServiceImpl" parent="baseService">
     </bean>

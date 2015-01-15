@@ -28,9 +28,12 @@
 		</global-results>
 		<!-- 用户管理 -->
 		<action name="userAction" class="userAction">
-			<!-- <result name="success" type="json">
-				<param name="root">json</param>
-			</result> -->
+		</action>
+		<!-- 账户管理 -->
+		<action name="accountAction" class="accountAction">
+		</action>
+		<!-- 交易管理 -->
+		<action name="tradeAction" class="tradeAction">
 		</action>
 		<!-- 角色管理 -->
 		<action name="roleAction" class="roleAction">
