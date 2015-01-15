@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 function() {
 						$.ajax({
 							type : "POST",
-							url : "platform/accountAction!login.action",
+							url : "platform/userAction!login.action",
 							data : {
 								username : $("#user_name").val(),
 								password : $("#password").val(),

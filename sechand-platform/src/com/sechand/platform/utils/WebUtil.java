@@ -7,7 +7,7 @@ public class WebUtil {
 	/*
 	 * 登录session
 	 */
-	public static final String KEY_LOGIN_USER_SESSION="account";
+	public static final String KEY_LOGIN_USER_SESSION="user";
 	public static void add2Session(String key,Object value){
 		ActionContext.getContext().getSession().put(key, value);
 	}

@@ -3,15 +3,15 @@ package com.sechand.platform.service;
 import java.util.List;
 
 import com.sechand.platform.base.BaseService;
-import com.sechand.platform.model.Account;
+import com.sechand.platform.model.User;
 
 
 
 
-public interface AccountService extends BaseService{
-	public Account login(String username,String password,String roleName);
-	public long add(Account account);
-	public List<Account> listUsers();
+public interface UserService extends BaseService{
+	public User login(String username,String password,String roleName);
+	public long add(User user);
+	public List<User> listUsers();
 	/**
 	 * 
 	 * 2015-1-6 下午12:43:16
@@ -21,7 +21,7 @@ public interface AccountService extends BaseService{
 	 * @return 
 	 * TODO 根据搜索关键字分页获取数据
 	 */
-	public List<Account> listPageRowsUsersByKeyword(int currentPage,int pageSize,String keyword);
+	public List<User> listPageRowsUsersByKeyword(int currentPage,int pageSize,String keyword);
 	/**
 	 * 
 	 * 2015-1-6 下午12:54:15
@@ -44,5 +44,5 @@ public interface AccountService extends BaseService{
 	 * @return 
 	 * TODO 更新用户信息
 	 */
-	public boolean updateUser(Account account);
+	public boolean updateUser(User account);
 }

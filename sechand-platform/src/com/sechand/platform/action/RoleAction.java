@@ -74,7 +74,7 @@ public class RoleAction extends BaseAction {
 	public String addRole(){
 		if(role!=null){
 			String code=role.getCode();
-			if(Role.CODE_ADMIN.equals(code)||Role.CODE_COMPANY.equals(code)||Role.CODE_USER.equals(code)){
+			if(Role.CODE_ADMIN.equals(code)||Role.CODE_COMPANY.equals(code)||Role.CODE_CUSTOMER.equals(code)){
 				Role r=roleService.getRoleByCode(code);
 				if(r!=null){
 					json.setMsg("该角色已经存在，请勿重复添加!");

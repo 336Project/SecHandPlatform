@@ -10,7 +10,7 @@ public class Role implements Serializable{
 	 */
 	public static final String CODE_ADMIN="1";//管理员
 	public static final String CODE_COMPANY="2";//维修公司
-	public static final String CODE_USER="3";//用户
+	public static final String CODE_CUSTOMER="3";//用户
 	private static final long serialVersionUID = 7124806791366190520L;
 	private Integer id;//主键
 	private String name;//角色名称

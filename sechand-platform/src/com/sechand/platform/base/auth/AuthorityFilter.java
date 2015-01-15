@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.sechand.platform.model.Account;
+import com.sechand.platform.model.User;
 import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
@@ -43,8 +43,8 @@ public class AuthorityFilter implements Filter{
 		if(uri!=null&&!uri.equals("/")){
 			if(urlList!=null&&urlList.size()>0){
 				if(!urlList.contains(uri)){
-					Account account=(Account)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
-					if(account==null){
+					User user=(User)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
+					if(user==null){
 						System.out.println("调用jsp时,Session Account为空");
 						response.sendRedirect(basePath+"/error.jsp");
 					}

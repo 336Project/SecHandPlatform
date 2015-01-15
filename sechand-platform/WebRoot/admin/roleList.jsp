@@ -4,9 +4,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-session.setAttribute("admin", Role.CODE_ADMIN);
+/* session.setAttribute("admin", Role.CODE_ADMIN);
 session.setAttribute("company", Role.CODE_COMPANY);
-session.setAttribute("user", Role.CODE_USER);
+session.setAttribute("customer", Role.CODE_CUSTOMER); */
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">

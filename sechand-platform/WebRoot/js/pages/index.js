@@ -26,16 +26,16 @@ var view={
 				var newUser = view.getFormVal();
 				//ajax提交保存并刷新页面上的数据
 				$.ajax({
-				  url:$.urlRoot+"/platform/accountAction!updateUserAndSession.action",
+				  url:$.urlRoot+"/platform/userAction!updateUserAndSession.action",
 				  type:"post",
 				  dataType:"json",
 				  data:{
-					  "account.id":newUser.id,
-					  "account.nickName":newUser.nickName,
-					  "account.realName":newUser.realName,
-					  "account.email":newUser.email,
-					  "account.tel":newUser.tel,
-					  "account.introduction":newUser.introduction
+					  "user.id":newUser.id,
+					  "user.nickName":newUser.nickName,
+					  "user.realName":newUser.realName,
+					  "user.email":newUser.email,
+					  "user.tel":newUser.tel,
+					  "user.introduction":newUser.introduction
 				  },
 				  success:function(data){
 				    //view.refresh(data.msg.user);//刷新页面上的数据

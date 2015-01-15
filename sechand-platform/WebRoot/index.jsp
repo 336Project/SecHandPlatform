@@ -6,7 +6,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 session.setAttribute("admin", Role.CODE_ADMIN);
 session.setAttribute("company", Role.CODE_COMPANY);
-session.setAttribute("user", Role.CODE_USER);
+session.setAttribute("customer", Role.CODE_CUSTOMER);
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -61,7 +61,7 @@ session.setAttribute("user", Role.CODE_USER);
 						<ul class="breadcrumb">
 							<li>
 							<a href="index.jsp">
-								<s:if test='#session.account.roleCode==#session.admin'>系统管理</s:if>
+								<s:if test='#session.user.roleCode==#session.admin'>系统管理</s:if>
 								<s:else>用户管理</s:else>
 							</a>
 							</li>
@@ -86,61 +86,61 @@ session.setAttribute("user", Role.CODE_USER);
 								  <p>欢迎使用"sechand"信息管理系统</p>
 								<footer>用户类型：
 								   <cite title="Source Title">
-								  	${sessionScope.account.roleName}
+								  	${sessionScope.user.roleName}
 								  </cite>
 								</footer>
 								</blockquote>
 								<div class="row userMsg">
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>用户名</dt>
-									  <dd class="d-userName">${sessionScope.account.userName}</dd>
+									  <dd class="d-userName">${sessionScope.user.userName}</dd>
 									  <dt>昵称</dt>
-									  <dd class="d-nickName">${sessionScope.account.nickName}</dd>
+									  <dd class="d-nickName">${sessionScope.user.nickName}</dd>
 									  <dt>真实姓名</dt>
-									  <dd class="d-realName">${sessionScope.account.realName}</dd>
+									  <dd class="d-realName">${sessionScope.user.realName}</dd>
 									  <dt>邮箱地址</dt>
-									  <dd class="d-email">${sessionScope.account.email}</dd>
+									  <dd class="d-email">${sessionScope.user.email}</dd>
 									  <dt>手机号</dt>
-									  <dd class="d-tel">${sessionScope.account.tel}</dd>
+									  <dd class="d-tel">${sessionScope.user.tel}</dd>
 									  <dt>简介</dt>
-									  <dd class="d-introduction">${sessionScope.account.introduction}</dd>
+									  <dd class="d-introduction">${sessionScope.user.introduction}</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
-									  <dd>${sessionScope.account.lastLoginTime}</dd>
+									  <dd>${sessionScope.user.lastLoginTime}</dd>
 									  <dt>账户状态</dt>
-									  <dd>${sessionScope.account.status}</dd>
+									  <dd>${sessionScope.user.status}</dd>
 									  <dt>账户来源</dt>
-									  <dd>${sessionScope.account.source}</dd>
+									  <dd>${sessionScope.user.source}</dd>
 									  <dt>注册时间</dt>
-									  <dd>${sessionScope.account.registerTime}</dd>
+									  <dd>${sessionScope.user.registerTime}</dd>
 									</dl>
 									<button id="btn-edict" type="button" class="btn btn-primary">编辑</button>
 								</div>
 								<div class="row userMsgEdict">
 									<dl class="dl-horizontal col-xs-6">
 									 <dt>用户名</dt>
-									  <dd class="d-userName">${sessionScope.account.userName}<input type="text" class="form-control" name="id" style="display: none;" value="${sessionScope.account.id}"></dd>
+									  <dd class="d-userName">${sessionScope.user.userName}<input type="text" class="form-control" name="id" style="display: none;" value="${sessionScope.user.id}"></dd>
 									  <dt>昵称</dt>
-									  	<dd><input type="text" class="form-control" name="nickName" value="${sessionScope.account.nickName}"></dd>
+									  	<dd><input type="text" class="form-control" name="nickName" value="${sessionScope.user.nickName}"></dd>
 									  <dt>真实姓名</dt>
-									  	<dd><input type="text" class="form-control" name="realName" value="${sessionScope.account.realName}"></dd>
+									  	<dd><input type="text" class="form-control" name="realName" value="${sessionScope.user.realName}"></dd>
 									  <dt>邮箱地址</dt>
-									 	 <dd><input type="text" class="form-control" name="email" value="${sessionScope.account.email}"></dd>
+									 	 <dd><input type="text" class="form-control" name="email" value="${sessionScope.user.email}"></dd>
 									  <dt>手机号</dt>
-									  	<dd><input type="text" class="form-control" name="tel" value="${sessionScope.account.tel}"></dd>
+									  	<dd><input type="text" class="form-control" name="tel" value="${sessionScope.user.tel}"></dd>
 									  <dt>简介</dt>
-									  	<dd><input type="text" class="form-control" name="introduction" value="${sessionScope.account.introduction}"></dd>
+									  	<dd><input type="text" class="form-control" name="introduction" value="${sessionScope.user.introduction}"></dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
 									  <dt>上次登入时间</dt>
-									  <dd>${sessionScope.account.lastLoginTime}</dd>
+									  <dd>${sessionScope.user.lastLoginTime}</dd>
 									  <dt>账户状态</dt>
-									  <dd>${sessionScope.account.status}</dd>
+									  <dd>${sessionScope.user.status}</dd>
 									  <dt>账户来源</dt>
-									  <dd>${sessionScope.account.source}</dd>
+									  <dd>${sessionScope.user.source}</dd>
 									  <dt>注册时间</dt>
-									  <dd>${sessionScope.account.registerTime}</dd>
+									  <dd>${sessionScope.user.registerTime}</dd>
 									</dl>
 									<button id="btn-save" type="button" class="btn btn-primary">保存</button>
 								</div>

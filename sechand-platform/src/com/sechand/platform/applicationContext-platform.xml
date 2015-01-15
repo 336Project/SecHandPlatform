@@ -6,11 +6,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- 用户管理 -->
-    <bean id="accountService" class="com.sechand.platform.serviceimpl.AccountServiceImpl" parent="baseService">
+    <bean id="userService" class="com.sechand.platform.serviceimpl.UserServiceImpl" parent="baseService">
     </bean>
-    <bean id="accountAction" class="com.sechand.platform.action.AccountAction" parent="baseAction">
-    	<property name="accountService">
-        	<ref bean="accountService"/>
+    <bean id="userAction" class="com.sechand.platform.action.UserAction" parent="baseAction">
+    	<property name="userService">
+        	<ref bean="userService"/>
         </property>
     </bean>
 	<!-- 角色管理 -->

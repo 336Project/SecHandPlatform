@@ -10,17 +10,17 @@ import org.apache.commons.lang.StringUtils;
 
 
 import com.sechand.platform.base.BaseAction;
-import com.sechand.platform.model.Account;
-import com.sechand.platform.service.AccountService;
+import com.sechand.platform.model.User;
+import com.sechand.platform.service.UserService;
 import com.sechand.platform.utils.DataTableParams;
 import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
 
 
-public class AccountAction extends BaseAction{
-	private AccountService accountService;
-	private Account account;
+public class UserAction extends BaseAction{
+	private UserService userService;
+	private User user;
 	private String username;//用户名
 	private String password;//密码
 	private String type;//角色类型
@@ -37,16 +37,16 @@ public class AccountAction extends BaseAction{
 	 * @TODO 登录
 	 */
 	public String login(){
-		Account a=accountService.login(username, password,type);
+		User a=userService.login(username, password,type);
 		if(a!=null){
-			if(!Account.STATUS_NORMAL.equals(a.getStatus())){
+			if(!User.STATUS_NORMAL.equals(a.getStatus())){
 				json.setSuccess(false);
 				json.setMsg("该账户被禁用，请联系管理员!");
 			}else{
 				//将用户添加到session
 				WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
 				//更新最后一次登录时间
-				accountService.updateColumnById(Account.class, "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
+				userService.updateColumnById(User.class, "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
 				json.setSuccess(true);
 				json.setMsg("/index.jsp");
 			}
@@ -79,8 +79,8 @@ public class AccountAction extends BaseAction{
 	 */
 	public String register(){
 		//注册完跳到登录页
-		account.setSource(Account.SOURCE_PLATFORM);
-		long id=accountService.add(account);
+		user.setSource(User.SOURCE_PLATFORM);
+		long id=userService.add(user);
 		if(id<0){
 			return ERROR;
 		}
@@ -93,8 +93,8 @@ public class AccountAction extends BaseAction{
 	 * TODO 后台管理员手动添加
 	 */
 	public String addByManual(){
-		account.setSource(Account.SOURCE_MANUAL);
-		long id=accountService.add(account);
+		user.setSource(User.SOURCE_MANUAL);
+		long id=userService.add(user);
 		if(id>0){
 			json.setMsg("添加成功!");
 			json.setSuccess(true);
@@ -114,8 +114,8 @@ public class AccountAction extends BaseAction{
 		DataTableParams params=DataTableParams.getInstance();
 		params.parse(dataTableParams);
 		Map<String, Object> dataMap=new HashMap<String, Object>();
-		List<Account> users=accountService.listPageRowsUsersByKeyword(params.current_page, params.page_size, params.keyword);//accountService.listUsers();
-		int count=accountService.countByKeyword(params.keyword);
+		List<User> users=userService.listPageRowsUsersByKeyword(params.current_page, params.page_size, params.keyword);
+		int count=userService.countByKeyword(params.keyword);
 		dataMap.put("recordsTotal", count);
 		dataMap.put("recordsFiltered", count);
 		dataMap.put("draw",params.draw);
@@ -139,7 +139,7 @@ public class AccountAction extends BaseAction{
 	public String deleteUserByIds(){
 		if(!StringUtils.isBlank(ids)){
 			String[] idList=ids.split(",");
-			accountService.deleteByIds(idList);
+			userService.deleteByIds(idList);
 			json.setMsg("删除成功!");
 			json.setSuccess(true);
 		}else{
@@ -155,7 +155,7 @@ public class AccountAction extends BaseAction{
 	 * TODO 重置用户密码(123456)
 	 */
 	public String resetPassword(){
-		accountService.updateColumnById(Account.class, "password", SysUtils.encrypt("123456"), ids);
+		userService.updateColumnById(User.class, "password", SysUtils.encrypt("123456"), ids);
 		json.setMsg("重置成功！密码为:123456");
 		json.setSuccess(true);
 		return SUCCESS;
@@ -167,7 +167,7 @@ public class AccountAction extends BaseAction{
 	 * TODO 修改用户信息
 	 */
 	public String updateUser(){
-		if(accountService.updateUser(account)){
+		if(userService.updateUser(user)){
 			json.setMsg("修改成功!");
 			json.setSuccess(true);
 		}else{
@@ -183,8 +183,8 @@ public class AccountAction extends BaseAction{
 	 * TODO 修改用户并更新session
 	 */
 	public String updateUserAndSession(){
-		if(accountService.updateUser(account)){
-			Account a=accountService.getByClassAndId(Account.class, account.getId());
+		if(userService.updateUser(user)){
+			User a=userService.getByClassAndId(User.class, user.getId());
 			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
 			json.setMsg("修改成功!");
 			json.setSuccess(true);
@@ -201,9 +201,9 @@ public class AccountAction extends BaseAction{
 	 * TODO 修改用户状态：启用or禁用
 	 */
 	public String updateStatus(){
-		String status=account.getStatus();
-		if(account!=null&&account.getId()!=null&&(Account.STATUS_DISABLE.equals(status)||Account.STATUS_NORMAL.equals(status))){
-			accountService.updateColumnById(Account.class, "status", status, account.getId());
+		String status=user.getStatus();
+		if(user!=null&&user.getId()!=null&&(User.STATUS_DISABLE.equals(status)||User.STATUS_NORMAL.equals(status))){
+			userService.updateColumnById(User.class, "status", status, user.getId());
 			json.setMsg("修改状态成功!");
 			json.setSuccess(true);
 		}else{
@@ -229,22 +229,6 @@ public class AccountAction extends BaseAction{
 		this.password = password;
 	}
 
-	public AccountService getAccountService() {
-		return accountService;
-	}
-
-	public void setAccountService(AccountService accountService) {
-		this.accountService = accountService;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -262,5 +246,17 @@ public class AccountAction extends BaseAction{
 	}
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+	public UserService getUserService() {
+		return userService;
+	}
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

@@ -3,7 +3,7 @@ package com.sechand.platform.model;
 /**
  * 用户表
  */
-public class Account implements java.io.Serializable {
+public class User implements java.io.Serializable {
 	// Fields
 	private static final long serialVersionUID = 35155233893839253L;
 	//状态

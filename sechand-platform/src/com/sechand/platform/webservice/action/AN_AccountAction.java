@@ -6,12 +6,12 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sechand.platform.base.BaseAction;
-import com.sechand.platform.model.Account;
+import com.sechand.platform.model.User;
 import com.sechand.platform.webservice.service.AN_AccountService;
 
 public class AN_AccountAction extends BaseAction{
 	private AN_AccountService accountService;
-	private Account account;
+	private User account;
 	private String params;//请求参数的json字符串
 	private String username;//用户名
 	private String password;//密码
@@ -97,11 +97,11 @@ public class AN_AccountAction extends BaseAction{
 		this.accountService = accountService;
 	}
 
-	public Account getAccount() {
+	public User getAccount() {
 		return account;
 	}
 
-	public void setAccount(Account account) {
+	public void setAccount(User account) {
 		this.account = account;
 	}
 	public String getParams() {

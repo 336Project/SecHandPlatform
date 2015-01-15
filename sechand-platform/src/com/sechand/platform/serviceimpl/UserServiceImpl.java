@@ -9,44 +9,46 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseServiceImpl;
-import com.sechand.platform.model.Account;
+import com.sechand.platform.model.User;
 import com.sechand.platform.model.Role;
-import com.sechand.platform.service.AccountService;
+import com.sechand.platform.service.UserService;
 import com.sechand.platform.utils.SysUtils;
 
 
-public class AccountServiceImpl extends BaseServiceImpl implements AccountService{
+public class UserServiceImpl extends BaseServiceImpl implements UserService{
 
 	@Override
-	public Account login(String username, String password,String roleType) {
-		//String hql="from Account where (userName='"+username+"' or email='"+username+"') and password ='"+SysUtils.encrypt(password)+"' and roleType ='"+roleType+"'";//邮箱也可以登录
-		String hql="from Account where userName='"+username+"' and password ='"+SysUtils.encrypt(password)+"' and roleCode ='"+roleType+"'";
-		return baseDao.getByHQL(hql);
+	public User login(String username, String password,String roleType) {
+		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("userName", username);
+		whereParams.put("password", SysUtils.encrypt(password));
+		whereParams.put("roleCode", roleType);
+		return baseDao.getByClassNameAndParams(User.class, whereParams);
 	}
 
 	@Override
-	public long add(Account account) {
+	public long add(User user) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
-		whereParams.put("code", account.getRoleCode());
+		whereParams.put("code", user.getRoleCode());
 		Role role=baseDao.getByClassNameAndParams(Role.class, whereParams);
 		if(role==null){
 			return -1;
 		}
-		account.setRegisterTime(SysUtils.getDateFormat(new Date()));
-		account.setRoleCode(role.getCode());
-		account.setRoleName(role.getName());
-		account.setPassword(SysUtils.encrypt(account.getPassword()));
-		account.setStatus(Account.STATUS_NORMAL);
-		return baseDao.save(account);
+		user.setRegisterTime(SysUtils.getDateFormat(new Date()));
+		user.setRoleCode(role.getCode());
+		user.setRoleName(role.getName());
+		user.setPassword(SysUtils.encrypt(user.getPassword()));
+		user.setStatus(User.STATUS_NORMAL);
+		return baseDao.save(user);
 	}
 
 	@Override
-	public List<Account> listUsers() {
-		return baseDao.listByClassName(Account.class);
+	public List<User> listUsers() {
+		return baseDao.listByClassName(User.class);
 	}
 
 	@Override
-	public List<Account> listPageRowsUsersByKeyword(int currentPage,
+	public List<User> listPageRowsUsersByKeyword(int currentPage,
 			int pageSize, String keyword) {
 		/*String hql="from Account where 1=1";
 		if(!StringUtils.isEmpty(keyword)){
@@ -62,7 +64,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 			whereParams.put("or_tel_like", keyword);
 			whereParams.put("or_status_like",keyword);
 		}
-		return baseDao.listPageRowsByClassNameAndParams(Account.class, whereParams, currentPage, pageSize);
+		return baseDao.listPageRowsByClassNameAndParams(User.class, whereParams, currentPage, pageSize);
 	}
 
 	@Override
@@ -81,24 +83,24 @@ public class AccountServiceImpl extends BaseServiceImpl implements AccountServic
 			whereParams.put("or_tel_like", keyword);
 			whereParams.put("or_status_like", keyword);
 		}
-		return baseDao.countByClassNameAndParams(Account.class, whereParams);
+		return baseDao.countByClassNameAndParams(User.class, whereParams);
 	}
 
 	@Override
 	public void deleteByIds(String[] ids) {
-		baseDao.deleteByClassNameAndIds(Account.class, ids);
+		baseDao.deleteByClassNameAndIds(User.class, ids);
 	}
 
 	@Override
-	public boolean updateUser(Account account) {
+	public boolean updateUser(User user) {
 		try {
 			Map<String, Object> parmas=new HashMap<String, Object>();
-			parmas.put("email", account.getEmail());
-			parmas.put("nickName", account.getNickName());
-			parmas.put("realName", account.getRealName());
-			parmas.put("tel", account.getTel());
-			parmas.put("introduction", account.getIntroduction());
-			baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
+			parmas.put("email", user.getEmail());
+			parmas.put("nickName", user.getNickName());
+			parmas.put("realName", user.getRealName());
+			parmas.put("tel", user.getTel());
+			parmas.put("introduction", user.getIntroduction());
+			baseDao.updateColumnsByParmas(User.class, user.getId(), parmas);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

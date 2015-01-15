@@ -6,7 +6,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 session.setAttribute("admin", Role.CODE_ADMIN);
 session.setAttribute("company", Role.CODE_COMPANY);
-session.setAttribute("user", Role.CODE_USER);
+session.setAttribute("customer", Role.CODE_CUSTOMER);
 %>
 <ul class="nav nav-list">
 	<!-- sidebar input search box -->
@@ -20,15 +20,15 @@ session.setAttribute("user", Role.CODE_USER);
 	<!-- Sidebar header @add class nav-header for sidebar header -->
 	<!-- 根据不同的角色加载不同的左边菜单栏 -->
 	<!-- 管理员 -->
-	<s:if test='#session.account.roleCode==#session.admin'>
+	<s:if test='#session.user.roleCode==#session.admin'>
 		<jsp:include page="admin-menu.jsp"></jsp:include>
 	</s:if>
 	<!-- 维修公司 -->
-	<s:elseif test='#session.account.roleCode==#session.company'>
+	<s:elseif test='#session.user.roleCode==#session.company'>
 		<jsp:include page="company-menu.jsp"></jsp:include>
 	</s:elseif>
 	<!-- 普通用户 -->
-	<s:elseif test='#session.account.roleCode==#session.user'>
+	<s:elseif test='#session.user.roleCode==#session.customer'>
 		<jsp:include page="customer-menu.jsp"></jsp:include>
 	</s:elseif>
 </ul>

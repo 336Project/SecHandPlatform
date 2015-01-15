@@ -38,7 +38,7 @@ var view = {
 						//console.log(idList);
 						//ajax提交删除
 						$.ajax({
-			        		url:$.urlRoot+"/platform/accountAction!deleteUserByIds.action",
+			        		url:$.urlRoot+"/platform/userAction!deleteUserByIds.action",
 			        		type:"post",
 			        		dataType:"json",
 			        		data:{ids:idList.toString()},
@@ -64,7 +64,7 @@ var view = {
 					}else{
 						$.W.alert("确定要重置密码吗？",function(){
 							$.ajax({
-				        		url:$.urlRoot+"/platform/accountAction!resetPassword.action",
+				        		url:$.urlRoot+"/platform/userAction!resetPassword.action",
 				        		type:"post",
 				        		dataType:"json",
 				        		data:{ids:$userId.eq(0).data("uid")},
@@ -106,17 +106,17 @@ var view = {
 			//提交新增用户的表单
 			$("#btn-addUser").off('click.save').on("click.save",function(){
 				$.ajax({
-	        		url:$.urlRoot+"/platform/accountAction!addByManual.action",
+	        		url:$.urlRoot+"/platform/userAction!addByManual.action",
 	        		type:"post",
 	        		dataType:"json",
 	        		data:{
-	        				"account.userName":$("#addUser").find("[name=userName]").val(),
-	        				"account.realName":$("#addUser").find("[name=realName]").val(),
-	        				"account.password":$("#addUser").find("[name=password]").val(),
-	        				"account.nickName":$("#addUser").find("[name=nickName]").val(),
-	        				"account.email":$("#addUser").find("[name=email]").val(),
-	        				"account.tel":$("#addUser").find("[name=tel]").val(),
-	        				"account.roleCode":$("#addUser").find("[name=roleCode]").val()
+	        				"user.userName":$("#addUser").find("[name=userName]").val(),
+	        				"user.realName":$("#addUser").find("[name=realName]").val(),
+	        				"user.password":$("#addUser").find("[name=password]").val(),
+	        				"user.nickName":$("#addUser").find("[name=nickName]").val(),
+	        				"user.email":$("#addUser").find("[name=email]").val(),
+	        				"user.tel":$("#addUser").find("[name=tel]").val(),
+	        				"user.roleCode":$("#addUser").find("[name=roleCode]").val()
 	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
@@ -154,16 +154,16 @@ var view = {
 			$("#btn-updateUser").off('click.save').on("click.save",function(){
 				var userId = $("#table-user [name='slecteUser']:checked").eq(0).data("uid");
 				$.ajax({
-	        		url:$.urlRoot+"/platform/accountAction!updateUser.action",
+	        		url:$.urlRoot+"/platform/userAction!updateUser.action",
 	        		type:"post",
 	        		dataType:"json",
 	        		data:{
-	        				"account.id":userId,//被修改的用户的id
-	        				"account.userName":$("#updateUser").find("[name=userName]").val(),
-	        				"account.realName":$("#updateUser").find("[name=realName]").val(),
-	        				"account.nickName":$("#updateUser").find("[name=nickName]").val(),
-	        				"account.email":$("#updateUser").find("[name=email]").val(),
-	        				"account.tel":$("#updateUser").find("[name=tel]").val()
+	        				"user.id":userId,//被修改的用户的id
+	        				"user.userName":$("#updateUser").find("[name=userName]").val(),
+	        				"user.realName":$("#updateUser").find("[name=realName]").val(),
+	        				"user.nickName":$("#updateUser").find("[name=nickName]").val(),
+	        				"user.email":$("#updateUser").find("[name=email]").val(),
+	        				"user.tel":$("#updateUser").find("[name=tel]").val()
 	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
@@ -226,7 +226,7 @@ var view = {
 						],
 				"order": [[ 2, 'asc' ]],
 				"scrollX": true,//水平滚动条
-				"scrollXInner":"100%",
+				"scrollXInner":"110%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
@@ -235,7 +235,7 @@ var view = {
 		        	//alert(JSON.stringify(params));
 		        	params.push({name:"sSearch",value:params[5].value.value});
 		        	$.ajax({
-		        		url:$.urlRoot+"/platform/accountAction!listUsersByParams.action",
+		        		url:$.urlRoot+"/platform/userAction!listUsersByParams.action",
 		        		type:"post",
 		        		dataType:"json",
 		        		data:{dataTableParams:JSON.stringify(params)},
@@ -253,12 +253,12 @@ var view = {
 		        					var user = tables.user.row($tr).data(); //这一行的用户所有数据包括name什么的
 		        					var userId = user.id;
 		        					$.ajax({
-		        		        		url:$.urlRoot+"/platform/accountAction!updateStatus.action",
+		        		        		url:$.urlRoot+"/platform/userAction!updateStatus.action",
 		        		        		type:"post",
 		        		        		dataType:"json",
 		        		        		data:{
-		        		        				"account.id":userId,//被修改的用户的id
-		        		        				"account.status":status,
+		        		        				"user.id":userId,//被修改的用户的id
+		        		        				"user.status":status,
 		        		        		},
 		        		        		success:function(d){
 		        		        			//添加后刷新表格

@@ -27,7 +27,7 @@
 			</result>
 		</global-results>
 		<!-- 用户管理 -->
-		<action name="accountAction" class="accountAction">
+		<action name="userAction" class="userAction">
 			<!-- <result name="success" type="json">
 				<param name="root">json</param>
 			</result> -->
