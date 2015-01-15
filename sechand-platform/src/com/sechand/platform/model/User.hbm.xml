@@ -49,5 +49,8 @@
          <property name="introduction" type="java.lang.String">
             <column name="introduction" length="300" />
         </property>
+        <property name="balance" type="java.lang.String">
+            <column name="balance" length="45" />
+        </property>
     </class>
 </hibernate-mapping>

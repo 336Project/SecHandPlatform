@@ -25,8 +25,9 @@ public class User implements java.io.Serializable {
 	private String source;//用户来源
 	private String lastLoginTime;//最后一次登录时间
 	private String registerTime;//注册时间
-	private String status;//账户状态
+	private String status;//账号状态
 	private String introduction;//简介
+	private String balance;//余额
 	/*private String sex;//性别
 	private String age;//年龄
 	private String birthDate;//出生年月
@@ -117,6 +118,12 @@ public class User implements java.io.Serializable {
 	}
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
+	}
+	public String getBalance() {
+		return balance;
+	}
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 	
 }
