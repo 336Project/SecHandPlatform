@@ -16,6 +16,7 @@ public class Account implements Serializable{
 	private Integer id;
 	private Integer userId;//关联用户id
 	private String userName;//关联用户账号
+	private String nickName;//关联用户名称
 	private String createTime;//创建时间
 	private String completeTime;//完成时间
 	private String money;//交易金额
@@ -76,5 +77,11 @@ public class Account implements Serializable{
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 }

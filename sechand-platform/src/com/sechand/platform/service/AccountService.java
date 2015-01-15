@@ -41,4 +41,13 @@ public interface AccountService extends BaseService{
 	 * TODO 更新账户信息
 	 */
 	public boolean updateAccount(Account account);
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-15 下午6:07:45
+	 * @param id
+	 * @return 
+	 * TODO 确认充值
+	 */
+	public boolean confirmById(String id);
 }

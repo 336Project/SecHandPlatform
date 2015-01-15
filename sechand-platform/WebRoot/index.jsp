@@ -106,6 +106,8 @@ session.setAttribute("customer", Role.CODE_CUSTOMER);
 									  <dd class="d-introduction">${sessionScope.user.introduction}</dd>
 									</dl>
 									<dl class="dl-horizontal col-xs-6">
+									  <dt>账户余额</dt>
+									  <dd>${sessionScope.user.balance}</dd>
 									  <dt>上次登入时间</dt>
 									  <dd>${sessionScope.user.lastLoginTime}</dd>
 									  <dt>账户状态</dt>

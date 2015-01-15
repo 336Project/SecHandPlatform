@@ -25,6 +25,9 @@
         <property name="userName" type="java.lang.String" >
             <column name="user_name" length="45"/>
         </property>
+        <property name="nickName" type="java.lang.String" >
+            <column name="nick_name" length="45"/>
+        </property>
          <property name="money" type="java.lang.String" >
             <column name="money" length="45"/>
         </property>

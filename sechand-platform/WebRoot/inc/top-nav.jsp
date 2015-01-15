@@ -13,12 +13,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<li class="dropdown user-name">
 			<a class="dropdown-toggle" data-toggle="dropdown">
 			<!-- 用户名称 -->
-			<img src="<%=basePath%>/images/theme/avatarSeven.png" class="user-avatar" alt="" />${sessionScope.account.nickName}</a>
+			<img src="<%=basePath%>/images/theme/avatarSeven.png" class="user-avatar" alt="" />${sessionScope.user.nickName}</a>
 				<ul class="dropdown-menu right inbox user">
 					<li class="user-avatar">
 					<!-- 角色名称 -->
 						<img src="<%=basePath%>/images/theme/avatarSeven.png" class="user-avatar" alt="" />
-						${sessionScope.account.userName}
+						${sessionScope.user.userName}
 					</li>
 				<li>
 					<i class="icon-user avatar"></i>

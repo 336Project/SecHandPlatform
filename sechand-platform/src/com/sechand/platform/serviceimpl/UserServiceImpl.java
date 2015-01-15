@@ -63,6 +63,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 			whereParams.put("or_email_like", keyword);
 			whereParams.put("or_tel_like", keyword);
 			whereParams.put("or_status_like",keyword);
+			whereParams.put("or_balance_like",keyword);
 		}
 		return baseDao.listPageRowsByClassNameAndParams(User.class, whereParams, currentPage, pageSize);
 	}

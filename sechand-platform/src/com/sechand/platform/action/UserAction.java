@@ -212,6 +212,23 @@ public class UserAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-15 下午5:03:09
+	 * @return 
+	 * TODO 获取所有用户
+	 */
+	public String listAllUsers(){
+		List<User> users=userService.listUsers();
+		if(users!=null){
+			json.setMsg(users);
+			json.setSuccess(true);
+		}else{
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	
 	public String getUsername() {
 		return username;
