@@ -28,67 +28,170 @@ var view = {
 		tableTool:function(){
 			//取消订单
 			$("#btn-cancel").on("click.delete",function(){
-				var idList = [];//被选中的订单
 				var $orderId = $("#table-order [name='slecteOrder']:checked");
-				console.log(idList);
 				if($orderId.length>0){
-					for(var i =0;i<$orderId.length;i++){
-						idList.push($orderId.eq(i).data("uid"));
+					if($orderId.length>1){//避免还要解决并发问题
+						$.W.alert("一次只能取消一条记录！",true);
+					}else{
+						$.W.alert("确定取消该条订单？",true,function(){
+							//console.log(idList);
+							$.ajax({
+				        		url:$.urlRoot+"/platform/orderAction!cancelOrderById.action",
+				        		type:"post",
+				        		dataType:"json",
+				        		data:{ids:$orderId.eq(0).data("uid")},
+				        		success:function(d){
+				        			$.W.alert(d.msg,true);
+				        			//取消后刷新表格
+				        			if(d.success){
+				        				tables.order.draw();
+				        			}
+				        		}
+				        	});
+						});
 					}
-					$.W.alert("确定取消"+idList.length+"条订单？",true,function(){
-						//console.log(idList);
-						$.ajax({
-			        		url:$.urlRoot+"/platform/orderAction!updateStatusByIds.action",
-			        		type:"post",
-			        		dataType:"json",
-			        		data:{
-			        			ids:idList.toString(),
-			        			status:"已取消",
-			        			},
-			        		success:function(d){
-			        			$.W.alert(d.msg,true);
-			        			//取消后刷新表格
-			        			if(d.success){
-			        				tables.order.draw();
-			        			}
-			        		}
-			        	});
-					});
 				}else{
 					$.W.alert("请选中要取消的订单！",true);
 				}
 			});
-			//删除
-			$("#btn-delete").on("click.delete",function(){
-				var idList = [];//被选中的订单
-				var $orderId = $("#table-order [name='slecteOrder']:checked");
-				console.log(idList);
-				if($orderId.length>0){
-					for(var i =0;i<$orderId.length;i++){
-						idList.push($orderId.eq(i).data("uid"));
+			//订单确认
+			$("#btn-confirm").on("click.delete",function(){
+				var $ids = $("#table-order [name='slecteOrder']:checked");
+				if($ids.length>0){
+					if($ids.length>1){//避免还要解决并发问题
+						$.W.alert("一次只能确认一条记录！",true);
+					}else{
+						$.W.alert("确认之后，将从账户中扣去维修费用",true,function(){
+							$.ajax({
+				        		url:$.urlRoot+"/platform/orderAction!confirmOrderById.action",
+				        		type:"post",
+				        		dataType:"json",
+				        		data:{ids:$ids.eq(0).data("uid")},
+				        		success:function(d){
+				        			$.W.alert(d.msg,true);
+				        			//确认后刷新表格
+				        			if(d.success){
+				        				tables.order.draw();
+				        			}
+				        		}
+				        	});
+						});
 					}
-					$.W.alert("确定删除"+idList.length+"条订单？",true,function(){
-						//console.log(idList);
-						$.ajax({
-			        		url:$.urlRoot+"/platform/orderAction!deleteOrderByIds.action",
-			        		type:"post",
-			        		dataType:"json",
-			        		data:{
-			        			ids:idList.toString()
-			        			},
-			        		success:function(d){
-			        			$.W.alert(d.msg,true);
-			        			//删除后刷新表格
-			        			if(d.success){
-			        				tables.order.draw();
-			        			}
-			        		}
-			        	});
-					});
 				}else{
-					$.W.alert("请选中要删除的订单！",true);
+					$.W.alert("请选中要确认的记录！",true);
 				}
 			});
+			//点击报修按钮时，加载维修公司下拉框
+			$("#btn-modal-repair").click(function(){
+				$.ajax({
+			        type: "POST",
+			        contentType: "application/json;utf-8",
+			        dataType: "json",
+			        url:$.urlRoot+"/platform/userAction!listCompany.action",
+			        success: function (d) {
+			        	var html="" ;
+			        	var result=d.msg;
+			        	$("#companyId").empty();
+			        	for ( var i = 0; i < result.length; i++) {//动态加载公司
+							var r = result[i];
+							html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
+						}
+			            $("#companyId").append(html);
+			        }
+				});
+				//重置表单,ps:form元素才有reset
+    			$("#addRepair").find("form")[0].reset();
+				$("#addRepair").modal("show");
+			});
+			//提交报修的表单
+			$("#btn-addRepair").off('click.save').on("click.save",function(){
+				$.ajax({
+	        		url:$.urlRoot+"/platform/orderAction!repairByCustomer.action",
+	        		type:"post",
+	        		dataType:"json",
+	        		data:{
+	        				"order.userId":$("#addRepair").find("[name=userId]").val(),
+	        				"order.customerUser":$("#addRepair").find("[name=customerUser]").val(),
+	        				"order.repairContent":$("#addRepair").find("[name=repairContent]").val(),
+	        				"order.contactTelUser":$("#addRepair").find("[name=contactTelUser]").val(),
+	        				"order.companyId":$("#addRepair").find("[name=companyId]").val()
+	        		},
+	        		success:function(d){
+	        			$.W.alert(d.msg,true);
+	        			//添加后刷新表格
+	        			if(d.success){
+	        				tables.order.draw();
+	        			}
+	        		}
+	        	});
+			});
+			
+			
+			//为修改的表单赋值
+			$("#btn-modal-updateOrder").click(function(){
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if(order.status=="新订单"){
+					if($tr.length>1){
+						$.W.alert("不能同时编辑多条记录!",true);
+					}else if($tr.length<=0){
+						$.W.alert("请先选中行再点击修改!",true);
+					}else{
+						//将订单信息填充到表单上
+						$("#update-repairContent").val(order.repairContent);
+						$("#update-contactTelUser").val(order.contactTelUser);
+						$.ajax({
+					        type: "POST",
+					        contentType: "application/json;utf-8",
+					        dataType: "json",
+					        url:$.urlRoot+"/platform/userAction!listCompany.action",
+					        success: function (d) {
+					        	var html="" ;
+					        	var result=d.msg;
+					        	$("#update-companyId").empty();
+					        	for ( var i = 0; i < result.length; i++) {//动态加载公司
+									var r = result[i];
+									if(order.userId==r.id){
+										html += "<option selected='selected' value=" + r.id + ">" + r.nickName + "</option>\r\n";
+									}else{
+										html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
+									}
+								}
+					            $("#update-companyId").append(html);
+					        }
+						});
+						$("#updateRepair").modal("show");
+					}
+				}else{
+					$.W.alert("只有新订单才能修改!",true);
+				}
+			});
+			
+			//提交修改订单的表单
+			$("#btn-updateRepair").off('click.save').on("click.save",function(){
+				var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
+				$.ajax({
+	        		url:$.urlRoot+"/platform/orderAction!updateByCustomer.action",
+	        		type:"post",
+	        		dataType:"json",
+	        		data:{
+	        				"order.id":id ,//被修改的订单的id
+	        				"order.userId":$("#updateRepair").find("[name=userId]").val(),
+	        				"order.contactTelUser":$("#updateRepair").find("[name=contactTelUser]").val(),
+	        				"order.companyId":$("#updateRepair").find("[name=companyId]").val()
+	        		},
+	        		success:function(d){
+	        			$.W.alert(d.msg,true);
+	        			//添加后刷新表格
+	        			if(d.success){
+	        				tables.order.draw();
+	        			}
+	        		}
+	        	});
+			});
+			
 			//点击行选中或取消选中用户行
 			$("#table-order").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
@@ -119,16 +222,20 @@ var view = {
 									return str;
 					        	}
 							},
-							{data : 'customerUser',sTitle : "用户名称"}, 
-							{data : 'customerCompany',sTitle : "公司名称"}, 
+							{data : 'contactTelUser',sTitle : "我的联系电话"},
+							{data : 'customerCompany',sTitle : "维修公司名称"},
+							{data : 'contactTelCompany',sTitle : "公司联系电话"},
 							{data : 'createTime',sTitle : "创建时间"}, 
-							{data : 'completeTime',sTitle : "完成时间"}, 
-							{data : 'repairContent',sTitle : "报修内容"}, 
+							{data : 'quoteTime',sTitle : "报价时间"},
+							{data : 'completeTime',sTitle : "完成时间"},
+							{data : 'price',sTitle : "公司报价(元)"},
+							{data : 'receivables',sTitle : "应付金额(元)"},
+							{data : 'repairContent',sTitle : "报修内容"},
 							{data : 'status',sTitle : "状态"}
 						],
 				"order": [[ 1, 'asc' ]],
 				"scrollX": true,//水平滚动条
-				"scrollXInner":"100%",
+				"scrollXInner":"120%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度

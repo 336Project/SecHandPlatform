@@ -77,10 +77,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
 								<div class="tb-tools">
-									<button type="button" class="btn btn-primary" id="btn-modal-adduser">报修</button>
-									<button type="button" class="btn btn-primary" id="btn-modal-updateuser">修改</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-repair">报修</button>
+									<button type="button" class="btn btn-primary" id="btn-confirm">确认</button>
+									<button type="button" class="btn btn-warning" id="btn-modal-updateOrder">修改</button>
 									<button id="btn-cancel" type="button" class="btn btn-warning">取消</button>
-									<button id="btn-delete" type="button" class="btn btn-warning">删 除</button>
 								</div>
 								<table id="table-order" class="hover order-column"></table>
 							</div>
@@ -90,6 +90,88 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<!-- 主要内容 end'-->
+		<!-- 报修弹出框 start  -->
+		<div class="modal fade" id="addRepair" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">报修</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
+				    <div class="col-sm-8">
+				      <textarea rows="8" class="form-control" id="repairContent" name="repairContent" placeholder="请填写需要维修事项"></textarea>
+				      <input type="text" class="form-control" id="userId" placeholder="" name="userId" value="${sessionScope.user.id}" style="display: none;">
+				      <input type="text" class="form-control" id="customerUser" placeholder="" name="customerUser" value="${sessionScope.user.nickName}" style="display: none;">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">我的联系电话</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="contactTelUser" placeholder="请输入正确的手机格式" name="contactTelUser" value="${sessionScope.user.tel}">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">维修公司</label>
+					    <div class="col-sm-8">
+						     <select class="form-control" id="companyId" name="companyId" >
+							 </select>
+					    </div>
+				  </div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button id="btn-addRepair" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- 报修弹出框  end  -->
+		<!-- 报修修改弹出框 start  -->
+		<div class="modal fade" id="updateRepair" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">报修</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
+				    <div class="col-sm-8">
+				      <textarea rows="8" class="form-control" id="update-repairContent" name="repairContent" placeholder="请填写需要维修事项"></textarea>
+				      <input type="text" class="form-control" id="update-userId" placeholder="" name="userId" value="${sessionScope.user.id}" style="display: none;">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">我的联系电话</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-contactTelUser" placeholder="请输入正确的手机格式" name="contactTelUser">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">维修公司</label>
+					    <div class="col-sm-8">
+						     <select class="form-control" id="update-companyId" name="companyId" >
+							 </select>
+					    </div>
+				  </div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button id="btn-updateRepair" type="button" class="btn btn-primary" data-dismiss="modal">修改</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- 报修修改弹出框  end  -->
 		<div class="row footer">
 			<div class="col-md-12 text-center">
 				© 2015 <a href="#">版权申明</a>

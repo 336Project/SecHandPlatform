@@ -17,6 +17,7 @@ public class OrderAction extends BaseAction{
 	private String ids;
 	private String dataTableParams;//表单参数,json格式
 	private String status;//订单状态
+	private Order order;
 	
 	/**
 	 * 
@@ -42,7 +43,7 @@ public class OrderAction extends BaseAction{
 	 * 
 	 * 2015-1-14 下午5:28:40
 	 * @return 
-	 * TODO 根据ids批量作废订单(只有用于管理员操作)
+	 * TODO 根据ids批量作废订单
 	 */
 	public String disableOrderByIds(){
 		if(orderService.disableByIds(ids)){
@@ -52,28 +53,6 @@ public class OrderAction extends BaseAction{
 			json.setMsg("作废失败!");
 			json.setSuccess(false);
 		}
-		return SUCCESS;
-	}
-	/**
-	 * 
-	 * @Author:Helen  
-	 * 2015-1-14下午9:12:57
-	 * @return
-	 * String
-	 * @TODO 获取普通用户的订单列表信息
-	 */
-	public String listCustomerOrdersByParams(){
-		DataTableParams params=DataTableParams.getInstance();
-		params.parse(dataTableParams);
-		Map<String, Object> dataMap=new HashMap<String, Object>();
-		List<Order> orders=orderService.listCustomerOrdersByPageRows(8,params.current_page, params.page_size, params.keyword);
-		int count=orderService.countCustomerByKeyword(8,params.keyword);
-		dataMap.put("recordsTotal", count);
-		dataMap.put("recordsFiltered", count);
-		dataMap.put("draw",params.draw);
-		dataMap.put("data", orders);
-		json.setMsg(dataMap);
-		json.setSuccess(true);
 		return SUCCESS;
 	}
 	/**
@@ -114,6 +93,100 @@ public class OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	//用户操作
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-14下午9:12:57
+	 * @return
+	 * String
+	 * @TODO 获取用户的订单列表信息
+	 */
+	public String listCustomerOrdersByParams(){
+		DataTableParams params=DataTableParams.getInstance();
+		params.parse(dataTableParams);
+		Map<String, Object> dataMap=new HashMap<String, Object>();
+		List<Order> orders=orderService.listCustomerOrdersByPageRows(params.current_page, params.page_size, params.keyword);
+		int count=orderService.countCustomerByKeyword(params.keyword);
+		dataMap.put("recordsTotal", count);
+		dataMap.put("recordsFiltered", count);
+		dataMap.put("draw",params.draw);
+		dataMap.put("data", orders);
+		json.setMsg(dataMap);
+		json.setSuccess(true);
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * 2015-1-16 下午3:47:57
+	 * @return 
+	 * TODO 用户报修
+	 */
+	public String repairByCustomer(){
+		String msg=orderService.repairByCustomer(order);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("报修失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午3:31:46
+	 * @return 
+	 * TODO 用户更新报修
+	 */
+	public String updateByCustomer(){
+		String msg=orderService.updateByCustomer(order);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("修改失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午4:14:53
+	 * @return 
+	 * TODO 批量取消订单
+	 */
+	public String cancelOrderById(){
+		String msg=orderService.cancelById(ids);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("取消失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午4:32:10
+	 * @return  
+	 * TODO 订单确认
+	 */
+	public String confirmOrderById(){
+		String msg=orderService.confirmById(ids);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("确认失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	
 	public OrderService getOrderService() {
 		return orderService;
@@ -142,5 +215,11 @@ public class OrderAction extends BaseAction{
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 }

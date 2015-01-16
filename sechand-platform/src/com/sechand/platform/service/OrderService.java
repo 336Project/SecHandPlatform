@@ -54,7 +54,7 @@ public interface OrderService extends BaseService{
 	 * List<Order>
 	 * @TODO 获取一个普通用户的所有订单信息
 	 */
-	public List<Order> listCustomerOrdersByPageRows(int userId,int currentPage, int pageSize, String keyword);
+	public List<Order> listCustomerOrdersByPageRows(int currentPage, int pageSize, String keyword);
 	/**
 	 * 
 	 * 2015-1-14 下午5:08:50
@@ -62,5 +62,41 @@ public interface OrderService extends BaseService{
 	 * @return 
 	 * TODO 根据关键字统计用户订单记录个数
 	 */
-	public int countCustomerByKeyword(Integer userId,String keyword);
+	public int countCustomerByKeyword(String keyword);
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午3:32:51
+	 * @param order
+	 * @return 
+	 * TODO 用户更新报修信息
+	 */
+	public String updateByCustomer(Order order);
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午3:48:44
+	 * @param order
+	 * @return 
+	 * TODO 用户报修
+	 */
+	public String repairByCustomer(Order order);
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午4:29:59
+	 * @param id
+	 * @return 
+	 * TODO 根据订单id取消订单
+	 */
+	public String cancelById(String id);
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午4:29:59
+	 * @param id
+	 * @return 
+	 * TODO 根据订单id确认订单
+	 */
+	public String confirmById(String id);
 }

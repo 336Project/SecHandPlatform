@@ -22,6 +22,9 @@
         <property name="completeTime" type="java.lang.String" >
             <column name="complete_time" length="45"/>
         </property>
+         <property name="quoteTime" type="java.lang.String" >
+            <column name="quote_time" length="45"  />
+        </property>
         <property name="status" type="java.lang.String" >
             <column name="status" length="45"/>
         </property>

@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 import com.sechand.platform.base.BaseAction;
+import com.sechand.platform.model.Role;
 import com.sechand.platform.model.User;
 import com.sechand.platform.service.UserService;
 import com.sechand.platform.utils.DataTableParams;
@@ -122,12 +123,6 @@ public class UserAction extends BaseAction{
 		dataMap.put("data", users);
 		json.setMsg(dataMap);
 		json.setSuccess(true);
-		/*if(users!=null){
-			json.setMsg(dataMap);
-			json.setSuccess(true);
-		}else{
-			json.setSuccess(false);
-		}*/
 		return SUCCESS;
 	}
 	/**
@@ -214,7 +209,6 @@ public class UserAction extends BaseAction{
 	}
 	/**
 	 * 
-	 * @author lixiaowei
 	 * 2015-1-15 下午5:03:09
 	 * @return 
 	 * TODO 获取所有用户
@@ -229,6 +223,21 @@ public class UserAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
+	/**
+	 * 
+	 * 2015-1-16 下午3:27:31
+	 * @return 
+	 * TODO 获取所有公司用户
+	 */
+	public String listCompany(){
+		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("roleCode", Role.CODE_COMPANY);
+		List<User> users=userService.listByClassNameAndParams(User.class, whereParams);
+		json.setMsg(users);
+		json.setSuccess(true);
+		return SUCCESS;
+	}
+	
 	
 	public String getUsername() {
 		return username;

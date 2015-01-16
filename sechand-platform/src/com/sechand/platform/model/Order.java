@@ -7,8 +7,9 @@ import java.io.Serializable;
  */
 public class Order implements Serializable{
 	private static final long serialVersionUID = 8708517204948499216L;
-	public static final String STATUS_COM="已完成";
 	public static final String STATUS_NEW="新订单";
+	public static final String STATUS_QUOTE="已报价";
+	public static final String STATUS_COM="已完成";
 	public static final String STATUS_CONFIRM="已确认";
 	public static final String STATUS_CANCEL="已取消";
 	public static final String STATUS_INVALID="已作废";
@@ -20,6 +21,7 @@ public class Order implements Serializable{
 	private String customerCompany;//维修公司账户名称
 	private String createTime;//创建时间
 	private String completeTime;//完成时间
+	private String quoteTime;//报价时间
 	private String repairContent;//报修内容
 	private String contactTelUser;//客户联系电话
 	private String contactTelCompany;//公司联系电话
@@ -103,6 +105,12 @@ public class Order implements Serializable{
 	}
 	public void setReceivables(String receivables) {
 		this.receivables = receivables;
+	}
+	public String getQuoteTime() {
+		return quoteTime;
+	}
+	public void setQuoteTime(String quoteTime) {
+		this.quoteTime = quoteTime;
 	}
 	
 }
