@@ -28,8 +28,8 @@ public class AccountAction extends BaseAction {
 		DataTableParams params=DataTableParams.getInstance();
 		params.parse(dataTableParams);
 		Map<String, Object> dataMap=new HashMap<String, Object>();
-		List<Account> accounts=accountService.listPageRowsAccountsByKeyword(params.current_page, params.page_size, params.keyword);
-		int count=accountService.countByKeyword(params.keyword);
+		List<Account> accounts=accountService.listPageRowsAccountsByKeyword(params.current_page, params.page_size, params.keyword,true);
+		int count=accountService.countByKeyword(params.keyword,true);
 		dataMap.put("recordsTotal", count);
 		dataMap.put("recordsFiltered", count);
 		dataMap.put("draw",params.draw);
@@ -90,6 +90,62 @@ public class AccountAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	
+	//用户操作
+	/**
+	 * 
+	 * 2015-1-16 下午1:09:42
+	 * @return 
+	 * TODO 用户取消充值记录
+	 */
+	public String cancelAccountById(){
+		String msg=accountService.cancelById(ids);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("取消失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 2015-1-16 下午1:11:57
+	 * @return 
+	 * TODO 用户申请充值
+	 */
+	public String applyRecharge(){
+		if(account!=null) account.setSource(Account.SOURCE_USER);
+		if(accountService.add(account)>0){
+			json.setMsg("充值成功，等待确认!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("充值失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * 2015-1-16 下午1:41:18
+	 * @return 
+	 * TODO 获取相关用户的账户信息
+	 */
+	public String listAccountsByUser(){
+		DataTableParams params=DataTableParams.getInstance();
+		params.parse(dataTableParams);
+		Map<String, Object> dataMap=new HashMap<String, Object>();
+		List<Account> accounts=accountService.listPageRowsAccountsByKeyword(params.current_page, params.page_size, params.keyword,false);
+		int count=accountService.countByKeyword(params.keyword,false);
+		dataMap.put("recordsTotal", count);
+		dataMap.put("recordsFiltered", count);
+		dataMap.put("draw",params.draw);
+		dataMap.put("data", accounts);
+		json.setMsg(dataMap);
+		json.setSuccess(true);
+		return SUCCESS;
+	}
+	
 	
 	public AccountService getAccountService() {
 		return accountService;

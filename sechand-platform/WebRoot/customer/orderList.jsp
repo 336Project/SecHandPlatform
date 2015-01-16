@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!-- self css -->
   <link rel="stylesheet" href="../js/lib/switch/css/bootstrap-switch.min.css" type="text/css"></link>
-  <link rel="stylesheet" type="text/css" href="css/orderCustomerList.css">
+  <link rel="stylesheet" type="text/css" href="css/userList.css">
   
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
@@ -99,6 +99,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<script src="../js/archon.js"></script>
 	<script type="text/javascript" src="../js/lib/switch/js/bootstrap-switch.min.js"></script>
-	<script type="text/javascript" src="js/orderCustomerList.js"></script>
+	<script type="text/javascript" src="js/orderList.js"></script>
 </body>
 </html>

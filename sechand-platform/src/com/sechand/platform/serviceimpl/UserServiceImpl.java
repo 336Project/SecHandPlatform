@@ -39,6 +39,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		user.setRoleName(role.getName());
 		user.setPassword(SysUtils.encrypt(user.getPassword()));
 		user.setStatus(User.STATUS_NORMAL);
+		user.setBalance("0");
 		return baseDao.save(user);
 	}
 

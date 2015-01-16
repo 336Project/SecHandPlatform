@@ -8,6 +8,7 @@ public class Account implements Serializable{
 	private static final long serialVersionUID = -3761987714840801074L;
 	public static final String STATUS_CONFIRM="已确认";
 	public static final String STATUS_TO_CONFIRM="待确认";
+	public static final String STATUS_CANCEL="已取消";
 	
 	public static final String TYPE_RECHARGE="充值";
 	public static final String TYPE_CONSUME="消费";

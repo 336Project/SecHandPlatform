@@ -2,6 +2,7 @@ package com.sechand.platform.service;
 
 import java.util.List;
 
+import com.opensymphony.xwork2.util.ResolverUtil.IsA;
 import com.sechand.platform.base.BaseService;
 import com.sechand.platform.model.Account;
 
@@ -14,10 +15,11 @@ public interface AccountService extends BaseService{
 	 * @param currentPage
 	 * @param pageSize
 	 * @param keyword
+	 * @param isAdmin 是否是管理员
 	 * @return 
 	 * TODO 根据搜索关键字分页获取数据
 	 */
-	public List<Account> listPageRowsAccountsByKeyword(int currentPage,int pageSize,String keyword);
+	public List<Account> listPageRowsAccountsByKeyword(int currentPage,int pageSize,String keyword,boolean isAdmin);
 	/**
 	 * 
 	 * 2015-1-6 下午12:54:15
@@ -25,7 +27,7 @@ public interface AccountService extends BaseService{
 	 * @return 
 	 * TODO 根据搜索关键字统计记录条数
 	 */
-	public int countByKeyword(String keyword);
+	public int countByKeyword(String keyword,boolean isAdmin);
 	/**
 	 * 
 	 * 2015-1-8 下午4:50:25
@@ -50,4 +52,13 @@ public interface AccountService extends BaseService{
 	 * TODO 确认充值
 	 */
 	public String confirmById(String id);
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-1-16 下午1:03:20
+	 * @param id
+	 * @return 
+	 * TODO 取消充值
+	 */
+	public String cancelById(String id);
 }

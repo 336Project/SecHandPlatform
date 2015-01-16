@@ -9,9 +9,11 @@ import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseServiceImpl;
 import com.sechand.platform.model.Account;
+import com.sechand.platform.model.Role;
 import com.sechand.platform.model.User;
 import com.sechand.platform.service.AccountService;
 import com.sechand.platform.utils.SysUtils;
+import com.sechand.platform.utils.WebUtil;
 
 public class AccountServiceImpl extends BaseServiceImpl implements
 		AccountService {
@@ -34,8 +36,16 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public List<Account> listPageRowsAccountsByKeyword(int currentPage,
-			int pageSize, String keyword) {
+			int pageSize, String keyword,boolean isAdmin) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
+		//用户校验
+		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		if(user==null) return null;
+		if(!isAdmin){//非管理员，则获取相应用户的信息
+			whereParams.put("userId", user.getId());
+		}else{
+			if(!Role.CODE_ADMIN.equals(user.getRoleCode())) return null;
+		}
 		if(!StringUtils.isEmpty(keyword)){
 			whereParams.put("or_userName_like", keyword);
 			whereParams.put("or_createTime_like", keyword);
@@ -49,8 +59,16 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public int countByKeyword(String keyword) {
+	public int countByKeyword(String keyword,boolean isAdmin) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
+		//用户校验
+		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		if(user==null) return 0;
+		if(!isAdmin){//非管理员，则获取相应用户的信息
+			whereParams.put("userId", user.getId());
+		}else{
+			if(!Role.CODE_ADMIN.equals(user.getRoleCode())) return 0;
+		}
 		if(!StringUtils.isEmpty(keyword)){
 			whereParams.put("or_userName_like", keyword);
 			whereParams.put("or_createTime_like", keyword);
@@ -78,27 +96,46 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 		Account account=baseDao.getByClassAndId(Account.class, Integer.valueOf(id));
 		if(account!=null){
 			if(!Account.STATUS_CONFIRM.equals(account.getStatus())){
-				User user=baseDao.getByClassNameAndId(User.class, account.getUserId());
-				if(user!=null){
-					try{
-						String current_balance=user.getBalance();//获取当前余额
-						if(StringUtils.isBlank(current_balance)){
-							current_balance="0";
+				if(Account.STATUS_CANCEL.equals(account.getStatus())){
+					return "该充值已取消,不能确认!";
+				}else{
+					User user=baseDao.getByClassNameAndId(User.class, account.getUserId());
+					if(user!=null){
+						try{
+							String current_balance=user.getBalance();//获取当前余额
+							if(StringUtils.isBlank(current_balance)){
+								current_balance="0";
+							}
+							double balance=Double.parseDouble(current_balance)+Double.parseDouble(account.getMoney());
+							//更新账户记录状态
+							Map<String, Object> parmas=new HashMap<String, Object>();
+							parmas.put("status", Account.STATUS_CONFIRM);
+							parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
+							baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
+							//更新用户余额
+							baseDao.updateColumnById(User.class, "balance", SysUtils.getMoneyFormat(balance), user.getId());
+							return "确认成功!";
+						}catch (Exception e) {
 						}
-						double balance=Double.parseDouble(current_balance)+Double.parseDouble(account.getMoney());
-						//更新账户记录状态
-						Map<String, Object> parmas=new HashMap<String, Object>();
-						parmas.put("status", Account.STATUS_CONFIRM);
-						parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
-						baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
-						//更新用户余额
-						baseDao.updateColumnById(User.class, "balance", SysUtils.getMoneyFormat(balance), user.getId());
-						return "确认成功!";
-					}catch (Exception e) {
 					}
 				}
 			}else{
-				return "不能重复确认!";
+				return "该记录已确认过，请勿重复确认!";
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String cancelById(String id) {
+		Account account=baseDao.getByClassAndId(Account.class, Integer.valueOf(id));
+		if(account!=null){
+			if(Account.STATUS_TO_CONFIRM.equals(account.getStatus())){
+				//更新账户记录状态
+				baseDao.updateColumnById(Account.class, "status", Account.STATUS_CANCEL, account.getId());
+				return "取消成功!";
+			}else{
+				return "只有待确认的记录,才能取消!";
 			}
 		}
 		return null;

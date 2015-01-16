@@ -8,7 +8,7 @@
 			<interceptor name="AuthInterceptors"
 				class="com.sechand.platform.base.auth.AuthorityInterceptor">
 				<!-- 不进行验证的方法 -->
-				<param name="excludeName">login,register,listRole</param>
+				<param name="excludeName">login,register,listRole,logout</param>
 			</interceptor>
 			<interceptor-stack name="LoginInterceptors">
 				<interceptor-ref name="AuthInterceptors"></interceptor-ref>
