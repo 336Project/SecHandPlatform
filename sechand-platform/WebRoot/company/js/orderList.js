@@ -26,69 +26,85 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
-			//取消订单
-			$("#btn-cancel").on("click.delete",function(){
-				var idList = [];//被选中的订单
-				var $orderId = $("#table-order [name='slecteOrder']:checked");
-				console.log(idList);
-				if($orderId.length>0){
-					for(var i =0;i<$orderId.length;i++){
-						idList.push($orderId.eq(i).data("uid"));
+			
+			//为报价的表单赋值
+			$("#btn-modal-updateOrder").click(function(){
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if(order.status=="新订单"){
+					if($tr.length>1){
+						$.W.alert("不能同时报价多条记录!",true);
+					}else if($tr.length<=0){
+						$.W.alert("请先选中行再点击报价!",true);
+					}else{
+						//将订单信息填充到表单上
+						$("#update-repairContent").val(order.repairContent);
+						$("#update-contactTelUser").val(order.contactTelUser);
+						$("#update-price").val("");
+						$("#updateRepair").modal("show");
 					}
-					$.W.alert("确定取消"+idList.length+"条订单？",true,function(){
-						//console.log(idList);
-						$.ajax({
-			        		url:$.urlRoot+"/platform/orderAction!updateStatusByIds.action",
-			        		type:"post",
-			        		dataType:"json",
-			        		data:{
-			        			ids:idList.toString(),
-			        			status:"已取消",
-			        			},
-			        		success:function(d){
-			        			$.W.alert(d.msg,true);
-			        			//取消后刷新表格
-			        			if(d.success){
-			        				tables.order.draw();
-			        			}
-			        		}
-			        	});
-					});
 				}else{
-					$.W.alert("请选中要取消的订单！",true);
+					$.W.alert("只有新订单才能报价!",true);
 				}
 			});
-			//删除
-			$("#btn-delete").on("click.delete",function(){
-				var idList = [];//被选中的订单
-				var $orderId = $("#table-order [name='slecteOrder']:checked");
-				console.log(idList);
-				if($orderId.length>0){
-					for(var i =0;i<$orderId.length;i++){
-						idList.push($orderId.eq(i).data("uid"));
+			
+			//提交报价订单的表单
+			$("#btn-updateRepair").off('click.save').on("click.save",function(){
+				var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
+				$.ajax({
+	        		url:$.urlRoot+"/platform/orderAction!quoteOrderByCompany.action",
+	        		type:"post",
+	        		dataType:"json",
+	        		data:{
+	        				"order.id":id ,//被修改的订单的id
+	        				"order.price":$("#updateRepair").find("[name=price]").val(),
+	        				"order.contactTelCompany":$("#updateRepair").find("[name=contactTelCompany]").val(),
+	        		},
+	        		success:function(d){
+	        			$.W.alert(d.msg,true);
+	        			//添加后刷新表格
+	        			if(d.success){
+	        				tables.order.draw();
+	        			}
+	        		}
+	        	});
+			});
+			
+			//订单完成
+			$("#btn-complete").on("click.delete",function(){
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if(order.status=="已报价"){
+					if($tr.length>0){
+						if($tr.length>1){//避免还要解决并发问题
+							$.W.alert("一次只能完成一条记录！",true);
+						}else{
+							$.W.alert("完成之后，等待客户确认后，费用才会到账!",true,function(){
+								$.ajax({
+					        		url:$.urlRoot+"/platform/orderAction!completeOrderById.action",
+					        		type:"post",
+					        		dataType:"json",
+					        		data:{ids:order.id},
+					        		success:function(d){
+					        			$.W.alert(d.msg,true);
+					        			//完成后刷新表格
+					        			if(d.success){
+					        				tables.order.draw();
+					        			}
+					        		}
+					        	});
+							});
+						}
+					}else{
+						$.W.alert("请选中要完成的记录！",true);
 					}
-					$.W.alert("确定删除"+idList.length+"条订单？",true,function(){
-						//console.log(idList);
-						$.ajax({
-			        		url:$.urlRoot+"/platform/orderAction!deleteOrderByIds.action",
-			        		type:"post",
-			        		dataType:"json",
-			        		data:{
-			        			ids:idList.toString()
-			        			},
-			        		success:function(d){
-			        			$.W.alert(d.msg,true);
-			        			//删除后刷新表格
-			        			if(d.success){
-			        				tables.order.draw();
-			        			}
-			        		}
-			        	});
-					});
 				}else{
-					$.W.alert("请选中要删除的订单！",true);
+					$.W.alert("只有已报价的订单才能完成！",true);
 				}
 			});
+			
 			//点击行选中或取消选中用户行
 			$("#table-order").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
@@ -119,16 +135,19 @@ var view = {
 									return str;
 					        	}
 							},
-							{data : 'customerUser',sTitle : "用户名称"}, 
-							{data : 'customerCompany',sTitle : "公司名称"}, 
+							{data : 'contactTelUser',sTitle : "我的联系电话"},
+							{data : 'customerUser',sTitle : "客户名称"},
+							{data : 'contactTelUser',sTitle : "客户联系电话"},
 							{data : 'createTime',sTitle : "创建时间"}, 
-							{data : 'completeTime',sTitle : "完成时间"}, 
-							{data : 'repairContent',sTitle : "报修内容"}, 
+							{data : 'quoteTime',sTitle : "报价时间"},
+							{data : 'completeTime',sTitle : "完成时间"},
+							{data : 'price',sTitle : "公司报价(元)"},
+							{data : 'repairContent',sTitle : "报修内容"},
 							{data : 'status',sTitle : "状态"}
 						],
 				"order": [[ 1, 'asc' ]],
 				"scrollX": true,//水平滚动条
-				"scrollXInner":"100%",
+				"scrollXInner":"120%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度

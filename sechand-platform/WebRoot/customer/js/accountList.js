@@ -79,6 +79,34 @@ var view = {
 	        		}
 	        	});
 			});
+			
+			//提现
+			$("#btn-modal-pickup").on("click.delete",function(){
+				$("#pickupAccount").find("form")[0].reset();
+				$("#pickupAccount").modal("show");
+			});
+			//提交提现的表单
+			$("#btn-pickupAccount").off('click.save').on("click.save",function(){
+				var balance=$("#pickupAccount").find("[name=balance]").val();
+				var money=$("#pickupAccount").find("[name=money]").val();
+				$.ajax({
+	        		url:$.urlRoot+"/platform/accountAction!applyPickup.action",
+	        		type:"post",
+	        		dataType:"json",
+	        		data:{
+	        				"account.userId":$("#pickupAccount").find("[name=userId]").val(),
+	        				"account.balance":balance,
+	        				"account.money":money
+	        		},
+	        		success:function(d){
+	        			$.W.alert(d.msg,true);
+	        			//添加后刷新表格
+	        			if(d.success){
+	        				tables.account.draw();
+	        			}
+	        		}
+	        	});
+			});
 			//点击行选中或取消选中用户行
 			$("#table-account").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
@@ -112,6 +140,7 @@ var view = {
 							},
 							{data : 'userName',sTitle : "用户账号"}, 
 							{data : 'nickName',sTitle : "用户名称"},
+							{data : 'balance',sTitle : "当前余额"},
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'completeTime',sTitle : "完成时间"}, 
 							{data : 'money',sTitle : "交易金额(元)"}, 

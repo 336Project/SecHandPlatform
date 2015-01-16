@@ -141,4 +141,33 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 		return null;
 	}
 
+	@Override
+	public String pickup(Account account) {
+		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		if(account!=null&&user!=null){
+			if(user.getId().equals(account.getUserId())){
+				double balance=Double.valueOf(account.getBalance());
+				double money=Double.valueOf(account.getMoney());
+				if(balance>money){
+					Account a=new Account();
+					a.setType(Account.TYPE_PICKUP);
+					a.setSource(Account.SOURCE_USER);
+					a.setStatus(Account.STATUS_TO_PICKUP);
+					a.setBalance(SysUtils.getMoneyFormat(balance));
+					a.setCreateTime(SysUtils.getDateFormat(new Date()));
+					a.setMoney("-"+SysUtils.getMoneyFormat(money));
+					a.setNickName(user.getNickName());
+					a.setUserId(user.getId());
+					a.setUserName(user.getUserName());
+					a.setRemark("用户提现");
+					baseDao.save(Account.class, a);
+					return "提现申请成功，等待确认!";
+				}else{
+					return "当前最多可提现￥"+balance;
+				}
+			}
+		}
+		return null;
+	}
+
 }

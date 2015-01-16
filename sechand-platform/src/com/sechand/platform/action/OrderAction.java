@@ -188,6 +188,46 @@ public class OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	//公司操作
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-16下午9:23:30
+	 * @return
+	 * String
+	 * @TODO 公司对新订单进行报价
+	 */
+	public String quoteOrderByCompany(){
+		String msg=orderService.quoteByOrder(order);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("报价失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-16下午9:43:58
+	 * @return
+	 * String
+	 * @TODO 完成维修
+	 */
+	public String completeOrderById(){
+		String msg=orderService.completeById(ids);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("操作失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	
 	public OrderService getOrderService() {
 		return orderService;
 	}

@@ -243,6 +243,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 						account.setUserId(customer.getId());
 						account.setUserName(customer.getUserName());
 						account.setCompleteTime(SysUtils.getDateFormat(new Date()));
+						account.setBalance(SysUtils.getMoneyFormat(customer_balance));
 						baseDao.save(Account.class, account);
 						//添加公司账户信息
 						Account account2=new Account();
@@ -256,6 +257,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 						account2.setUserId(company.getId());
 						account2.setUserName(company.getUserName());
 						account2.setCompleteTime(SysUtils.getDateFormat(new Date()));
+						account2.setBalance(SysUtils.getMoneyFormat(company_balance));
 						baseDao.save(Account.class, account2);
 						//更新用户余额
 						baseDao.updateColumnById(User.class, "balance", SysUtils.getMoneyFormat(customer_balance), customer.getId());
@@ -267,6 +269,46 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 					}
 				}else{
 					return "只有已完成的订单,才可以确认!";
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String quoteByOrder(Order order) {
+		if(order!=null){
+			User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+			Order o=baseDao.getByClassNameAndId(Order.class, order.getId());
+			if(user!=null&&o!=null){
+				if(!Order.STATUS_NEW.equals(o.getStatus())) return"只有新订单才能报价!";
+				if(user.getId().equals(o.getCompanyId())){//当前登录用户与操作当前订单的公司id一样
+					Map<String, Object> parmas=new HashMap<String, Object>();
+					parmas.put("price", order.getPrice());
+					parmas.put("contactTelCompany", order.getContactTelCompany());
+					parmas.put("quoteTime", SysUtils.getDateFormat(new Date()));
+					parmas.put("status", Order.STATUS_QUOTE);
+					baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
+					return "报价成功!";
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String completeById(String id) {
+		if(StringUtils.isNotBlank(id)){
+			Order order=baseDao.getByClassAndId(Order.class, Integer.valueOf(id));
+			if(order!=null){
+				if(Order.STATUS_QUOTE.equals(order.getStatus())){
+					Map<String, Object> parmas=new HashMap<String, Object>();
+					parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
+					parmas.put("status", Order.STATUS_COM);
+					baseDao.updateColumnsByParmas(Order.class, order.getId(), parmas);
+					return "操作成功!";
+				}else {
+					return "只有已报价的订单，才能完成!";
 				}
 			}
 		}

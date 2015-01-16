@@ -26,34 +26,35 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
-			//取消
-			$("#btn-cancel").on("click.delete",function(){
-				var $ids = $("#table-account [name='slecteAccount']:checked");
-				if($ids.length>0){
-					if($ids.length>1){//避免还要解决并发问题
-						$.W.alert("一次只能取消一条记录！",true);
-					}else{
-						$.W.alert("确定要取消该充值申请吗？",true,function(){
-							$.ajax({
-				        		url:$.urlRoot+"/platform/accountAction!cancelAccountById.action",
-				        		type:"post",
-				        		dataType:"json",
-				        		data:{ids:$ids.eq(0).data("uid")},
-				        		success:function(d){
-				        			$.W.alert(d.msg,true);
-				        			//确认后刷新表格
-				        			if(d.success){
-				        				tables.account.draw();
-				        			}
-				        		}
-				        	});
-						});
-					}
-				}else{
-					$.W.alert("请选中要取消的记录！",true);
-				}
+			//提现
+			$("#btn-modal-pickup").on("click.delete",function(){
+				$("#pickupAccount").find("form")[0].reset();
+				$("#pickupAccount").modal("show");
 			});
-			//点击充值按钮时，加载用户下拉框
+			//提交提现的表单
+			$("#btn-pickupAccount").off('click.save').on("click.save",function(){
+				var balance=$("#pickupAccount").find("[name=balance]").val();
+				var money=$("#pickupAccount").find("[name=money]").val();
+				$.ajax({
+	        		url:$.urlRoot+"/platform/accountAction!applyPickup.action",
+	        		type:"post",
+	        		dataType:"json",
+	        		data:{
+	        				"account.userId":$("#pickupAccount").find("[name=userId]").val(),
+	        				"account.balance":balance,
+	        				"account.money":money
+	        		},
+	        		success:function(d){
+	        			$.W.alert(d.msg,true);
+	        			//添加后刷新表格
+	        			if(d.success){
+	        				tables.account.draw();
+	        			}
+	        		}
+	        	});
+			});
+			
+			//点击充值按钮时
 			$("#btn-modal-addAccount").click(function(){
 				//重置表单,ps:form元素才有reset
     			$("#addAccount").find("form")[0].reset();
@@ -112,6 +113,7 @@ var view = {
 							},
 							{data : 'userName',sTitle : "用户账号"}, 
 							{data : 'nickName',sTitle : "用户名称"},
+							{data : 'balance',sTitle : "当前余额"},
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'completeTime',sTitle : "完成时间"}, 
 							{data : 'money',sTitle : "交易金额(元)"}, 

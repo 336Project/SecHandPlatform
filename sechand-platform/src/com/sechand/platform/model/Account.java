@@ -9,10 +9,13 @@ public class Account implements Serializable{
 	public static final String STATUS_CONFIRM="已确认";
 	public static final String STATUS_TO_CONFIRM="待确认";
 	public static final String STATUS_CANCEL="已取消";
+	public static final String STATUS_PICKUP="已提现";
+	public static final String STATUS_TO_PICKUP="待提现";
 	
 	public static final String TYPE_RECHARGE="充值";
 	public static final String TYPE_CONSUME="消费";
 	public static final String TYPE_TO_ACCOUNT="到账";
+	public static final String TYPE_PICKUP="提现";
 	
 	public static final String SOURCE_USER="用户操作";
 	public static final String SOURCE_PLATFORM="后台操作";
@@ -28,6 +31,7 @@ public class Account implements Serializable{
 	private String status;//状态
 	private String remark;//备注
 	private String source;//来源
+	private String balance;//当前余额
 	
 	public Integer getId() {
 		return id;
@@ -94,5 +98,11 @@ public class Account implements Serializable{
 	}
 	public void setSource(String source) {
 		this.source = source;
+	}
+	public String getBalance() {
+		return balance;
+	}
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 }

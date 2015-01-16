@@ -146,6 +146,25 @@ public class AccountAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-16下午10:39:01
+	 * @return
+	 * String
+	 * @TODO 申请提现
+	 */
+	public String applyPickup(){
+		String msg=accountService.pickup(account);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("提现申请失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	
 	public AccountService getAccountService() {
 		return accountService;

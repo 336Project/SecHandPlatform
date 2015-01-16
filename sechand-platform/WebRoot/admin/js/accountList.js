@@ -158,6 +158,7 @@ var view = {
 							},
 							{data : 'userName',sTitle : "用户账号"}, 
 							{data : 'nickName',sTitle : "用户名称"},
+							{data : 'balance',sTitle : "当前余额"},
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'completeTime',sTitle : "完成时间"}, 
 							{data : 'money',sTitle : "交易金额(元)"}, 

@@ -99,4 +99,24 @@ public interface OrderService extends BaseService{
 	 * TODO 根据订单id确认订单
 	 */
 	public String confirmById(String id);
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-16下午9:10:10
+	 * @param order
+	 * @return
+	 * String
+	 * @TODO 根据订单公司报价
+	 */
+	public String quoteByOrder(Order order);
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-16下午9:44:56
+	 * @param id
+	 * @return
+	 * String
+	 * @TODO 完成订单
+	 */
+	public String completeById(String id);
 }

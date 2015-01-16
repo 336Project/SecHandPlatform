@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<img src="<%=basePath%>/images/theme/avatarSeven.png" class="user-avatar" alt="" />
 						${sessionScope.user.userName}
 					</li>
-				<li>
+				<!-- <li>
 					<i class="icon-user avatar"></i>
 					<div class="message">
 						<span class="username">个人信息</span> 
@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="message">
 						<span class="username">系统设置 </span> 
 					</div>
-				</li>
+				</li> -->
 				<!-- <li>
 					<i class="icon-book avatar"></i>
 					<div class="message">

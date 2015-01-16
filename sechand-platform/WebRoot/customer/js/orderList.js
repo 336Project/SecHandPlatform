@@ -61,7 +61,7 @@ var view = {
 					if($ids.length>1){//避免还要解决并发问题
 						$.W.alert("一次只能确认一条记录！",true);
 					}else{
-						$.W.alert("确认之后，将从账户中扣去维修费用",true,function(){
+						$.W.alert("确认之后，将从账户中扣去维修费用",false,function(){
 							$.ajax({
 				        		url:$.urlRoot+"/platform/orderAction!confirmOrderById.action",
 				        		type:"post",
@@ -133,12 +133,12 @@ var view = {
 				//获取到该行订单的所有信息
 				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
 				var order = tables.order.row($tr.eq(0)).data();
-				if(order.status=="新订单"){
-					if($tr.length>1){
-						$.W.alert("不能同时编辑多条记录!",true);
-					}else if($tr.length<=0){
-						$.W.alert("请先选中行再点击修改!",true);
-					}else{
+				if($tr.length>1){
+					$.W.alert("不能同时编辑多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再点击修改!",true);
+				}else{
+					if(order.status=="新订单"){
 						//将订单信息填充到表单上
 						$("#update-repairContent").val(order.repairContent);
 						$("#update-contactTelUser").val(order.contactTelUser);
@@ -163,9 +163,9 @@ var view = {
 					        }
 						});
 						$("#updateRepair").modal("show");
+					}else{
+						$.W.alert("只有新订单才能修改!",true);
 					}
-				}else{
-					$.W.alert("只有新订单才能修改!",true);
 				}
 			});
 			
@@ -179,6 +179,7 @@ var view = {
 	        		data:{
 	        				"order.id":id ,//被修改的订单的id
 	        				"order.userId":$("#updateRepair").find("[name=userId]").val(),
+	        				"order.repairContent":$("#updateRepair").find("[name=repairContent]").val(),
 	        				"order.contactTelUser":$("#updateRepair").find("[name=contactTelUser]").val(),
 	        				"order.companyId":$("#updateRepair").find("[name=companyId]").val()
 	        		},
@@ -229,7 +230,6 @@ var view = {
 							{data : 'quoteTime',sTitle : "报价时间"},
 							{data : 'completeTime',sTitle : "完成时间"},
 							{data : 'price',sTitle : "公司报价(元)"},
-							{data : 'receivables',sTitle : "应付金额(元)"},
 							{data : 'repairContent',sTitle : "报修内容"},
 							{data : 'status',sTitle : "状态"}
 						],

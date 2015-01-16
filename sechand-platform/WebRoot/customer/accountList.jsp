@@ -79,6 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="tb-tools">
 									<button type="button" class="btn btn-primary" id="btn-modal-addAccount">充值</button>
 									<button type="button" class="btn btn-warning" id="btn-cancel">取消</button>
+									<button type="button" class="btn btn-warning" id="btn-modal-pickup">提现</button>
 								</div>
 								<table id="table-account" class="hover order-column"></table>
 							</div>
@@ -122,6 +123,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 充值弹出框  end  -->
+		<!-- 提现弹出框 start  -->
+		<div class="modal fade" id="pickupAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">提现</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">当前余额</label>
+				    <div class="col-sm-8">
+				    	<input type="text" class="form-control" id="pickup-balance" name="balance" disabled="disabled" placeholder="" value="${sessionScope.user.balance}" >
+				    	<input type="text" class="form-control" id="userId" name="userId" value="${sessionScope.user.id}" style="display: none;">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">取款金额</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="pickup-money" name="money" placeholder="请输入要提取的金额" >
+				    </div>
+				  </div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button id="btn-pickupAccount" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- 提现弹出框  end  -->
 		<div class="row footer">
 			<div class="col-md-12 text-center">
 				© 2015 <a href="#">版权申明</a>

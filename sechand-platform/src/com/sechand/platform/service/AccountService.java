@@ -61,4 +61,14 @@ public interface AccountService extends BaseService{
 	 * TODO 取消充值
 	 */
 	public String cancelById(String id);
+	/**
+	 * 
+	 * @Author:Helen  
+	 * 2015-1-16下午10:46:31
+	 * @param account
+	 * @return
+	 * String
+	 * @TODO 申请提现
+	 */
+	public String pickup(Account account);
 }
