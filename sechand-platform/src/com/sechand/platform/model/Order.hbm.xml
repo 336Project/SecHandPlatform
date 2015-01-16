@@ -34,11 +34,17 @@
          <property name="customerCompany" type="java.lang.String" >
             <column name="customer_company" length="300"/>
         </property>
-        <property name="contactTel" type="java.lang.String" >
-            <column name="contact_tel" length="45"/>
+        <property name="contactTelUser" type="java.lang.String" >
+            <column name="contact_tel_user" length="45"/>
+        </property>
+        <property name="contactTelCompany" type="java.lang.String" >
+            <column name="contact_tel_company" length="45"/>
         </property>
         <property name="price" type="java.lang.String" >
             <column name="price" length="45"/>
+        </property>
+        <property name="receivables" type="java.lang.String" >
+            <column name="receivables" length="45"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -77,7 +77,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
 								<div class="tb-tools">
+									<button type="button" class="btn btn-primary" id="btn-modal-lookOrder">详情</button>
 									<button id="btn-disable" type="button" class="btn btn-warning">作废</button>
+									<button id="btn-delete" type="button" class="btn btn-warning">删除</button>
 								</div>
 								<table id="table-order" class="hover order-column"></table>
 							</div>
@@ -87,6 +89,86 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<!-- 主要内容 end'-->
+		<!-- 详情弹出框 start  -->
+		<div class="modal fade" id="lookOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">订单详情</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户账号</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-customerUser" name="customerUser" placeholder="" >
+				    </div>
+				  </div>
+				   <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户联系电话</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-contactTelUser" name="contactTelUser" placeholder="" >
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">公司账号</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-customerCompany" placeholder="" name="customerCompany" >
+				    </div>
+				  </div>
+				   <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">公司联系电话</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-contactTelCompany" name="contactTelCompany" placeholder="" >
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="update-realName" class="col-sm-4 control-label">创建时间</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-createTime" placeholder="" name="createTime" > 
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">完成时间</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-completeTime" placeholder="" name="completeTime">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报价(元)</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-price" placeholder="" name="price">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">应收款(元)</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-receivables" placeholder="" name="receivables">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-repairContent" placeholder="" name="repairContent">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">状态</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-status" placeholder="" name="status">
+				    </div>
+				  </div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button id="btn-sure" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- 详情弹出框  end  -->
 		<div class="row footer">
 			<div class="col-md-12 text-center">
 				© 2015 <a href="#">版权申明</a>

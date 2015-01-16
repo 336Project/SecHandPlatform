@@ -21,8 +21,10 @@ public class Order implements Serializable{
 	private String createTime;//创建时间
 	private String completeTime;//完成时间
 	private String repairContent;//报修内容
-	private String contactTel;//联系电话
+	private String contactTelUser;//客户联系电话
+	private String contactTelCompany;//公司联系电话
 	private String price;//维修报价
+	private String receivables;//应收款
 	private String status;//状态
 	public Integer getId() {
 		return id;
@@ -78,17 +80,29 @@ public class Order implements Serializable{
 	public void setCustomerCompany(String customerCompany) {
 		this.customerCompany = customerCompany;
 	}
-	public String getContactTel() {
-		return contactTel;
-	}
-	public void setContactTel(String contactTel) {
-		this.contactTel = contactTel;
-	}
 	public String getPrice() {
 		return price;
 	}
 	public void setPrice(String price) {
 		this.price = price;
+	}
+	public String getContactTelUser() {
+		return contactTelUser;
+	}
+	public void setContactTelUser(String contactTelUser) {
+		this.contactTelUser = contactTelUser;
+	}
+	public String getContactTelCompany() {
+		return contactTelCompany;
+	}
+	public void setContactTelCompany(String contactTelCompany) {
+		this.contactTelCompany = contactTelCompany;
+	}
+	public String getReceivables() {
+		return receivables;
+	}
+	public void setReceivables(String receivables) {
+		this.receivables = receivables;
 	}
 	
 }

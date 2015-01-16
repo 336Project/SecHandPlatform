@@ -26,11 +26,36 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
+			
+			//查看详情
+			$("#btn-modal-lookOrder").click(function(){
+				//选中的行
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				if($tr.length>1){
+					$.W.alert("不能同时查看多个记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请选中要查看的记录!",true);
+				}else{
+					//获取到该行用户的所有信息
+					var order = tables.order.row($tr.eq(0)).data();
+					//将用户信息填充到表单上
+					$("#look-customerUser").val(order.customerUser);
+					$("#look-contactTelUser").val(order.contactTelUser);
+					$("#look-customerCompany").val(order.customerCompany);
+					$("#look-contactTelCompany").val(order.contactTelCompany);
+					$("#look-createTime").val(order.createTime);
+					$("#look-completeTime").val(order.completeTime);
+					$("#look-repairContent").val(order.repairContent);
+					$("#look-price").val(order.price);
+					$("#look-status").val(order.status);
+					$("#look-receivables").val(order.receivables);
+					$("#lookOrder").modal("show");
+				}
+			});
 			//作废
 			$("#btn-disable").on("click.delete",function(){
 				var idList = [];//被选中的订单
 				var $orderId = $("#table-order [name='slecteOrder']:checked");
-				console.log(idList);
 				if($orderId.length>0){
 					for(var i =0;i<$orderId.length;i++){
 						idList.push($orderId.eq(i).data("uid"));
@@ -56,7 +81,35 @@ var view = {
 					$.W.alert("请选中要作废的订单！",true);
 				}
 			});
-			
+			//删除
+			$("#btn-delete").on("click.delete",function(){
+				var idList = [];//被选中的订单
+				var $orderId = $("#table-order [name='slecteOrder']:checked");
+				if($orderId.length>0){
+					for(var i =0;i<$orderId.length;i++){
+						idList.push($orderId.eq(i).data("uid"));
+					}
+					$.W.alert("确定删除"+idList.length+"条记录？",true,function(){
+						//console.log(idList);
+						//ajax提交
+						$.ajax({
+			        		url:$.urlRoot+"/platform/orderAction!deleteOrderByIds.action",
+			        		type:"post",
+			        		dataType:"json",
+			        		data:{ids:idList.toString()},
+			        		success:function(d){
+			        			$.W.alert(d.msg,true);
+			        			//删除后刷新表格
+			        			if(d.success){
+			        				tables.order.draw();
+			        			}
+			        		}
+			        	});
+					});
+				}else{
+					$.W.alert("请选中要删除的订单！",true);
+				}
+			});
 			//点击行选中或取消选中用户行
 			$("#table-order").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
@@ -87,16 +140,20 @@ var view = {
 									return str;
 					        	}
 							},
-							{data : 'customerUser',sTitle : "用户账号"}, 
-							{data : 'customerCompany',sTitle : "公司账号"}, 
+							{data : 'customerUser',sTitle : "用户账号"},
+							{data : 'contactTelUser',sTitle : "用户联系电话"}, 
+							{data : 'customerCompany',sTitle : "公司账号"},
+							{data : 'contactTelCompany',sTitle : "公司联系电话"}, 
 							{data : 'createTime',sTitle : "创建时间"}, 
-							{data : 'completeTime',sTitle : "完成时间"}, 
-							{data : 'repairContent',sTitle : "报修内容"}, 
+							{data : 'completeTime',sTitle : "完成时间"},
+							{data : 'price',sTitle : "报价(元)"},
+							{data : 'receivables',sTitle : "应收款(元)"},
+							{data : 'repairContent',sTitle : "报修内容"},
 							{data : 'status',sTitle : "状态"}
 						],
 				"order": [[ 1, 'asc' ]],
 				"scrollX": true,//水平滚动条
-				"scrollXInner":"100%",
+				"scrollXInner":"120%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度
