@@ -211,6 +211,7 @@ var view = {
 							{data : 'nickName',sTitle : "昵称"}, 
 							{data : 'email',sTitle : "邮箱"}, 
 							{data : 'tel',sTitle : "手机号码"},
+							{data : 'balance',sTitle : "账户余额"},
 							{data : 'registerTime',sTitle : "注册时间"},
 							{data : 'source',sTitle : "来源"},
 							{data : 'lastLoginTime',sTitle : "最后一次登录时间"},
@@ -226,7 +227,7 @@ var view = {
 						],
 				"order": [[ 2, 'asc' ]],
 				"scrollX": true,//水平滚动条
-				"scrollXInner":"110%",
+				"scrollXInner":"120%",
 				"processing": true,
 		        "serverSide": true,
 		        "bAutoWidth": false,//自适应宽度

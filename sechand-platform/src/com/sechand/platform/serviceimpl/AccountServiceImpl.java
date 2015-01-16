@@ -65,7 +65,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void deleteByIds(String[] ids) {
-		
+		baseDao.deleteByClassNameAndIds(Account.class, ids);
 	}
 
 	@Override
@@ -74,23 +74,34 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public boolean confirmById(String id) {
-		Account account=baseDao.getByClassAndId(Account.class, id);
-		User user=baseDao.getByClassNameAndId(User.class, account.getUserId());
-		if(account!=null&&user!=null){
-			try{
-				String current_balance=user.getBalance();//获取当前余额
-				if(StringUtils.isBlank(current_balance)){
-					current_balance="0";
+	public String confirmById(String id) {
+		Account account=baseDao.getByClassAndId(Account.class, Integer.valueOf(id));
+		if(account!=null){
+			if(!Account.STATUS_CONFIRM.equals(account.getStatus())){
+				User user=baseDao.getByClassNameAndId(User.class, account.getUserId());
+				if(user!=null){
+					try{
+						String current_balance=user.getBalance();//获取当前余额
+						if(StringUtils.isBlank(current_balance)){
+							current_balance="0";
+						}
+						double balance=Double.parseDouble(current_balance)+Double.parseDouble(account.getMoney());
+						//更新账户记录状态
+						Map<String, Object> parmas=new HashMap<String, Object>();
+						parmas.put("status", Account.STATUS_CONFIRM);
+						parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
+						baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
+						//更新用户余额
+						baseDao.updateColumnById(User.class, "balance", SysUtils.getMoneyFormat(balance), user.getId());
+						return "确认成功!";
+					}catch (Exception e) {
+					}
 				}
-				double balance=Double.parseDouble(current_balance)+Double.parseDouble(account.getMoney());
-				baseDao.updateColumnById(Account.class, "status", Account.STATUS_CONFIRM, account.getId());
-				baseDao.updateColumnById(User.class, "balance", String.valueOf(balance), user.getId());
-				return true;
-			}catch (Exception e) {
+			}else{
+				return "不能重复确认!";
 			}
 		}
-		return false;
+		return null;
 	}
 
 }

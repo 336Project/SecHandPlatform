@@ -26,19 +26,47 @@ var view = {
 			this.tableTool();
 		},
 		tableTool:function(){
+			//删除
+			$("#btn-delete").on("click.delete",function(){
+				var idList = [];//被选中的用户
+				var $ids = $("#table-account [name='slecteAccount']:checked");
+				if($ids.length>0){
+					for(var i =0;i<$ids.length;i++){
+						idList.push($ids.eq(i).data("uid"));
+					}
+					$.W.alert("确定删除"+idList.length+"条记录？",true,function(){
+						//console.log(idList);
+						//ajax提交删除
+						$.ajax({
+			        		url:$.urlRoot+"/platform/accountAction!deleteAccountByIds.action",
+			        		type:"post",
+			        		dataType:"json",
+			        		data:{ids:idList.toString()},
+			        		success:function(d){
+			        			$.W.alert(d.msg,true);
+			        			//删除后刷新表格
+			        			if(d.success){
+			        				tables.account.draw();
+			        			}
+			        		}
+			        	});
+					});
+				}else{
+					$.W.alert("请选中要删除的用户！",true);
+				}
+			});
 			//充值确认
 			$("#btn-comfirm").on("click.delete",function(){
-				var idList = [];//被选中的用户
-				var $userId = $("#table-account [name='slecteAccount']:checked");
-				if($userId.length>0){
-					if($userId.length>1){//避免还要解决并发问题
+				var $ids = $("#table-account [name='slecteAccount']:checked");
+				if($ids.length>0){
+					if($ids.length>1){//避免还要解决并发问题
 						$.W.alert("一次只能确认一条记录！",true);
 					}else{
 						$.ajax({
 			        		url:$.urlRoot+"/platform/accountAction!confirmAccount.action",
 			        		type:"post",
 			        		dataType:"json",
-			        		data:{ids:$userId.eq(0).data("uid")},
+			        		data:{ids:$ids.eq(0).data("uid")},
 			        		success:function(d){
 			        			$.W.alert(d.msg,true);
 			        			//确认后刷新表格
@@ -52,34 +80,7 @@ var view = {
 					$.W.alert("请选中要确认的记录！",true);
 				}
 			});
-			//重置密码
-			$("#btn-reset-password").on("click.delete",function(){
-				var $userId = $("#table-account [name='slecteUser']:checked");
-				if($userId.length>0){
-					if($userId.length>1){
-						$.W.alert("一次只能重置一个用户的密码！",true);
-					}else{
-						$.W.alert("确定要重置密码吗？",function(){
-							$.ajax({
-				        		url:$.urlRoot+"/platform/accountAction!resetPassword.action",
-				        		type:"post",
-				        		dataType:"json",
-				        		data:{ids:$userId.eq(0).data("uid")},
-				        		success:function(d){
-				        			$.W.alert(d.msg,true);
-				        			//重置后刷新表格
-				        			if(d.success){
-				        				tables.account.draw();
-				        			}
-				        		}
-				        	});
-						});
-					}
-				}else{
-					$.W.alert("请选中要重置密码的用户！",true);
-				}
-			});
-			//点击新增按钮时，加载角色类型下拉框
+			//点击充值按钮时，加载用户下拉框
 			$("#btn-modal-addAccount").click(function(){
 				$.ajax({
 			        type: "POST",
@@ -104,7 +105,7 @@ var view = {
     			$("#addAccount").find("form")[0].reset();
 				$("#addAccount").modal("show");
 			});
-			//提交新增用户的表单
+			//提交充值的表单
 			$("#btn-addAccount").off('click.save').on("click.save",function(){
 				$.ajax({
 	        		url:$.urlRoot+"/platform/accountAction!recharge.action",
@@ -114,53 +115,6 @@ var view = {
 	        				"account.userId":$("#addAccount").find("[name=userName]").val(),
 	        				"account.money":$("#addAccount").find("[name=money]").val(),
 	        				"account.remark":$("#addAccount").find("[name=remark]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.account.draw();
-	        			}
-	        		}
-	        	});
-				
-			});
-			
-			//为修改的表单赋值
-			$("#btn-modal-updateuser").click(function(){
-				//选中的行
-				var $tr = $("#table-account [name='slecteUser']:checked").parent().parent();
-				if($tr.length>1){
-					$.W.alert("不能同时编辑多个用户!",true);
-				}else if($tr.length<=0){
-					$.W.alert("请先选中行再点击修改!",true);
-				}else{
-					//获取到该行用户的所有信息
-					var account = tables.account.row($tr.eq(0)).data();
-					//将用户信息填充到表单上
-					$("#update-username").val(account.userName);
-					$("#update-nickName").val(account.nickName);
-					$("#update-realName").val(account.realName);
-					$("#update-email").val(account.email);
-					$("#update-tel").val(account.tel);
-					$("#update-roleName").val(account.roleName);
-					$("#updateUser").modal("show");
-				}
-			});
-			//提交修改用户的表单
-			$("#btn-updateUser").off('click.save').on("click.save",function(){
-				var userId = $("#table-account [name='slecteUser']:checked").eq(0).data("uid");
-				$.ajax({
-	        		url:$.urlRoot+"/platform/accountAction!updateUser.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"user.id":userId,//被修改的用户的id
-	        				"user.userName":$("#updateUser").find("[name=userName]").val(),
-	        				"user.realName":$("#updateUser").find("[name=realName]").val(),
-	        				"user.nickName":$("#updateUser").find("[name=nickName]").val(),
-	        				"user.email":$("#updateUser").find("[name=email]").val(),
-	        				"user.tel":$("#updateUser").find("[name=tel]").val()
 	        		},
 	        		success:function(d){
 	        			$.W.alert(d.msg,true);
@@ -207,7 +161,8 @@ var view = {
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'completeTime',sTitle : "完成时间"}, 
 							{data : 'money',sTitle : "交易金额(元)"}, 
-							{data : 'type',sTitle : "交易类型"}, 
+							{data : 'type',sTitle : "交易类型"},
+							{data : 'source',sTitle : "来源"},
 							{data : 'status',sTitle : "状态"},
 							{data : 'remark',sTitle : "备注"}
 						],

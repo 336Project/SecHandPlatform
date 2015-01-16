@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.sechand.platform.base.BaseAction;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.service.AccountService;
@@ -38,14 +40,14 @@ public class AccountAction extends BaseAction {
 	}
 	/**
 	 * 
-	 * @author lixiaowei
 	 * 2015-1-15 下午5:25:59
 	 * @return 
-	 * TODO 账户充值
+	 * TODO 账户充值(管理员操作)
 	 */
 	public String recharge(){
+		if(account!=null) account.setSource(Account.SOURCE_PLATFORM);
 		if(accountService.add(account)>0){
-			json.setMsg("充值成功!");
+			json.setMsg("充值成功，等待确认!");
 			json.setSuccess(true);
 		}else{
 			json.setMsg("充值失败!");
@@ -61,8 +63,9 @@ public class AccountAction extends BaseAction {
 	 * TODO 确认充值
 	 */
 	public String confirmAccount(){
-		if(accountService.confirmById(ids)){
-			json.setMsg("确认成功!");
+		String msg=accountService.confirmById(ids);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
 			json.setSuccess(true);
 		}else{
 			json.setMsg("确认失败!");
@@ -70,7 +73,23 @@ public class AccountAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	
+	/**
+	 * 
+	 * 2015-1-16 上午10:44:04
+	 * @return 
+	 * TODO 批量删除充值记录
+	 */
+	public String deleteAccountByIds(){
+		if(StringUtils.isNotBlank(ids)){
+			accountService.deleteByIds(ids.split(","));
+			json.setMsg("删除成功!");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("删除失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	
 	public AccountService getAccountService() {
 		return accountService;

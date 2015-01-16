@@ -3,6 +3,7 @@ package com.sechand.platform.utils;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,6 +17,17 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 public class SysUtils {
 	
+	/**
+	 * 
+	 * 2015-1-16 上午10:07:15
+	 * @param d
+	 * @return 
+	 * TODO 格式化金额，保留两位小数
+	 */
+	public static String getMoneyFormat(double d){
+		DecimalFormat df=new DecimalFormat("#.##");
+		return df.format(d);
+	}
 	/**
 	 * 
 	 * 2015-1-8 下午1:22:44

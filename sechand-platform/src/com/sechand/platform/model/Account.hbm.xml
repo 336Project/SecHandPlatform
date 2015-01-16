@@ -37,5 +37,8 @@
          <property name="remark" type="java.lang.String" >
             <column name="remark" length="45"/>
         </property>
+        <property name="source" type="java.lang.String" >
+            <column name="source" length="45"/>
+        </property>
     </class>
 </hibernate-mapping>

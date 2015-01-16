@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="username">帮助手册 </span> 
 					</div>
 				</li> -->
-				<li><a href="<%=path%>/platform/accountAction!logout.action">注销</a></li>
+				<li><a href="<%=path%>/platform/userAction!logout.action">注销</a></li>
 			</ul>
 		</li><!-- / dropdown -->				
 	</ul><!-- / Top right user menu 点击右上角的admin展开-->

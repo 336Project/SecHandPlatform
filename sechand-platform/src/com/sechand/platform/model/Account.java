@@ -13,6 +13,9 @@ public class Account implements Serializable{
 	public static final String TYPE_CONSUME="消费";
 	public static final String TYPE_TO_ACCOUNT="到账";
 	
+	public static final String SOURCE_USER="用户操作";
+	public static final String SOURCE_PLATFORM="后台操作";
+	
 	private Integer id;
 	private Integer userId;//关联用户id
 	private String userName;//关联用户账号
@@ -23,6 +26,7 @@ public class Account implements Serializable{
 	private String type;//交易类型
 	private String status;//状态
 	private String remark;//备注
+	private String source;//来源
 	
 	public Integer getId() {
 		return id;
@@ -83,5 +87,11 @@ public class Account implements Serializable{
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 }
