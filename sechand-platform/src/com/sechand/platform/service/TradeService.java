@@ -17,7 +17,7 @@ public interface TradeService extends BaseService{
 	 * @return 
 	 * TODO 根据搜索关键字分页获取数据
 	 */
-	public List<Trade> listPageRowsAccountsByKeyword(int currentPage,int pageSize,String keyword);
+	public List<Trade> listPageRowsByKeyword(int currentPage,int pageSize,String keyword);
 	/**
 	 * 
 	 * 2015-1-6 下午12:54:15
@@ -33,12 +33,4 @@ public interface TradeService extends BaseService{
 	 * TODO 批量删除
 	 */
 	public void deleteByIds(String[] ids);
-	/**
-	 * 
-	 * 2015-1-13 上午11:21:33
-	 * @param account
-	 * @return 
-	 * TODO 更新账户信息
-	 */
-	public boolean updateTrade(Trade trade);
 }

@@ -22,6 +22,12 @@
         <property name="toUserName" type="java.lang.String" >
             <column name="to_user_name" length="45"/>
         </property>
+         <property name="fromUserNickName" type="java.lang.String" >
+            <column name="from_user_nick_name" length="45"  />
+        </property>
+        <property name="toUserNickName" type="java.lang.String" >
+            <column name="to_user_nick_name" length="45"  />
+        </property>
         <property name="status" type="java.lang.String" >
             <column name="status" length="45"/>
         </property>
