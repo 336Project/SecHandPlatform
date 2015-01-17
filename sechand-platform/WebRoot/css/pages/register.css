@@ -1,0 +1,35 @@
+
+body {
+background-color: #65b0c3;
+}
+.box-holder{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	position: absolute;
+	top: 60px;
+	left: 50%;
+	display: block;
+	margin-left: -305px;
+	width: 520px;
+	height: auto;
+	background: white;
+	text-align: center;
+}
+.box-header{
+	height:40px;background:#3d4a5d;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-ms-border-radius: 5px 5px 0 0;
+	-o-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+.box-header h3{margin:0;line-height:40px;color:#fff;}
+
+.box-content{}
+.box-content .col-xs-12{padding: 40px;}
+
+.box-footer{height:40px; margin-bottom: 10px;}
+

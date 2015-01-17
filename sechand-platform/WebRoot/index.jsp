@@ -124,7 +124,7 @@ session.setAttribute("customer", Role.CODE_CUSTOMER);
 									 <dt>用户名</dt>
 									  <dd class="d-userName">${sessionScope.user.userName}<input type="text" class="form-control" name="id" style="display: none;" value="${sessionScope.user.id}"></dd>
 									  <dt>昵称</dt>
-									  	<dd><input type="text" class="form-control" name="nickName" value="${sessionScope.user.nickName}"></dd>
+									  	<dd>${sessionScope.user.nickName}</dd>
 									  <dt>真实姓名</dt>
 									  	<dd><input type="text" class="form-control" name="realName" value="${sessionScope.user.realName}"></dd>
 									  <dt>邮箱地址</dt>

@@ -89,7 +89,7 @@ public class UserAction extends BaseAction{
 			json.setMsg("注册失败!");
 			json.setSuccess(false);
 		}
-		return LOGIN;
+		return SUCCESS;
 	}
 	/**
 	 * 

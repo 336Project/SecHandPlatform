@@ -39,7 +39,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 			whereParams.put("userName", user.getUserName());
 			User u=baseDao.getByClassNameAndParams(User.class, whereParams);
 			if(u!=null){
-				return "该账号已存在,请重新注册!";
+				return "该用户名已存在,请重新注册!";
 			}
 			whereParams.clear();
 			whereParams.put("nickName", user.getNickName());
@@ -53,7 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 			u.setIntroduction(user.getIntroduction());
 			u.setNickName(user.getNickName());
 			u.setPassword(SysUtils.encrypt(user.getPassword()));
-			u.setRealName(user.getUserName());
+			u.setRealName(user.getRealName());
 			u.setRegisterTime(SysUtils.getDateFormat(new Date()));
 			u.setRoleCode(role.getCode());
 			u.setRoleName(role.getName());
@@ -126,7 +126,6 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		try {
 			Map<String, Object> parmas=new HashMap<String, Object>();
 			parmas.put("email", user.getEmail());
-			parmas.put("nickName", user.getNickName());
 			parmas.put("realName", user.getRealName());
 			parmas.put("tel", user.getTel());
 			parmas.put("introduction", user.getIntroduction());

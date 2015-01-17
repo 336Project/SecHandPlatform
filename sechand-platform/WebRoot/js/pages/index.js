@@ -31,7 +31,6 @@ var view={
 				  dataType:"json",
 				  data:{
 					  "user.id":newUser.id,
-					  "user.nickName":newUser.nickName,
 					  "user.realName":newUser.realName,
 					  "user.email":newUser.email,
 					  "user.tel":newUser.tel,
@@ -65,7 +64,6 @@ var view={
 			//获取表单上的数据，请分离开来写，这样代码可以复用
 			var account = new Object();
 			account.id = $(".userMsgEdict input[name='id']").val();
-			account.nickName = $(".userMsgEdict input[name='nickName']").val();
 			account.realName = $(".userMsgEdict input[name='realName']").val();
 			account.email = $(".userMsgEdict input[name='email']").val();
 			account.tel = $(".userMsgEdict input[name='tel']").val();

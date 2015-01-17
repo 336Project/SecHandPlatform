@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 		<hr>
 		<!-- Create and forget links -->
-		<ul class="list-inline"><li><a href="">注册</a></li>
+		<ul class="list-inline"><li><a href="register.jsp">注册</a></li>
 			<li>&nbsp;&nbsp;</li>
 			<li><a href="javascript:$.W.alert('系统消息','请联系管理员!',true)">忘记密码?</a></li>
 		</ul><!-- /Create and forget links -->
@@ -95,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        }
     		});
     		
-			$('#btnLogin').click(
+			$("#btnLogin").click(
 					 function() {
 						$.ajax({
 							type : "POST",
