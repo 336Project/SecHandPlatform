@@ -9,8 +9,6 @@ public class Account implements Serializable{
 	public static final String STATUS_CONFIRM="已确认";
 	public static final String STATUS_TO_CONFIRM="待确认";
 	public static final String STATUS_CANCEL="已取消";
-	public static final String STATUS_PICKUP="已提现";
-	public static final String STATUS_TO_PICKUP="待提现";
 	
 	public static final String TYPE_RECHARGE="充值";
 	public static final String TYPE_CONSUME="消费";

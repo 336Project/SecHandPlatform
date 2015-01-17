@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="row">
 					<div class="col-mod-12">
 						<ul class="breadcrumb">
-							<li><a href="<%=path %>/index.jsp">账户管理</a></li>
+							<li><a href="<%=path %>/index.jsp">用户管理</a></li>
 							<li class="active">账户信息</li>
 						</ul>
 					</div>

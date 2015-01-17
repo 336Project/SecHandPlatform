@@ -23,12 +23,18 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 		if(account!=null){
 			User user=baseDao.getByClassAndId(User.class, account.getUserId());
 			if(user!=null){
-				account.setCreateTime(SysUtils.getDateFormat(new Date()));
-				account.setStatus(Account.STATUS_TO_CONFIRM);
-				account.setUserName(user.getUserName());
-				account.setNickName(user.getNickName());
-				account.setType(Account.TYPE_RECHARGE);
-				return baseDao.save(account);
+				Account a=new Account();
+				a.setBalance(user.getBalance());
+				a.setCreateTime(SysUtils.getDateFormat(new Date()));
+				a.setMoney(account.getMoney());
+				a.setNickName(user.getNickName());
+				a.setSource(account.getSource());
+				a.setRemark(account.getRemark());
+				a.setStatus(Account.STATUS_TO_CONFIRM);
+				a.setType(Account.TYPE_RECHARGE);
+				a.setUserId(user.getId());
+				a.setUserName(user.getUserName());
+				return baseDao.save(Account.class,a);
 			}
 		}
 		return -1;
@@ -97,7 +103,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 		if(account!=null){
 			if(!Account.STATUS_CONFIRM.equals(account.getStatus())){
 				if(Account.STATUS_CANCEL.equals(account.getStatus())){
-					return "该充值已取消,不能确认!";
+					return "该记录已取消,不能确认!";
 				}else{
 					User user=baseDao.getByClassNameAndId(User.class, account.getUserId());
 					if(user!=null){
@@ -106,14 +112,41 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 							if(StringUtils.isBlank(current_balance)){
 								current_balance="0";
 							}
-							double balance=Double.parseDouble(current_balance)+Double.parseDouble(account.getMoney());
-							//更新账户记录状态
-							Map<String, Object> parmas=new HashMap<String, Object>();
-							parmas.put("status", Account.STATUS_CONFIRM);
-							parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
-							baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
-							//更新用户余额
-							baseDao.updateColumnById(User.class, "balance", SysUtils.getMoneyFormat(balance), user.getId());
+							if(Account.TYPE_RECHARGE.equals(account.getType())){//充值
+								double balance=Double.parseDouble(current_balance)+Double.parseDouble(account.getMoney());
+								current_balance=SysUtils.getMoneyFormat(balance);
+								//更新账户记录状态
+								Map<String, Object> parmas=new HashMap<String, Object>();
+								parmas.put("status", Account.STATUS_CONFIRM);
+								parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
+								baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
+								//更新用户余额
+								baseDao.updateColumnById(User.class, "balance", current_balance, user.getId());
+							}else if(Account.TYPE_PICKUP.equals(account.getType())){//提现
+								double money=Double.parseDouble(account.getMoney());
+								double balance=Double.parseDouble(current_balance);
+								current_balance=SysUtils.getMoneyFormat(balance);
+								Map<String, Object> parmas=new HashMap<String, Object>();
+								String remark ="";
+								if(money>0){
+									remark= "提现金额有误!";
+								}else{
+									if(balance>-money){//余额足以提现
+										balance=balance+money;
+										current_balance=SysUtils.getMoneyFormat(balance);
+										remark="提现成功";
+										//更新用户余额
+										baseDao.updateColumnById(User.class, "balance", current_balance, user.getId());
+									}else{//不足以提现
+										remark="提现金额超过当前余额,不能提现";
+									}
+								}
+								parmas.put("balance", current_balance);
+								parmas.put("status", Account.STATUS_CONFIRM);
+								parmas.put("completeTime", SysUtils.getDateFormat(new Date()));
+								parmas.put("remark", remark);
+								baseDao.updateColumnsByParmas(Account.class, account.getId(), parmas);
+							}
 							return "确认成功!";
 						}catch (Exception e) {
 						}
@@ -152,7 +185,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 					Account a=new Account();
 					a.setType(Account.TYPE_PICKUP);
 					a.setSource(Account.SOURCE_USER);
-					a.setStatus(Account.STATUS_TO_PICKUP);
+					a.setStatus(Account.STATUS_TO_CONFIRM);
 					a.setBalance(SysUtils.getMoneyFormat(balance));
 					a.setCreateTime(SysUtils.getDateFormat(new Date()));
 					a.setMoney("-"+SysUtils.getMoneyFormat(money));
@@ -163,7 +196,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 					baseDao.save(Account.class, a);
 					return "提现申请成功，等待确认!";
 				}else{
-					return "当前最多可提现￥"+balance;
+					return "当前最多可提现￥"+SysUtils.getMoneyFormat(balance);
 				}
 			}
 		}

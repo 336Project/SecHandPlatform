@@ -72,22 +72,10 @@ public class RoleAction extends BaseAction {
 	 * TODO 添加角色
 	 */
 	public String addRole(){
-		if(role!=null){
-			String code=role.getCode();
-			if(Role.CODE_ADMIN.equals(code)||Role.CODE_COMPANY.equals(code)||Role.CODE_CUSTOMER.equals(code)){
-				Role r=roleService.getRoleByCode(code);
-				if(r!=null){
-					json.setMsg("该角色已经存在，请勿重复添加!");
-					json.setSuccess(false);
-				}else{
-					roleService.save(role);
-					json.setMsg("添加成功!");
-					json.setSuccess(true);
-				}
-			}else{
-				json.setMsg("角色编号只能为“1：(管理员)，2：(维修公司)，3(普通用户)”中的一种");
-				json.setSuccess(false);
-			}
+		String msg=roleService.add(role);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
 		}else{
 			json.setMsg("添加失败!");
 			json.setSuccess(false);

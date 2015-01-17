@@ -19,6 +19,14 @@ public interface RoleService extends BaseService{
 	
 	/**
 	 * 
+	 * 2015-1-17 上午10:35:30
+	 * @param role
+	 * @return 
+	 * TODO 添加角色
+	 */
+	public String add(Role role);
+	/**
+	 * 
 	 * 2015-1-6 下午12:43:16
 	 * @param currentPage
 	 * @param pageSize

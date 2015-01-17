@@ -26,7 +26,7 @@ public class Order implements Serializable{
 	private String contactTelUser;//客户联系电话
 	private String contactTelCompany;//公司联系电话
 	private String price;//维修报价
-	private String receivables;//应收款
+	//private String receivables;//应收款
 	private String status;//状态
 	public Integer getId() {
 		return id;
@@ -99,12 +99,6 @@ public class Order implements Serializable{
 	}
 	public void setContactTelCompany(String contactTelCompany) {
 		this.contactTelCompany = contactTelCompany;
-	}
-	public String getReceivables() {
-		return receivables;
-	}
-	public void setReceivables(String receivables) {
-		this.receivables = receivables;
 	}
 	public String getQuoteTime() {
 		return quoteTime;

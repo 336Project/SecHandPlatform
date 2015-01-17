@@ -53,4 +53,28 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 		return baseDao.getByClassNameAndParams(Role.class, whereParams);
 	}
 
+	@Override
+	public String add(Role role) {
+		if(role!=null){
+			String code=role.getCode();
+			if(Role.CODE_ADMIN.equals(code)||Role.CODE_COMPANY.equals(code)||Role.CODE_CUSTOMER.equals(code)){
+				Role r=getRoleByCode(code);
+				if(r!=null){
+					return "该角色已经存在，请勿重复添加!";
+				}else{
+					Role re=new Role();
+					re.setCode(role.getCode());
+					re.setName(role.getName());
+					int i=baseDao.save(re);
+					if(i>0){
+						return "添加成功!";
+					}
+				}
+			}else{
+				return "角色编号只能为“1：(管理员)，2：(维修公司)，3(普通用户)”中的一种!";
+			}
+		}
+		return null;
+	}
+
 }

@@ -169,11 +169,17 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 		if(order!=null){
 			User company=baseDao.getByClassAndId(User.class, order.getCompanyId());
 			if(company!=null){
-				order.setCustomerCompany(company.getNickName());
-				order.setContactTelCompany(company.getTel());
-				order.setCreateTime(SysUtils.getDateFormat(new Date()));
-				order.setStatus(Order.STATUS_NEW);
-				int id=baseDao.save(Order.class,order);
+				Order o=new Order();
+				o.setCompanyId(company.getId());
+				o.setContactTelCompany(company.getTel());
+				o.setContactTelUser(order.getContactTelUser());
+				o.setCreateTime(SysUtils.getDateFormat(new Date()));
+				o.setCustomerCompany(company.getNickName());
+				o.setCustomerUser(order.getCustomerUser());
+				o.setRepairContent(order.getRepairContent());
+				o.setStatus(Order.STATUS_NEW);
+				o.setUserId(order.getUserId());
+				int id=baseDao.save(Order.class,o);
 				if(id>0){
 					return "报修成功!";
 				}
