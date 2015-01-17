@@ -27,20 +27,48 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	}
 
 	@Override
-	public long add(User user) {
-		Map<String, Object> whereParams=new HashMap<String, Object>();
-		whereParams.put("code", user.getRoleCode());
-		Role role=baseDao.getByClassNameAndParams(Role.class, whereParams);
-		if(role==null){
-			return -1;
+	public String add(User user) {
+		if(user!=null){
+			Map<String, Object> whereParams=new HashMap<String, Object>();
+			whereParams.put("code", user.getRoleCode());
+			Role role=baseDao.getByClassNameAndParams(Role.class, whereParams);
+			if(role==null){
+				return "注册失败,该角色不存在!";
+			}
+			whereParams.clear();
+			whereParams.put("userName", user.getUserName());
+			User u=baseDao.getByClassNameAndParams(User.class, whereParams);
+			if(u!=null){
+				return "该账号已存在,请重新注册!";
+			}
+			whereParams.clear();
+			whereParams.put("nickName", user.getNickName());
+			u=baseDao.getByClassNameAndParams(User.class, whereParams);
+			if(u!=null){
+				return "该昵称太抢手啦,已经被人注册过了，请重新填写!";
+			}
+			u=new User();
+			u.setBalance("0");
+			u.setEmail(user.getEmail());
+			u.setIntroduction(user.getIntroduction());
+			u.setNickName(user.getNickName());
+			u.setPassword(SysUtils.encrypt(user.getPassword()));
+			u.setRealName(user.getUserName());
+			u.setRegisterTime(SysUtils.getDateFormat(new Date()));
+			u.setRoleCode(role.getCode());
+			u.setRoleName(role.getName());
+			u.setSource(user.getSource());
+			u.setStatus(User.STATUS_NORMAL);
+			u.setTel(user.getTel());
+			u.setUserName(user.getUserName());
+			int id=baseDao.save(u);
+			if(id>0){
+				return "恭喜,注册成功!";
+			}else{
+				return "不好意思，服务器异常,请稍后再试!";
+			}
 		}
-		user.setRegisterTime(SysUtils.getDateFormat(new Date()));
-		user.setRoleCode(role.getCode());
-		user.setRoleName(role.getName());
-		user.setPassword(SysUtils.encrypt(user.getPassword()));
-		user.setStatus(User.STATUS_NORMAL);
-		user.setBalance("0");
-		return baseDao.save(user);
+		return null;
 	}
 
 	@Override

@@ -81,9 +81,13 @@ public class UserAction extends BaseAction{
 	public String register(){
 		//注册完跳到登录页
 		user.setSource(User.SOURCE_PLATFORM);
-		long id=userService.add(user);
-		if(id<0){
-			return ERROR;
+		String msg=userService.add(user);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("注册失败!");
+			json.setSuccess(false);
 		}
 		return LOGIN;
 	}
@@ -95,12 +99,12 @@ public class UserAction extends BaseAction{
 	 */
 	public String addByManual(){
 		user.setSource(User.SOURCE_MANUAL);
-		long id=userService.add(user);
-		if(id>0){
-			json.setMsg("添加成功!");
+		String msg=userService.add(user);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
 			json.setSuccess(true);
 		}else{
-			json.setMsg("添加失败!");
+			json.setMsg("注册失败!");
 			json.setSuccess(false);
 		}
 		return SUCCESS;

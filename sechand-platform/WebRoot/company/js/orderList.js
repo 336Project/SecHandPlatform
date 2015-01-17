@@ -33,20 +33,20 @@ var view = {
 				//获取到该行订单的所有信息
 				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
 				var order = tables.order.row($tr.eq(0)).data();
-				if(order.status=="新订单"){
-					if($tr.length>1){
-						$.W.alert("不能同时报价多条记录!",true);
-					}else if($tr.length<=0){
-						$.W.alert("请先选中行再点击报价!",true);
-					}else{
+				if($tr.length>1){
+					$.W.alert("不能同时报价多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再点击报价!",true);
+				}else{
+					if(order.status=="新订单"){
 						//将订单信息填充到表单上
 						$("#update-repairContent").val(order.repairContent);
 						$("#update-contactTelUser").val(order.contactTelUser);
 						$("#update-price").val("");
 						$("#updateRepair").modal("show");
+					}else{
+						$.W.alert("只有新订单才能报价!",true);
 					}
-				}else{
-					$.W.alert("只有新订单才能报价!",true);
 				}
 			});
 			

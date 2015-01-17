@@ -10,7 +10,7 @@ import com.sechand.platform.model.User;
 
 public interface UserService extends BaseService{
 	public User login(String username,String password,String roleName);
-	public long add(User user);
+	public String add(User user);
 	public List<User> listUsers();
 	/**
 	 * 
