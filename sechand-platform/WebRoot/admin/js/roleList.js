@@ -21,6 +21,29 @@ var view = {
 			//执行初始化角色列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
 			tables.roles = this.initRoleTable();
 			this.tableTool();
+			//添加的表单验证
+			$("#updateUserForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		        	roleName:{required: true},
+		            roleCode:{required: true,digits:true,range:[1,2,3]}
+		        },
+		        messages:{
+		        	roleName:{required: "角色名称不能为空"},
+		            roleCode:{required: "角色编号不能为空",digits:"编号只能为正整数",range:"1:管理员2:维修公司3:普通用户"},
+		        }
+		   });
 		},
 		tableTool:function(){
 			//点击行选中或取消选中用户行
@@ -66,24 +89,26 @@ var view = {
 			
 			//提交新增角色的表单
 			$("#btn-addRole").off('click.save').on("click.save",function(){
-				$.ajax({
-	        		url:$.urlRoot+"/platform/roleAction!addRole.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        			"role.name":$("#roleName").val(),
-	        			"role.code":$("#roleCode").val()
-	        			},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.roles._fnReDraw();
-	        			}
-	        			//重置表单,ps:form元素才有reset
-	        			$("#addRole").find("form")[0].reset();
-	        		}
-	        	});
+				if($("#addRoleForm").valid()){
+					$.ajax({
+		        		url:$.urlRoot+"/platform/roleAction!addRole.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        			"role.name":$("#roleName").val(),
+		        			"role.code":$("#roleCode").val()
+		        			},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.roles._fnReDraw();
+		        			}
+		        			//重置表单,ps:form元素才有reset
+		        			$("#addRole").find("form")[0].reset();
+		        		}
+		        	});
+				}
 			});
 		},
 		/*

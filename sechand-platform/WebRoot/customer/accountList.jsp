@@ -34,6 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="../js/lib/validation/jquery.validate.min.js"></script>
   <script>
   	jQuery.urlRoot = "<%=path%>";
   </script>
@@ -98,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <h4 class="modal-title" id="myModalLabel">充值</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="addAccountForm">
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">充值金额</label>
 				    <div class="col-sm-8">
@@ -132,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <h4 class="modal-title" id="myModalLabel">提现</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="pickupAccountForm">
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">当前余额</label>
 				    <div class="col-sm-8">

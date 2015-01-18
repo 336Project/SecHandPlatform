@@ -147,7 +147,6 @@ var view = {
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'completeTime',sTitle : "完成时间"},
 							{data : 'price',sTitle : "报价(元)"},
-							{data : 'receivables',sTitle : "应收款(元)"},
 							{data : 'repairContent',sTitle : "报修内容"},
 							{data : 'status',sTitle : "状态"}
 						],

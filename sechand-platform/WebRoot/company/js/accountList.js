@@ -24,6 +24,48 @@ var view = {
 			//执行初始化用户列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
 			tables.account = this.initAccountTable();
 			this.tableTool();
+			//充值表单验证
+			$("#addAccountForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		            money:{required: true,number:true}
+		        },
+		        messages:{
+		            money:{required: "充值金额不能为空",number:"请输入正确的金额格式"}
+		        }
+		   });
+			//提现表单验证
+			$("#pickupAccountForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		        	money:{required: true,number:true}
+		        },
+		        messages:{
+		        	money:{required: "充值金额不能为空",number:"请输入正确的金额格式"}
+		        }
+		   });
 		},
 		tableTool:function(){
 			//提现
@@ -33,25 +75,27 @@ var view = {
 			});
 			//提交提现的表单
 			$("#btn-pickupAccount").off('click.save').on("click.save",function(){
-				var balance=$("#pickupAccount").find("[name=balance]").val();
-				var money=$("#pickupAccount").find("[name=money]").val();
-				$.ajax({
-	        		url:$.urlRoot+"/platform/accountAction!applyPickup.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"account.userId":$("#pickupAccount").find("[name=userId]").val(),
-	        				"account.balance":balance,
-	        				"account.money":money
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.account.draw();
-	        			}
-	        		}
-	        	});
+				if($("#pickupAccountForm").valid()){
+					var balance=$("#pickupAccount").find("[name=balance]").val();
+					var money=$("#pickupAccount").find("[name=money]").val();
+					$.ajax({
+		        		url:$.urlRoot+"/platform/accountAction!applyPickup.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"account.userId":$("#pickupAccount").find("[name=userId]").val(),
+		        				"account.balance":balance,
+		        				"account.money":money
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.account.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			
 			//点击充值按钮时
@@ -62,23 +106,25 @@ var view = {
 			});
 			//提交充值的表单
 			$("#btn-addAccount").off('click.save').on("click.save",function(){
-				$.ajax({
-	        		url:$.urlRoot+"/platform/accountAction!applyRecharge.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"account.userId":$("#addAccount").find("[name=userId]").val(),
-	        				"account.money":$("#addAccount").find("[name=money]").val(),
-	        				"account.remark":$("#addAccount").find("[name=remark]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.account.draw();
-	        			}
-	        		}
-	        	});
+				if($("#addAccountForm").valid()){
+					$.ajax({
+		        		url:$.urlRoot+"/platform/accountAction!applyRecharge.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"account.userId":$("#addAccount").find("[name=userId]").val(),
+		        				"account.money":$("#addAccount").find("[name=money]").val(),
+		        				"account.remark":$("#addAccount").find("[name=remark]").val()
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.account.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			//点击行选中或取消选中用户行
 			$("#table-account").on("click.select","tr",function(){

@@ -24,6 +24,56 @@ var view = {
 			//执行初始化用户列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
 			tables.order = this.initOrderTable();
 			this.tableTool();
+			//报修的表单验证
+			$("#addRepairForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		        	repairContent:{required: true ,maxlength:300},
+		            contactTelUser:{required: true,digits:true,minlength: 11,maxlength:11},/*最大最小都是11则只能输入11位的电话号码，digits:只能是整数  */
+		            companyId:{required: true}
+		        },
+		        messages:{
+		        	repairContent:{required: "报修内容不能为空",maxlength:"报修内容最多300个字符"},
+		            contactTelUser:{required: "电话不能为空",minlength: "请输入正确格式的电话号码",maxlength:"请输入正确格式的电话号码",digits:"请输入正确格式的电话号码"},
+		            companyId:{required: "请选择一个维修公司"}
+		        }
+		   });
+			//修改报修的表单验证
+			$("#updateRepairForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		        	repairContent:{required: true ,maxlength:300},
+		            contactTelUser:{required: true,digits:true,minlength: 11,maxlength:11},/*最大最小都是11则只能输入11位的电话号码，digits:只能是整数  */
+		            companyId:{required: true}
+		        },
+		        messages:{
+		        	repairContent:{required: "报修内容不能为空",maxlength:"报修内容最多300个字符"},
+		            contactTelUser:{required: "电话不能为空",minlength: "请输入正确格式的电话号码",maxlength:"请输入正确格式的电话号码",digits:"请输入正确格式的电话号码"},
+		            companyId:{required: "请选择一个维修公司"}
+		        }
+		   });
 		},
 		tableTool:function(){
 			//取消订单
@@ -89,14 +139,27 @@ var view = {
 			        dataType: "json",
 			        url:$.urlRoot+"/platform/userAction!listCompany.action",
 			        success: function (d) {
-			        	var html="" ;
+			        	var data=[];
+    		            var result=d.msg;
+    		            for ( var i = 0; i < result.length; i++) {//动态加载
+    						var obj=new Object();
+    						obj.id=result[i].id;
+    						obj.text=result[i].nickName;
+    						data.push(obj);
+    					}
+    		            console.log(data);
+    		            $("#companyId").select2({
+    					  placeholder: "选择用户名",
+    					  data:data
+    					}); 
+			        	/*var html="" ;
 			        	var result=d.msg;
 			        	$("#companyId").empty();
 			        	for ( var i = 0; i < result.length; i++) {//动态加载公司
 							var r = result[i];
 							html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
 						}
-			            $("#companyId").append(html);
+			            $("#companyId").append(html);*/
 			        }
 				});
 				//重置表单,ps:form元素才有reset
@@ -105,66 +168,83 @@ var view = {
 			});
 			//提交报修的表单
 			$("#btn-addRepair").off('click.save').on("click.save",function(){
-				$.ajax({
-	        		url:$.urlRoot+"/platform/orderAction!repairByCustomer.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"order.userId":$("#addRepair").find("[name=userId]").val(),
-	        				"order.customerUser":$("#addRepair").find("[name=customerUser]").val(),
-	        				"order.repairContent":$("#addRepair").find("[name=repairContent]").val(),
-	        				"order.contactTelUser":$("#addRepair").find("[name=contactTelUser]").val(),
-	        				"order.companyId":$("#addRepair").find("[name=companyId]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.order.draw();
-	        			}
-	        		}
-	        	});
+				if($("#addRepairForm").valid()){
+					$.ajax({
+		        		url:$.urlRoot+"/platform/orderAction!repairByCustomer.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"order.userId":$("#addRepair").find("[name=userId]").val(),
+		        				"order.customerUser":$("#addRepair").find("[name=customerUser]").val(),
+		        				"order.repairContent":$("#addRepair").find("[name=repairContent]").val(),
+		        				"order.contactTelUser":$("#addRepair").find("[name=contactTelUser]").val(),
+		        				"order.companyId":$("#addRepair").find("[name=companyId]").val()
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.order.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			
 			
 			//为修改的表单赋值
 			$("#btn-modal-updateOrder").click(function(){
-				//选中的行
-				//获取到该行订单的所有信息
-				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
-				var order = tables.order.row($tr.eq(0)).data();
-				if($tr.length>1){
-					$.W.alert("不能同时编辑多条记录!",true);
-				}else if($tr.length<=0){
-					$.W.alert("请先选中行再点击修改!",true);
-				}else{
-					if(order.status=="新订单"){
-						//将订单信息填充到表单上
-						$("#update-repairContent").val(order.repairContent);
-						$("#update-contactTelUser").val(order.contactTelUser);
-						$.ajax({
-					        type: "POST",
-					        contentType: "application/json;utf-8",
-					        dataType: "json",
-					        url:$.urlRoot+"/platform/userAction!listCompany.action",
-					        success: function (d) {
-					        	var html="" ;
-					        	var result=d.msg;
-					        	$("#update-companyId").empty();
-					        	for ( var i = 0; i < result.length; i++) {//动态加载公司
-									var r = result[i];
-									if(order.userId==r.id){
-										html += "<option selected='selected' value=" + r.id + ">" + r.nickName + "</option>\r\n";
-									}else{
-										html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
-									}
-								}
-					            $("#update-companyId").append(html);
-					        }
-						});
-						$("#updateRepair").modal("show");
+				if($("#addRepairForm").valid()){
+					//选中的行
+					//获取到该行订单的所有信息
+					var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+					var order = tables.order.row($tr.eq(0)).data();
+					if($tr.length>1){
+						$.W.alert("不能同时编辑多条记录!",true);
+					}else if($tr.length<=0){
+						$.W.alert("请先选中行再点击修改!",true);
 					}else{
-						$.W.alert("只有新订单才能修改!",true);
+						if(order.status=="新订单"){
+							//将订单信息填充到表单上
+							$("#update-repairContent").val(order.repairContent);
+							$("#update-contactTelUser").val(order.contactTelUser);
+							$.ajax({
+						        type: "POST",
+						        contentType: "application/json;utf-8",
+						        dataType: "json",
+						        url:$.urlRoot+"/platform/userAction!listCompany.action",
+						        success: function (d) {
+						        	var data=[];
+			    		            var result=d.msg;
+			    		            for ( var i = 0; i < result.length; i++) {//动态加载
+			    						var obj=new Object();
+			    						obj.id=result[i].id;
+			    						obj.text=result[i].nickName;
+			    						data.push(obj);
+			    					}
+			    		            console.log(data);
+			    		            $("#update-companyId").select2({
+			    					  placeholder: "选择用户名",
+			    					  data:data
+			    					}); 
+						        	/*var html="" ;
+						        	var result=d.msg;
+						        	$("#update-companyId").empty();
+						        	for ( var i = 0; i < result.length; i++) {//动态加载公司
+										var r = result[i];
+										if(order.userId==r.id){
+											html += "<option selected='selected' value=" + r.id + ">" + r.nickName + "</option>\r\n";
+										}else{
+											html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
+										}
+									}
+						            $("#update-companyId").append(html);*/
+						        }
+							});
+							$("#updateRepair").modal("show");
+						}else{
+							$.W.alert("只有新订单才能修改!",true);
+						}
 					}
 				}
 			});

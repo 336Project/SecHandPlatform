@@ -36,6 +36,7 @@ session.setAttribute("customer", Role.CODE_CUSTOMER); */
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="../js/lib/validation/jquery.validate.min.js"></script>
   <script>
   	jQuery.urlRoot = "<%=path%>";
   </script>
@@ -102,17 +103,17 @@ session.setAttribute("customer", Role.CODE_CUSTOMER); */
 		        <h4 class="modal-title" id="myModalLabel">添加角色</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="addRoleForm">
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">角色名称</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="roleName" placeholder="">
+				      <input type="text" class="form-control" id="roleName" placeholder="请输入角色名称" name="roleName">
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">角色编号</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="roleCode" placeholder="1:管理员2:维修公司3:普通用户">
+				      <input type="text" class="form-control" id="roleCode" name="roleCode" placeholder="1:管理员2:维修公司3:普通用户">
 				    </div>
 				  </div>
 				</form>

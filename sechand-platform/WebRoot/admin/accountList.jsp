@@ -13,18 +13,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <title>后台管理系统</title>
 <!-- bootstrap -->
   <link href="../css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<!--  -->  <link href="../css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="../css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 
 <!-- common css --> 
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <link rel="stylesheet" type="text/css" href="../css/archon.css">
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="../js/lib/datatables/css/jquery.dataTables_themeroller.css">
-
 <!-- self css -->
   <link rel="stylesheet" href="../js/lib/switch/css/bootstrap-switch.min.css" type="text/css"></link>
   <link rel="stylesheet" type="text/css" href="css/userList.css">
-  
+  <link rel="stylesheet" href="../js/lib/select2/css/select2.min.css" type="text/css"></link>
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
@@ -34,6 +33,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  
+  <script type="text/javascript" src="../js/lib/validation/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="../js/lib/select2/js/select2.min.js"></script>
+  <script type="text/javascript" src="../js/lib/select2/js/i18n/zh-CN.js"></script>
   <script>
   	jQuery.urlRoot = "<%=path%>";
   </script>
@@ -89,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<!-- 主要内容 end'-->
-		<!-- 新增用户弹出框 start  -->
+		<!-- 充值弹出框 start  -->
 		<div class="modal fade" id="addAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -98,12 +101,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <h4 class="modal-title" id="myModalLabel">充值</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="addAccountForm">
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
 					    <div class="col-sm-8">
-						     <select class="form-control" id="userName" name="userName" >
-							 </select>
+						     <select class="select2" id="userName" name="userName" ></select>
 					    </div>
 				  </div>
 				  <div class="form-group">

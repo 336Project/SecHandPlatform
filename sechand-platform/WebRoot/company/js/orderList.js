@@ -24,6 +24,29 @@ var view = {
 			//执行初始化用户列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
 			tables.order = this.initOrderTable();
 			this.tableTool();
+			//报价的表单验证
+			$("#updateRepairForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		        	contactTelCompany:{required: true,digits:true,minlength: 11,maxlength:11},/*最大最小都是11则只能输入11位的电话号码，digits:只能是整数  */
+		        	price:{required: true,number:true}
+		        },
+		        messages:{
+		        	contactTelCompany:{required: "电话不能为空",minlength: "请输入正确格式的电话号码",maxlength:"请输入正确格式的电话号码",digits:"请输入正确格式的电话号码"},
+		            price:{required: "报价金额不能为空",number:"请输入正确的金额格式"}
+		        }
+		   });
 		},
 		tableTool:function(){
 			
@@ -52,24 +75,26 @@ var view = {
 			
 			//提交报价订单的表单
 			$("#btn-updateRepair").off('click.save').on("click.save",function(){
-				var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
-				$.ajax({
-	        		url:$.urlRoot+"/platform/orderAction!quoteOrderByCompany.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"order.id":id ,//被修改的订单的id
-	        				"order.price":$("#updateRepair").find("[name=price]").val(),
-	        				"order.contactTelCompany":$("#updateRepair").find("[name=contactTelCompany]").val(),
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.order.draw();
-	        			}
-	        		}
-	        	});
+				if($("#updateRepairForm").valid()){
+					var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
+					$.ajax({
+		        		url:$.urlRoot+"/platform/orderAction!quoteOrderByCompany.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"order.id":id ,//被修改的订单的id
+		        				"order.price":$("#updateRepair").find("[name=price]").val(),
+		        				"order.contactTelCompany":$("#updateRepair").find("[name=contactTelCompany]").val(),
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.order.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			
 			//订单完成

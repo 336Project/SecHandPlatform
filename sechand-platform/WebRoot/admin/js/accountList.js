@@ -24,6 +24,29 @@ var view = {
 			//执行初始化用户列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
 			tables.account = this.initAccountTable();
 			this.tableTool();
+			//充值表单验证
+			$("#addAccountForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		            userName:{required: true},
+		            money:{required: true,number:true}
+		        },
+		        messages:{
+		            userName:{required: "用户名不能为空"},
+		            money:{required: "充值金额不能为空",number:"请输入正确的金额格式"}
+		        }
+		   });
 		},
 		tableTool:function(){
 			//删除
@@ -82,48 +105,65 @@ var view = {
 			});
 			//点击充值按钮时，加载用户下拉框
 			$("#btn-modal-addAccount").click(function(){
-				$.ajax({
-			        type: "POST",
-			        contentType: "application/json;utf-8",
-			        dataType: "json",
-			        url:$.urlRoot+"/platform/userAction!listAllUsers.action",
-			        success: function (d) {
-			        	var html="" ;
-			        	var result=[];
-			        	if(d.success){
-			        		result=d.msg;
-			        	}
-			        	$("#userName").empty();
-			        	for ( var i = 0; i < result.length; i++) {//动态加载角色
-							var r = result[i];
-							html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
-						}
-			            $("#userName").append(html);
-			        }
-				});
 				//重置表单,ps:form元素才有reset
     			$("#addAccount").find("form")[0].reset();
+    			//加载充值功能中用户列表
+    			$.ajax({
+    		        type: "POST",
+    		        contentType: "application/json;utf-8",
+    		        dataType: "json",
+    		        url:$.urlRoot+"/platform/userAction!listAllUsers.action",
+    		        success: function (d) {
+    		        	 //请将返回值的格式设置为[{id: "这里等于value", text: '这是text' },{id: "admin", text: '管理员'}]
+    		            var data=[];
+    		            var result=d.msg;
+    		            for ( var i = 0; i < result.length; i++) {//动态加载角色
+    						var obj=new Object();
+    						obj.id=result[i].id;
+    						obj.text=result[i].nickName;
+    						data.push(obj);
+    					}
+    		            console.log(data);
+    		            $("#addAccount").find("[name=userName]").select2({
+    					  placeholder: "选择用户名",
+    					  data:data
+    					}); 
+    		        	/*var html="" ;
+    		        	var result=[];
+    		        	if(d.success){
+    		        		result=d.msg;
+    		        	}
+    		        	$("#userName").empty();
+    		        	for ( var i = 0; i < result.length; i++) {//动态加载角色
+    						var r = result[i];
+    						html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
+    					}
+    		            $("#userName").append(html);*/
+    		        }
+    			});
 				$("#addAccount").modal("show");
 			});
 			//提交充值的表单
 			$("#btn-addAccount").off('click.save').on("click.save",function(){
-				$.ajax({
-	        		url:$.urlRoot+"/platform/accountAction!recharge.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"account.userId":$("#addAccount").find("[name=userName]").val(),
-	        				"account.money":$("#addAccount").find("[name=money]").val(),
-	        				"account.remark":$("#addAccount").find("[name=remark]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.account.draw();
-	        			}
-	        		}
-	        	});
+				if($("#addAccountForm").valid()){
+					$.ajax({
+		        		url:$.urlRoot+"/platform/accountAction!recharge.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"account.userId":$("#addAccount").find("[name=userName]").val(),
+		        				"account.money":$("#addAccount").find("[name=money]").val(),
+		        				"account.remark":$("#addAccount").find("[name=remark]").val()
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.account.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			//点击行选中或取消选中用户行
 			$("#table-account").on("click.select","tr",function(){

@@ -24,6 +24,69 @@ var view = {
 			//执行初始化用户列表    直接在ready中调用也是可以的，放于此处方便代码维护而已。
 			tables.user = this.initUserTable();
 			this.tableTool();
+			//添加用户的表单验证
+			$("#addUserForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		            userName:{required: true ,minlength: 6},
+		            password:{required: true ,minlength: 6,maxlength:20},
+		            password2:{required: true ,equalTo: "#password"},
+		            nickName:{required: true},
+		            realName:{required: false},
+		            email:{required: true,email:true },
+		            tel:{required: true,digits:true,minlength: 11,maxlength:11},/*最大最小都是11则只能输入11位的电话号码，digits:只能是整数  */
+		            introduction:{required: false},
+		            roleCode:{required: true}
+		        },
+		        messages:{
+		            userName:{required: "用户名不能为空",minlength:"用户名不能小于6个字符"},
+		            password:{required: "密码不能为空" ,minlength:"密码不能小于6位数",maxlength:"密码最多20位数"},
+		            password2:{required: "请输入相同的密码" ,equalTo: "请输入相同的密码"},
+		            nickName:{required: "昵称不能为空"},
+		            /* realName:{required: "真实姓名不能为空"}, */
+		            email:{required: "邮箱不能为空",email:"请输入正确格式的邮箱地址"},
+		            tel:{required: "电话不能为空",minlength: "请输入正确格式的电话号码",maxlength:"请输入正确格式的电话号码",digits:"请输入正确格式的电话号码"},
+		            /* introduction:{required: "自我介绍不能为空"}, */
+		            roleCode:{required: "请选择角色类型"}
+		        }
+		   });
+			//修改用户的表单验证
+			$("#updateUserForm").validate({
+		        onkeyup: false,
+		        errorClass: 'error',
+		        validClass: 'valid',
+		        highlight: function(element) {
+		            $(element).closest('div').addClass("f-error");
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('div').removeClass("f-error");
+		        },
+		        errorPlacement: function(error, element) {
+		            $(element).closest('div').append(error);
+		        },
+		        rules: {
+		            nickName:{required: true},
+		            realName:{required: false},
+		            email:{required: true,email:true },
+		            tel:{required: true,digits:true,minlength: 11,maxlength:11},/*最大最小都是11则只能输入11位的电话号码，digits:只能是整数  */
+		        },
+		        messages:{
+		            nickName:{required: "昵称不能为空"},
+		            email:{required: "邮箱不能为空",email:"请输入正确格式的邮箱地址"},
+		            tel:{required: "电话不能为空",minlength: "请输入正确格式的电话号码",maxlength:"请输入正确格式的电话号码",digits:"请输入正确格式的电话号码"},
+		        }
+		   });
 		},
 		tableTool:function(){
 			//删除
@@ -105,28 +168,29 @@ var view = {
 			});
 			//提交新增用户的表单
 			$("#btn-addUser").off('click.save').on("click.save",function(){
-				$.ajax({
-	        		url:$.urlRoot+"/platform/userAction!addByManual.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"user.userName":$("#addUser").find("[name=userName]").val(),
-	        				"user.realName":$("#addUser").find("[name=realName]").val(),
-	        				"user.password":$("#addUser").find("[name=password]").val(),
-	        				"user.nickName":$("#addUser").find("[name=nickName]").val(),
-	        				"user.email":$("#addUser").find("[name=email]").val(),
-	        				"user.tel":$("#addUser").find("[name=tel]").val(),
-	        				"user.roleCode":$("#addUser").find("[name=roleCode]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.user.draw();
-	        			}
-	        		}
-	        	});
-				
+				if($("#addUserForm").valid()){
+					$.ajax({
+		        		url:$.urlRoot+"/platform/userAction!addByManual.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"user.userName":$("#addUser").find("[name=userName]").val(),
+		        				"user.realName":$("#addUser").find("[name=realName]").val(),
+		        				"user.password":$("#addUser").find("[name=password]").val(),
+		        				"user.nickName":$("#addUser").find("[name=nickName]").val(),
+		        				"user.email":$("#addUser").find("[name=email]").val(),
+		        				"user.tel":$("#addUser").find("[name=tel]").val(),
+		        				"user.roleCode":$("#addUser").find("[name=roleCode]").val()
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.user.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			
 			//为修改的表单赋值
@@ -152,27 +216,29 @@ var view = {
 			});
 			//提交修改用户的表单
 			$("#btn-updateUser").off('click.save').on("click.save",function(){
-				var userId = $("#table-user [name='slecteUser']:checked").eq(0).data("uid");
-				$.ajax({
-	        		url:$.urlRoot+"/platform/userAction!updateUser.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"user.id":userId,//被修改的用户的id
-	        				"user.userName":$("#updateUser").find("[name=userName]").val(),
-	        				"user.realName":$("#updateUser").find("[name=realName]").val(),
-	        				"user.nickName":$("#updateUser").find("[name=nickName]").val(),
-	        				"user.email":$("#updateUser").find("[name=email]").val(),
-	        				"user.tel":$("#updateUser").find("[name=tel]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.user.draw();
-	        			}
-	        		}
-	        	});
+				if($("#updateUserForm").valid()){
+					var userId = $("#table-user [name='slecteUser']:checked").eq(0).data("uid");
+					$.ajax({
+		        		url:$.urlRoot+"/platform/userAction!updateUser.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"user.id":userId,//被修改的用户的id
+		        				"user.userName":$("#updateUser").find("[name=userName]").val(),
+		        				"user.realName":$("#updateUser").find("[name=realName]").val(),
+		        				"user.nickName":$("#updateUser").find("[name=nickName]").val(),
+		        				"user.email":$("#updateUser").find("[name=email]").val(),
+		        				"user.tel":$("#updateUser").find("[name=tel]").val()
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.user.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			//点击行选中或取消选中用户行
 			$("#table-user").on("click.select","tr",function(){

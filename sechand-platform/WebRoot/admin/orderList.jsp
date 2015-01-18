@@ -142,12 +142,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">应收款(元)</label>
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="look-receivables" placeholder="" name="receivables">
-				    </div>
-				  </div>
-				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="look-repairContent" placeholder="" name="repairContent">

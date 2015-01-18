@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- bootstrap -->
   <link href="../css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <!--  -->  <link href="../css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="../js/lib/select2/css/select2.min.css" type="text/css"></link
 <!-- common css --> 
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <link rel="stylesheet" type="text/css" href="../css/archon.css">
@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- self css -->
   <link rel="stylesheet" href="../js/lib/switch/css/bootstrap-switch.min.css" type="text/css"></link>
   <link rel="stylesheet" type="text/css" href="css/userList.css">
-  
+  >
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
@@ -34,6 +34,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="../js/lib/validation/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="../js/lib/select2/js/select2.min.js"></script>
+  <script type="text/javascript" src="../js/lib/select2/js/i18n/zh-CN.js"></script>
   <script>
   	jQuery.urlRoot = "<%=path%>";
   </script>
@@ -99,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <h4 class="modal-title" id="myModalLabel">报修</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="addRepairForm">
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
 				    <div class="col-sm-8">
@@ -117,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">维修公司</label>
 					    <div class="col-sm-8">
-						     <select class="form-control" id="companyId" name="companyId" >
+						     <select class="select2" id="companyId" name="companyId" >
 							 </select>
 					    </div>
 				  </div>
@@ -141,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <h4 class="modal-title" id="myModalLabel">报修</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="updateRepairForm">
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
 				    <div class="col-sm-8">
@@ -158,7 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">维修公司</label>
 					    <div class="col-sm-8">
-						     <select class="form-control" id="update-companyId" name="companyId" >
+						     <select class="select2" id="update-companyId" name="companyId" >
 							 </select>
 					    </div>
 				  </div>
