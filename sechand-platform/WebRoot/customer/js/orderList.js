@@ -148,6 +148,7 @@ var view = {
     						data.push(obj);
     					}
     		            console.log(data);
+    		            $.fn.modal.Constructor.prototype.enforceFocus = function() {}; 
     		            $("#companyId").select2({
     					  placeholder: "请选择维修公司",
     					  data:data
@@ -223,6 +224,7 @@ var view = {
 		    						data.push(obj);
 		    					}
 		    		            console.log(data);
+		    		            $.fn.modal.Constructor.prototype.enforceFocus = function() {}; 
 		    		            $("#update-companyId").select2({
 		    					  placeholder: "选择用户名",
 		    					  data:data

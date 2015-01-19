@@ -124,6 +124,7 @@ var view = {
     						data.push(obj);
     					}
     		            console.log(data);
+    		            $.fn.modal.Constructor.prototype.enforceFocus = function() {}; 
     		            $("#addAccount").find("[name=userName]").select2({
     					  placeholder: "选择用户名",
     					  data:data
