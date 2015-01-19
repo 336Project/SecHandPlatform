@@ -22,7 +22,7 @@ var view = {
 			tables.roles = this.initRoleTable();
 			this.tableTool();
 			//添加的表单验证
-			$("#updateUserForm").validate({
+			$("#addRoleForm").validate({
 		        onkeyup: false,
 		        errorClass: 'error',
 		        validClass: 'valid',
@@ -41,7 +41,7 @@ var view = {
 		        },
 		        messages:{
 		        	roleName:{required: "角色名称不能为空"},
-		            roleCode:{required: "角色编号不能为空",digits:"编号只能为正整数",range:"1:管理员2:维修公司3:普通用户"},
+		            roleCode:{required: "角色编号不能为空",digits:"编号只能为正整数",range:"角色编号只能为:1:管理员,2:维修公司,3:普通用户"},
 		        }
 		   });
 		},
@@ -99,6 +99,7 @@ var view = {
 		        			"role.code":$("#roleCode").val()
 		        			},
 		        		success:function(d){
+		        			$('#addRole').modal('hide')
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){

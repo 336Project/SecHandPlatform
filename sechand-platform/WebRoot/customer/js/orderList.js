@@ -149,7 +149,7 @@ var view = {
     					}
     		            console.log(data);
     		            $("#companyId").select2({
-    					  placeholder: "选择用户名",
+    					  placeholder: "请选择维修公司",
     					  data:data
     					}); 
 			        	/*var html="" ;
@@ -181,6 +181,7 @@ var view = {
 		        				"order.companyId":$("#addRepair").find("[name=companyId]").val()
 		        		},
 		        		success:function(d){
+		        			$("#addRepair").modal('hide');
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){
@@ -194,83 +195,84 @@ var view = {
 			
 			//为修改的表单赋值
 			$("#btn-modal-updateOrder").click(function(){
-				if($("#addRepairForm").valid()){
-					//选中的行
-					//获取到该行订单的所有信息
-					var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
-					var order = tables.order.row($tr.eq(0)).data();
-					if($tr.length>1){
-						$.W.alert("不能同时编辑多条记录!",true);
-					}else if($tr.length<=0){
-						$.W.alert("请先选中行再点击修改!",true);
-					}else{
-						if(order.status=="新订单"){
-							//将订单信息填充到表单上
-							$("#update-repairContent").val(order.repairContent);
-							$("#update-contactTelUser").val(order.contactTelUser);
-							$.ajax({
-						        type: "POST",
-						        contentType: "application/json;utf-8",
-						        dataType: "json",
-						        url:$.urlRoot+"/platform/userAction!listCompany.action",
-						        success: function (d) {
-						        	var data=[];
-			    		            var result=d.msg;
-			    		            for ( var i = 0; i < result.length; i++) {//动态加载
-			    						var obj=new Object();
-			    						obj.id=result[i].id;
-			    						obj.text=result[i].nickName;
-			    						data.push(obj);
-			    					}
-			    		            console.log(data);
-			    		            $("#update-companyId").select2({
-			    					  placeholder: "选择用户名",
-			    					  data:data
-			    					}); 
-						        	/*var html="" ;
-						        	var result=d.msg;
-						        	$("#update-companyId").empty();
-						        	for ( var i = 0; i < result.length; i++) {//动态加载公司
-										var r = result[i];
-										if(order.userId==r.id){
-											html += "<option selected='selected' value=" + r.id + ">" + r.nickName + "</option>\r\n";
-										}else{
-											html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
-										}
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if($tr.length>1){
+					$.W.alert("不能同时编辑多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再点击修改!",true);
+				}else{
+					if(order.status=="新订单"){
+						//将订单信息填充到表单上
+						$("#update-repairContent").val(order.repairContent);
+						$("#update-contactTelUser").val(order.contactTelUser);
+						$.ajax({
+					        type: "POST",
+					        contentType: "application/json;utf-8",
+					        dataType: "json",
+					        url:$.urlRoot+"/platform/userAction!listCompany.action",
+					        success: function (d) {
+					        	var data=[];
+		    		            var result=d.msg;
+		    		            for ( var i = 0; i < result.length; i++) {//动态加载
+		    						var obj=new Object();
+		    						obj.id=result[i].id;
+		    						obj.text=result[i].nickName;
+		    						data.push(obj);
+		    					}
+		    		            console.log(data);
+		    		            $("#update-companyId").select2({
+		    					  placeholder: "选择用户名",
+		    					  data:data
+		    					}); 
+					        	/*var html="" ;
+					        	var result=d.msg;
+					        	$("#update-companyId").empty();
+					        	for ( var i = 0; i < result.length; i++) {//动态加载公司
+									var r = result[i];
+									if(order.userId==r.id){
+										html += "<option selected='selected' value=" + r.id + ">" + r.nickName + "</option>\r\n";
+									}else{
+										html += "<option value=" + r.id + ">" + r.nickName + "</option>\r\n";
 									}
-						            $("#update-companyId").append(html);*/
-						        }
-							});
-							$("#updateRepair").modal("show");
-						}else{
-							$.W.alert("只有新订单才能修改!",true);
-						}
+								}
+					            $("#update-companyId").append(html);*/
+					        }
+						});
+						$("#updateRepair").modal("show");
+					}else{
+						$.W.alert("只有新订单才能修改!",true);
 					}
 				}
 			});
 			
 			//提交修改订单的表单
 			$("#btn-updateRepair").off('click.save').on("click.save",function(){
-				var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
-				$.ajax({
-	        		url:$.urlRoot+"/platform/orderAction!updateByCustomer.action",
-	        		type:"post",
-	        		dataType:"json",
-	        		data:{
-	        				"order.id":id ,//被修改的订单的id
-	        				"order.userId":$("#updateRepair").find("[name=userId]").val(),
-	        				"order.repairContent":$("#updateRepair").find("[name=repairContent]").val(),
-	        				"order.contactTelUser":$("#updateRepair").find("[name=contactTelUser]").val(),
-	        				"order.companyId":$("#updateRepair").find("[name=companyId]").val()
-	        		},
-	        		success:function(d){
-	        			$.W.alert(d.msg,true);
-	        			//添加后刷新表格
-	        			if(d.success){
-	        				tables.order.draw();
-	        			}
-	        		}
-	        	});
+				if($("#updateRepairForm").valid()){
+					var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
+					$.ajax({
+		        		url:$.urlRoot+"/platform/orderAction!updateByCustomer.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"order.id":id ,//被修改的订单的id
+		        				"order.userId":$("#updateRepair").find("[name=userId]").val(),
+		        				"order.repairContent":$("#updateRepair").find("[name=repairContent]").val(),
+		        				"order.contactTelUser":$("#updateRepair").find("[name=contactTelUser]").val(),
+		        				"order.companyId":$("#updateRepair").find("[name=companyId]").val()
+		        		},
+		        		success:function(d){
+		        			$("#updateRepair").modal('hide');
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.order.draw();
+		        			}
+		        		}
+		        	});
+				}
 			});
 			
 			//点击行选中或取消选中用户行

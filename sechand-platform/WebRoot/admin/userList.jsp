@@ -158,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button id="btn-addUser" type="button" class="btn btn-primary" data-dismiss="modal">添加</button>
+		        <button id="btn-addUser" type="button" class="btn btn-primary">添加</button>
 		      </div>
 		    </div>
 		  </div>
@@ -215,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button id="btn-updateUser" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+		        <button id="btn-updateUser" type="button" class="btn btn-primary">保存</button>
 		      </div>
 		    </div>
 		  </div>

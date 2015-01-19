@@ -183,6 +183,7 @@ var view = {
 		        				"user.roleCode":$("#addUser").find("[name=roleCode]").val()
 		        		},
 		        		success:function(d){
+		        			$("#addUser").modal('hide');
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){
@@ -231,6 +232,7 @@ var view = {
 		        				"user.tel":$("#updateUser").find("[name=tel]").val()
 		        		},
 		        		success:function(d){
+		        			$("#updateUser").modal('hide');
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){

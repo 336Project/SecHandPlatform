@@ -88,6 +88,7 @@ var view = {
 		        				"account.money":money
 		        		},
 		        		success:function(d){
+		        			$("#pickupAccount").modal('hide');
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){
@@ -117,6 +118,7 @@ var view = {
 		        				"account.remark":$("#addAccount").find("[name=remark]").val()
 		        		},
 		        		success:function(d){
+		        			$("#addAccount").modal('hide');
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){

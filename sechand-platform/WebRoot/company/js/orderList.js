@@ -87,6 +87,7 @@ var view = {
 		        				"order.contactTelCompany":$("#updateRepair").find("[name=contactTelCompany]").val(),
 		        		},
 		        		success:function(d){
+		        			$("#updateRepair").modal('hide');
 		        			$.W.alert(d.msg,true);
 		        			//添加后刷新表格
 		        			if(d.success){
