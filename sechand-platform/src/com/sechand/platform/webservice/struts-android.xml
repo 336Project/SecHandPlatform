@@ -9,5 +9,11 @@
 				<param name="root">json</param>
 			</result>
 		</action>
+		<!-- 用户管理 -->
+		<action name="appUserAction" class="appUserAction">
+			<result name="success" type="json">
+				<param name="root">user</param>
+			</result>
+		</action>
 	</package>
 </struts>  
