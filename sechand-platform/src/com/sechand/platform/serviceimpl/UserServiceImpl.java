@@ -129,6 +129,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 			parmas.put("realName", user.getRealName());
 			parmas.put("tel", user.getTel());
 			parmas.put("introduction", user.getIntroduction());
+			if(StringUtils.isNotBlank(user.getPassword())){
+				parmas.put("password", SysUtils.encrypt(user.getPassword()));
+			}
 			baseDao.updateColumnsByParmas(User.class, user.getId(), parmas);
 			return true;
 		} catch (Exception e) {

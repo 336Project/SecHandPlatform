@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="look-repairContent" placeholder="" name="repairContent">
+				      <textarea rows="5" class="form-control" id="look-repairContent" placeholder="" name="repairContent"></textarea>
 				    </div>
 				  </div>
 				  <div class="form-group">

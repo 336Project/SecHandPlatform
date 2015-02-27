@@ -34,7 +34,8 @@ var view={
 					  "user.realName":newUser.realName,
 					  "user.email":newUser.email,
 					  "user.tel":newUser.tel,
-					  "user.introduction":newUser.introduction
+					  "user.introduction":newUser.introduction,
+					  "user.password":newUser.password
 				  },
 				  success:function(data){
 				    //view.refresh(data.msg.user);//刷新页面上的数据
@@ -68,6 +69,7 @@ var view={
 			account.email = $(".userMsgEdict input[name='email']").val();
 			account.tel = $(".userMsgEdict input[name='tel']").val();
 			account.introduction = $(".userMsgEdict input[name='introduction']").val();
+			account.password = $(".userMsgEdict input[name='password']").val();
 			return account;
 		}
 };
