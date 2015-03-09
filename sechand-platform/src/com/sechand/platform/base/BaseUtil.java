@@ -1,9 +1,14 @@
 package com.sechand.platform.base;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 public class BaseUtil {
 	
@@ -90,6 +95,27 @@ public class BaseUtil {
 			}
 		}
 		return sb;
+	}
+	
+	/**
+	 * 
+	 * @author Helen
+	 * 2014-12-23 下午5:28:25
+	 * @param key
+	 * @param path
+	 * @return 
+	 * TODO 从配置文件Properties读取key的值
+	 */
+	public static String readFromProperties(String key,String path){
+		Resource resource = new ClassPathResource(path);
+		Properties p;
+		try {
+			p = PropertiesLoaderUtils.loadProperties(resource);
+			return p.getProperty(key,"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 	public static void main(String[] args) {

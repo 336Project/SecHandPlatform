@@ -145,6 +145,8 @@ session.setAttribute("customer", Role.CODE_CUSTOMER);
 									  <dd>${sessionScope.user.source}</dd>
 									  <dt>注册时间</dt>
 									  <dd>${sessionScope.user.registerTime}</dd>
+									  <dt>密码</dt>
+									  	<dd><input type="password" class="form-control" name="password" value="" placeholder="若需修改，请输入新密码"></dd>
 									</dl>
 									<button id="btn-save" type="button" class="btn btn-primary">保存</button>
 								</div>

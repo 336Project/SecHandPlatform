@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.User;
-import com.sechand.platform.utils.SysUtils;
 import com.sechand.platform.utils.WebUtil;
 
 
@@ -45,7 +45,7 @@ public class AuthorityFilter implements Filter{
 				if(!urlList.contains(uri)){
 					User user=(User)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
 					if(user==null){
-						System.out.println("调用jsp时,Session Account为空");
+						System.out.println("调用jsp时,Session 用户信息为空");
 						response.sendRedirect(basePath+"/error.jsp");
 					}
 				}
@@ -59,7 +59,7 @@ public class AuthorityFilter implements Filter{
 		String value=arg0.getInitParameter(CConfing.CC_KEY_EXCLUDE_JSP);
 		//从配置文件获取不需要拦截的路径
 		if(StringUtils.isNotBlank(value)){
-			String excludeJsp=SysUtils.readFromProperties(CConfing.CC_KEY_EXCLUDE_JSP, value);
+			String excludeJsp=BaseUtil.readFromProperties(CConfing.CC_KEY_EXCLUDE_JSP, value);
 			if(excludeJsp!=null){
 				//拆分
 				String[] jsp_urls=excludeJsp.split(",");
