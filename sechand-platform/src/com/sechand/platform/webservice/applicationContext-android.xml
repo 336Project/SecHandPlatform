@@ -21,4 +21,30 @@
         	<ref bean="appUserService"/>
         </property>
     </bean>
+        <!-- 订单管理 -->
+    <bean id="appOrderService" class="com.sechand.platform.webservice.serviceimpl.AN_OrderServiceImpl" parent="baseService">
+    </bean>
+    <bean id="appOrderAction" class="com.sechand.platform.webservice.action.AN_OrderAction" parent="baseAction">
+    	<property name="appOrderService">
+        	<ref bean="appOrderService"/>
+        </property>
+    </bean>
+           <!-- 角色管理 -->
+    <bean id="appRoleService" class="com.sechand.platform.webservice.serviceimpl.AN_RoleServiceImpl" parent="baseService">
+    </bean>
+    <bean id="appRoleAction" class="com.sechand.platform.webservice.action.AN_RoleAction" parent="baseAction">
+    	<property name="appRoleService">
+        	<ref bean="appRoleService"/>
+        </property>
+    </bean>
+    
+             <!-- 交易管理 -->
+    <bean id="appTradeService" class="com.sechand.platform.webservice.serviceimpl.AN_TradeServiceImpl" parent="baseService">
+    </bean>
+    <bean id="appTradeAction" class="com.sechand.platform.webservice.action.AN_TradeAction" parent="baseAction">
+    	<property name="appTradeService">
+        	<ref bean="appTradeService"/>
+        </property>
+    </bean>
+    
 </beans>

@@ -9,11 +9,31 @@
 				<param name="root">json</param>
 			</result>
 		</action>
+		
 		<!-- 用户管理 -->
 		<action name="appUserAction" class="appUserAction">
 			<result name="success" type="json">
-				<param name="root">user</param>
+				<param name="root">json</param>
 			</result>
 		</action>
+		
+		<action name="appOrderAction" class="appOrderAction">
+			<result name="success" type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+		
+		<action name="appRoleAction" class="appRoleAction">
+			<result name="success" type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+		
+		<action name="appTradeAction" class="appTradeAction">
+			<result name="success" type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+		
 	</package>
 </struts>  
