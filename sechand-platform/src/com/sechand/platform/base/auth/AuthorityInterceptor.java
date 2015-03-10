@@ -6,8 +6,8 @@ import java.util.List;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.User;
-import com.sechand.platform.utils.WebUtil;
 /**
  * 
  * @author Helen
@@ -31,7 +31,7 @@ public class AuthorityInterceptor extends AbstractInterceptor{
 	public String intercept(ActionInvocation arg0) throws Exception {
 		String methodName = arg0.getProxy().getMethod();
 		if(!list.contains(methodName)){
-			User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+			User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 			if(user==null){
 				System.out.println("调用Action时,Session Account为空");
 				return Action.ERROR;

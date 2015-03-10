@@ -9,10 +9,8 @@ import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseServiceImpl;
 import com.sechand.platform.model.Account;
-import com.sechand.platform.model.Role;
 import com.sechand.platform.model.User;
 import com.sechand.platform.utils.SysUtils;
-import com.sechand.platform.utils.WebUtil;
 import com.sechand.platform.webservice.service.AN_AccountService;
 
 public class AN_AccountServiceImpl extends BaseServiceImpl implements

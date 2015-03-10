@@ -10,12 +10,12 @@ import org.apache.commons.lang.StringUtils;
 
 
 import com.sechand.platform.base.BaseAction;
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.Role;
 import com.sechand.platform.model.User;
 import com.sechand.platform.service.UserService;
 import com.sechand.platform.utils.DataTableParams;
 import com.sechand.platform.utils.SysUtils;
-import com.sechand.platform.utils.WebUtil;
 
 
 
@@ -45,7 +45,7 @@ public class UserAction extends BaseAction{
 				json.setMsg("该账户被禁用，请联系管理员!");
 			}else{
 				//将用户添加到session
-				WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
+				BaseUtil.add2Session(BaseUtil.KEY_LOGIN_USER_SESSION, a);
 				//更新最后一次登录时间
 				userService.updateColumnById(User.class, "lastLoginTime", SysUtils.getDateFormat(new Date()), a.getId());
 				json.setSuccess(true);
@@ -67,7 +67,7 @@ public class UserAction extends BaseAction{
 	 */
 	public String logout(){
 		//将用户信息从session中移除
-		WebUtil.remove4Session(WebUtil.KEY_LOGIN_USER_SESSION);
+		BaseUtil.remove4Session(BaseUtil.KEY_LOGIN_USER_SESSION);
 		return LOGIN;
 	}
 	/**
@@ -184,7 +184,7 @@ public class UserAction extends BaseAction{
 	public String updateUserAndSession(){
 		if(userService.updateUser(user)){
 			User a=userService.getByClassAndId(User.class, user.getId());
-			WebUtil.add2Session(WebUtil.KEY_LOGIN_USER_SESSION, a);
+			BaseUtil.add2Session(BaseUtil.KEY_LOGIN_USER_SESSION, a);
 			json.setMsg("修改成功!");
 			json.setSuccess(true);
 		}else{

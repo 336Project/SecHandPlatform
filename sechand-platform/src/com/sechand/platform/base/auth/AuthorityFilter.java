@@ -17,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.User;
-import com.sechand.platform.utils.WebUtil;
 
 
 /** 
@@ -43,7 +42,7 @@ public class AuthorityFilter implements Filter{
 		if(uri!=null&&!uri.equals("/")){
 			if(urlList!=null&&urlList.size()>0){
 				if(!urlList.contains(uri)){
-					User user=(User)request.getSession().getAttribute(WebUtil.KEY_LOGIN_USER_SESSION);
+					User user=(User)request.getSession().getAttribute(BaseUtil.KEY_LOGIN_USER_SESSION);
 					if(user==null){
 						System.out.println("调用jsp时,Session 用户信息为空");
 						response.sendRedirect(basePath+"/error.jsp");

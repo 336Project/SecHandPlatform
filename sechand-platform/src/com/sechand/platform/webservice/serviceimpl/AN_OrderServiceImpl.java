@@ -14,7 +14,6 @@ import com.sechand.platform.model.Role;
 import com.sechand.platform.model.Trade;
 import com.sechand.platform.model.User;
 import com.sechand.platform.utils.SysUtils;
-import com.sechand.platform.utils.WebUtil;
 import com.sechand.platform.webservice.service.AN_OrderService;
 
 public class AN_OrderServiceImpl extends BaseServiceImpl implements

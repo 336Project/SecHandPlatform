@@ -8,12 +8,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseServiceImpl;
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.model.Role;
 import com.sechand.platform.model.User;
 import com.sechand.platform.service.AccountService;
 import com.sechand.platform.utils.SysUtils;
-import com.sechand.platform.utils.WebUtil;
 
 public class AccountServiceImpl extends BaseServiceImpl implements
 		AccountService {
@@ -45,7 +45,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 			int pageSize, String keyword,boolean isAdmin) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
 		//用户校验
-		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 		if(user==null) return null;
 		if(!isAdmin){//非管理员，则获取相应用户的信息
 			whereParams.put("userId", user.getId());
@@ -68,7 +68,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 	public int countByKeyword(String keyword,boolean isAdmin) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
 		//用户校验
-		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 		if(user==null) return 0;
 		if(!isAdmin){//非管理员，则获取相应用户的信息
 			whereParams.put("userId", user.getId());
@@ -176,7 +176,7 @@ public class AccountServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String pickup(Account account) {
-		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 		if(account!=null&&user!=null){
 			if(user.getId().equals(account.getUserId())){
 				double balance=Double.valueOf(account.getBalance());

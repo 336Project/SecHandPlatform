@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseServiceImpl;
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.model.Order;
 import com.sechand.platform.model.Role;
@@ -15,7 +16,6 @@ import com.sechand.platform.model.Trade;
 import com.sechand.platform.model.User;
 import com.sechand.platform.service.OrderService;
 import com.sechand.platform.utils.SysUtils;
-import com.sechand.platform.utils.WebUtil;
 
 public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 
@@ -73,7 +73,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 	public List<Order> listCustomerOrdersByPageRows(
 			int currentPage, int pageSize, String keyword) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
-		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 		if(user==null) return null;
 		if(Role.CODE_CUSTOMER.equals(user.getRoleCode())){//普通用户
 			whereParams.put("userId", user.getId());
@@ -101,7 +101,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 	@Override
 	public int countCustomerByKeyword(String keyword) {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
-		User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+		User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 		if(user==null) return 0;
 		if(Role.CODE_CUSTOMER.equals(user.getRoleCode())){//普通用户
 			whereParams.put("userId", user.getId());
@@ -284,7 +284,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 	@Override
 	public String quoteByOrder(Order order) {
 		if(order!=null){
-			User user=(User) WebUtil.getSession(WebUtil.KEY_LOGIN_USER_SESSION);
+			User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 			Order o=baseDao.getByClassNameAndId(Order.class, order.getId());
 			if(user!=null&&o!=null){
 				if(!Order.STATUS_NEW.equals(o.getStatus())) return"只有新订单才能报价!";
