@@ -22,7 +22,7 @@ import com.sechand.platform.base.BaseUtil;
  * @author Helen
  * 登录验证拦截器,拦截所有未登录的非法jsp操作 (直接在地址栏请求jsp)
  */
-public class AuthorityFilter implements Filter{
+public abstract class AuthorityFilter implements Filter{
 	private List<String> urlList;
 	@Override
 	public void destroy() {
@@ -49,6 +49,7 @@ public class AuthorityFilter implements Filter{
 				}
 			}
 		}
+		customDoFilter(arg0,arg1);
 		arg2.doFilter(request, response);
 	}
 
@@ -65,6 +66,14 @@ public class AuthorityFilter implements Filter{
 			}
 		}
 	}
-
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-3-31 下午3:22:52
+	 * @param arg0
+	 * @param arg1 
+	 * TODO 让继承该类的子类实现自已的customDoFilter
+	 */
+	public abstract void customDoFilter(ServletRequest arg0, ServletResponse arg1) throws IOException;
 
 }

@@ -316,7 +316,7 @@ var view = {
 		        				size:"mini",
 		        				onSwitchChange:function($me,state){
 		        					//ajax提交状态改变
-		        					var status=state==true?"禁用":"正常"
+		        					var status=state==true?"禁用":"正常";
 		        					//当前的userID
 		        					var $tr = $(this).parent().parent().parent().parent();
 		        					var user = tables.user.row($tr).data(); //这一行的用户所有数据包括name什么的
