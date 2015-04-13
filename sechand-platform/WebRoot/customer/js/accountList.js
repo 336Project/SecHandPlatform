@@ -104,7 +104,7 @@ var view = {
 			//提交充值的表单
 			$("#btn-addAccount").off('click.save').on("click.save",function(){
 				if($("#addAccountForm").valid()){
-					$.ajax({
+					/*$.ajax({
 		        		url:$.urlRoot+"/platform/accountAction!applyRecharge.action",
 		        		type:"post",
 		        		dataType:"json",
@@ -121,7 +121,19 @@ var view = {
 		        				tables.account.draw();
 		        			}
 		        		}
-		        	});
+		        	});*/
+					$("#addAccount").modal('hide');
+					$.ajax({
+				        url:"chongzhi.jsp?money="+$("#addAccount").find("[name=money]").val(),
+				        dataType:"html",
+				        type:"get",
+				        cache:true,
+				        success:function(result){
+				            $("#main-panel").html(result);
+				        },error:function(){
+				        	alert("404");
+				        }
+					});
 				}
 			});
 			

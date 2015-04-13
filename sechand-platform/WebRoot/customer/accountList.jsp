@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<!-- 面板 -->
-				<div class="row">
+				<div class="row" id="main-panel">
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<!-- 放置表格或其他内容 -->
 								<div class="tb-tools">
 									<button type="button" class="btn btn-primary" id="btn-modal-addAccount">充值</button>
-									<button type="button" class="btn btn-warning" id="btn-cancel">取消</button>
+									<!-- <button type="button" class="btn btn-warning" id="btn-cancel">取消</button> -->
 									<button type="button" class="btn btn-warning" id="btn-modal-pickup">提现</button>
 								</div>
 								<table id="table-account" class="hover order-column"></table>
@@ -107,12 +107,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				      <input type="text" class="form-control" id="userId" name="userId" value="${sessionScope.user.id}" style="display: none;">
 				    </div>
 				  </div>
-				  <div class="form-group">
+				  <!-- <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">备注</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="remark" name="remark" placeholder="说明" >
 				    </div>
-				  </div>
+				  </div> -->
 				</form>
 		      </div>
 		      <div class="modal-footer">
