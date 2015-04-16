@@ -13,11 +13,13 @@ import com.sechand.platform.utils.DataTableParams;
 
 
 public class OrderAction extends BaseAction{
+	private static final long serialVersionUID = -2487794526714458182L;
 	private OrderService orderService;
 	private String ids;
 	private String dataTableParams;//表单参数,json格式
 	private String status;//订单状态
 	private Order order;
+	private String id;
 	
 	/**
 	 * 
@@ -191,6 +193,42 @@ public class OrderAction extends BaseAction{
 	//公司操作
 	/**
 	 * 
+	 * @author lixiaowei
+	 * 2015-4-14 下午6:08:06
+	 * @return 
+	 * TODO 签到
+	 */
+	public String sign(){
+		if(Order.STATUS_COME.equals(status)||Order.STATUS_NOT_COME.equals(status)){
+			orderService.updateColumnById(Order.class, "status", status, id);
+			json.setMsg("操作成功");
+			json.setSuccess(true);
+		}else{
+			json.setMsg("操作失败");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @author lixiaowei
+	 * 2015-4-14 上午11:58:11
+	 * @return 
+	 * TODO 派遣
+	 */
+	public String dispatch(){
+		String msg=orderService.dispatch(order, id);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("操作失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 
 	 * @Author:Helen  
 	 * 2015-1-16下午9:23:30
 	 * @return
@@ -261,5 +299,11 @@ public class OrderAction extends BaseAction{
 	}
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 }

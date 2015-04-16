@@ -49,7 +49,78 @@ var view = {
 		   });
 		},
 		tableTool:function(){
-			
+			//为派遣的表单赋值
+			$("#btn-modal-addRepair").click(function(){
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if($tr.length>1){
+					$.W.alert("不能同时操作多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再操作!",true);
+				}else{
+					if(order.status=="新订单"){
+						//将订单信息填充到表单上
+						$("#add-repairContent").val(order.repairContent);
+						$("#add-contactTelUser").val(order.contactTelUser);
+						$("#add-address").val(order.address);
+						$("#add-price").val("");
+						$.ajax({
+		    		        type: "POST",
+		    		        contentType: "application/json;utf-8",
+		    		        dataType: "json",
+		    		        url:$.urlRoot+"/platform/userAction!listAllUsers.action",
+		    		        success: function (d) {
+		    		        	 //请将返回值的格式设置为[{id: "这里等于value", text: '这是text' },{id: "admin", text: '管理员'}]
+		    		            var data=[];
+		    		            var result=d.msg;
+		    		            for ( var i = 0; i < result.length; i++) {//动态加载维修人员
+		    		            	if(result[i].roleCode=='4'){
+			    						var obj=new Object();
+			    						obj.id=result[i].id;
+			    						obj.text=result[i].realName;
+			    						data.push(obj);
+		    		            	}
+		    					}
+		    		            console.log(data);
+		    		            $.fn.modal.Constructor.prototype.enforceFocus = function() {}; 
+		    		            $("#addRepair").find("[name=userName]").select2({
+		    					  placeholder: "选择用户名",
+		    					  data:data
+		    					}); 
+		    		        }
+		    			});
+						$("#addRepair").modal("show");
+					}else{
+						$.W.alert("只有新订单才能派遣!",true);
+					}
+				}
+			});
+			//提交派遣的表单
+			$("#btn-addRepair").off('click.save').on("click.save",function(){
+				if($("#addRepairForm").valid()){
+					var id = $("#table-order [name='slecteOrder']:checked").eq(0).data("uid");
+					$.ajax({
+		        		url:$.urlRoot+"/platform/orderAction!dispatch.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				"order.id":id ,//被修改的订单的id
+		        				"order.contactTelCompany":$("#addRepair").find("[name=contactTelCompany]").val(),
+		        				id:$("#addRepair").find("[name=userName]").val()
+		        		},
+		        		success:function(d){
+		        			$("#addRepair").modal('hide');
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.order.draw();
+		        			}
+		        		}
+		        	});
+				}
+			});
 			//为报价的表单赋值
 			$("#btn-modal-updateOrder").click(function(){
 				//选中的行
@@ -61,14 +132,16 @@ var view = {
 				}else if($tr.length<=0){
 					$.W.alert("请先选中行再点击报价!",true);
 				}else{
-					if(order.status=="新订单"){
+					if(order.status=="新订单"||order.status=="工人已到"){
 						//将订单信息填充到表单上
 						$("#update-repairContent").val(order.repairContent);
 						$("#update-contactTelUser").val(order.contactTelUser);
+						$("#update-address").val(order.address);
 						$("#update-price").val("");
+						$("#update-quoteContent").val("");
 						$("#updateRepair").modal("show");
 					}else{
-						$.W.alert("只有新订单才能报价!",true);
+						$.W.alert("只有新订单或工人已到才能报价!",true);
 					}
 				}
 			});
@@ -84,6 +157,7 @@ var view = {
 		        		data:{
 		        				"order.id":id ,//被修改的订单的id
 		        				"order.price":$("#updateRepair").find("[name=price]").val(),
+		        				"order.quoteContent":$("#updateRepair").find("[name=quoteContent]").val(),
 		        				"order.contactTelCompany":$("#updateRepair").find("[name=contactTelCompany]").val(),
 		        		},
 		        		success:function(d){
@@ -164,6 +238,8 @@ var view = {
 							{data : 'contactTelUser',sTitle : "我的联系电话"},
 							{data : 'customerUser',sTitle : "客户名称"},
 							{data : 'contactTelUser',sTitle : "客户联系电话"},
+							{data : 'address',sTitle : "地址"},
+							{data : 'repairMan',sTitle : "维修人员信息"}, 
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'quoteTime',sTitle : "报价时间"},
 							{data : 'completeTime',sTitle : "完成时间"},

@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- bootstrap -->
   <link href="../css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <!--  -->  <link href="../css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../js/lib/select2/css/select2.min.css" type="text/css"></link
+<link rel="stylesheet" href="../js/lib/select2/css/select2.min.css" type="text/css"></link>
 <!-- common css --> 
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <link rel="stylesheet" type="text/css" href="../css/archon.css">
@@ -80,6 +80,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
 								<div class="tb-tools">
+									<button type="button" class="btn btn-primary" id="btn-modal-look">查看</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-come">工人已到</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-not-come">工人未到</button>
 									<button type="button" class="btn btn-primary" id="btn-modal-repair">报修</button>
 									<button type="button" class="btn btn-primary" id="btn-confirm">确认</button>
 									<button type="button" class="btn btn-warning" id="btn-modal-updateOrder">修改</button>
@@ -115,6 +118,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <label for="inputEmail3" class="col-sm-4 control-label">我的联系电话</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="contactTelUser" placeholder="请输入正确的手机格式" name="contactTelUser" value="${sessionScope.user.tel}">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-address" placeholder="" name="address">
 				    </div>
 				  </div>
 				  <div class="form-group">
@@ -159,6 +168,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </div>
 				  </div>
 				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-address" placeholder="" name="address">
+				    </div>
+				  </div>
+				  <div class="form-group">
 				    <label for="inputEmail3" class="col-sm-4 control-label">维修公司</label>
 					    <div class="col-sm-8">
 						     <select class="select2" id="update-companyId" name="companyId" >
@@ -170,6 +185,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 		        <button id="btn-updateRepair" type="button" class="btn btn-primary" >修改</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- 查看弹出框 start  -->
+		<div class="modal fade" id="lookRepair" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">查看</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="updateRepairForm">
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
+				    <div class="col-sm-8">
+				      <textarea rows="8" class="form-control" id="look-repairContent" name="repairContent" disabled="disabled"></textarea>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-address" disabled="disabled" name="address">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">我的联系电话</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="look-contactTelUser" disabled="disabled" name="contactTelUser">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">维修公司</label>
+					    <div class="col-sm-8">
+						     <input type="text" class="form-control" id="look-customerCompany"  name="customerCompany" disabled="disabled">
+					    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">公司联系电话</label>
+					    <div class="col-sm-8">
+						     <input type="text" class="form-control" id="look-contactTelCompany"  name="contactTelCompany" disabled="disabled">
+					    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">维修人员信息</label>
+					    <div class="col-sm-8">
+						     <textarea rows="4" class="form-control" id="look-repairMan" name="repairMan" disabled="disabled"></textarea>
+					    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">状态</label>
+					    <div class="col-sm-8">
+						     <input type="text" class="form-control" id="look-status"  name="status" disabled="disabled">
+					    </div>
+				  </div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
 		      </div>
 		    </div>
 		  </div>

@@ -111,6 +111,15 @@ public interface OrderService extends BaseService{
 	public String quoteByOrder(Order order);
 	/**
 	 * 
+	 * @author lixiaowei
+	 * 2015-4-14 上午11:59:36
+	 * @param order
+	 * @return 
+	 * TODO 公司派遣维修人员
+	 */
+	public String dispatch(Order order,String id);
+	/**
+	 * 
 	 * @Author:Helen  
 	 * 2015-1-16下午9:44:56
 	 * @param id

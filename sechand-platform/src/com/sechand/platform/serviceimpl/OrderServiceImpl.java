@@ -152,6 +152,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 					Map<String, Object> parmas=new HashMap<String, Object>();
 					parmas.put("contactTelUser", order.getContactTelUser());
 					parmas.put("repairContent", order.getRepairContent());
+					parmas.put("address", order.getAddress());
 					parmas.put("companyId", u.getId());
 					parmas.put("customerCompany", u.getNickName());
 					baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
@@ -177,6 +178,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 				o.setCustomerCompany(company.getNickName());
 				o.setCustomerUser(order.getCustomerUser());
 				o.setRepairContent(order.getRepairContent());
+				o.setAddress(order.getAddress());
 				o.setStatus(Order.STATUS_NEW);
 				o.setUserId(order.getUserId());
 				int id=baseDao.save(Order.class,o);
@@ -287,7 +289,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 			User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
 			Order o=baseDao.getByClassNameAndId(Order.class, order.getId());
 			if(user!=null&&o!=null){
-				if(!Order.STATUS_NEW.equals(o.getStatus())) return"只有新订单才能报价!";
+				if(!(Order.STATUS_NEW.equals(o.getStatus())||Order.STATUS_COME.equals(o.getStatus()))) return"只有新订单或工人已到才能报价!";
 				if(user.getId().equals(o.getCompanyId())){//当前登录用户与操作当前订单的公司id一样
 					Map<String, Object> parmas=new HashMap<String, Object>();
 					parmas.put("price", order.getPrice());
@@ -315,6 +317,29 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 					return "操作成功!";
 				}else {
 					return "只有已报价的订单，才能完成!";
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String dispatch(Order order,String id) {
+		if(order!=null){
+			User user=(User) BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION);
+			Order o=baseDao.getByClassNameAndId(Order.class, order.getId());
+			if(user!=null&&o!=null){
+				if(!Order.STATUS_NEW.equals(o.getStatus())) return"只有新订单才能报价!";
+				if(user.getId().equals(o.getCompanyId())){//当前登录用户与操作当前订单的公司id一样
+					User u=baseDao.getByClassNameAndId(User.class, id);//获取维修人员信息
+					StringBuffer sb=new StringBuffer();
+					sb.append("姓名:"+u.getRealName()+";\n").append("联系电话:"+u.getTel()+";\n").append("邮箱:"+u.getEmail()+"");
+					Map<String, Object> parmas=new HashMap<String, Object>();
+					parmas.put("contactTelCompany", order.getContactTelCompany());
+					parmas.put("repairMan", sb.toString());
+					parmas.put("status", Order.STATUS_DISPATCH);
+					baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
+					return "操作成功!";
 				}
 			}
 		}

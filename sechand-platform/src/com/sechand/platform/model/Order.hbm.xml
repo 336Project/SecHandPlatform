@@ -31,11 +31,17 @@
         <property name="repairContent" type="java.lang.String" >
             <column name="repair_content" length="300"/>
         </property>
+         <property name="quoteContent" type="java.lang.String" >
+            <column name="quote_content" length="300"/>
+        </property>
+        <property name="repairMan" type="java.lang.String" >
+            <column name="repair_man" length="300"/>
+        </property>
          <property name="customerUser" type="java.lang.String" >
             <column name="customer_user" length="45"/>
         </property>
          <property name="customerCompany" type="java.lang.String" >
-            <column name="customer_company" length="300"/>
+            <column name="customer_company" length="45"/>
         </property>
         <property name="contactTelUser" type="java.lang.String" >
             <column name="contact_tel_user" length="45"/>
@@ -45,6 +51,9 @@
         </property>
         <property name="price" type="java.lang.String" >
             <column name="price" length="45"/>
+        </property>
+        <property name="address" type="java.lang.String" >
+            <column name="address" length="45"/>
         </property>
     </class>
 </hibernate-mapping>

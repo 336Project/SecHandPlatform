@@ -76,6 +76,28 @@ var view = {
 		   });
 		},
 		tableTool:function(){
+			//查看表单赋值
+			$("#btn-modal-look").click(function(){
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if($tr.length>1){
+					$.W.alert("不能同时操作多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再操作!",true);
+				}else{
+					//将订单信息填充到表单上
+					$("#look-repairContent").val(order.repairContent);
+					$("#look-contactTelUser").val(order.contactTelUser);
+					$("#look-address").val(order.address);
+					$("#look-customerCompany").val(order.customerCompany);
+					$("#look-contactTelCompany").val(order.contactTelCompany);
+					$("#look-repairMan").val(order.repairMan);
+					$("#look-status").val(order.status);
+					$("#lookRepair").modal("show");
+				}
+			});
 			//取消订单
 			$("#btn-cancel").on("click.delete",function(){
 				var $orderId = $("#table-order [name='slecteOrder']:checked");
@@ -179,6 +201,7 @@ var view = {
 		        				"order.customerUser":$("#addRepair").find("[name=customerUser]").val(),
 		        				"order.repairContent":$("#addRepair").find("[name=repairContent]").val(),
 		        				"order.contactTelUser":$("#addRepair").find("[name=contactTelUser]").val(),
+		        				"order.address":$("#addRepair").find("[name=address]").val(),
 		        				"order.companyId":$("#addRepair").find("[name=companyId]").val()
 		        		},
 		        		success:function(d){
@@ -196,6 +219,8 @@ var view = {
 			
 			//为修改的表单赋值
 			$("#btn-modal-updateOrder").click(function(){
+				//重置表单,ps:form元素才有reset
+    			$("#updateRepair").find("form")[0].reset();
 				//选中的行
 				//获取到该行订单的所有信息
 				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
@@ -209,6 +234,7 @@ var view = {
 						//将订单信息填充到表单上
 						$("#update-repairContent").val(order.repairContent);
 						$("#update-contactTelUser").val(order.contactTelUser);
+						$("#update-address").val(order.address);
 						$.ajax({
 					        type: "POST",
 					        contentType: "application/json;utf-8",
@@ -263,6 +289,7 @@ var view = {
 		        				"order.userId":$("#updateRepair").find("[name=userId]").val(),
 		        				"order.repairContent":$("#updateRepair").find("[name=repairContent]").val(),
 		        				"order.contactTelUser":$("#updateRepair").find("[name=contactTelUser]").val(),
+		        				"order.address":$("#updateRepair").find("[name=address]").val(),
 		        				"order.companyId":$("#updateRepair").find("[name=companyId]").val()
 		        		},
 		        		success:function(d){
@@ -276,7 +303,62 @@ var view = {
 		        	});
 				}
 			});
-			
+			//工人已到
+			$("#btn-modal-come").click(function(){
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if($tr.length>1){
+					$.W.alert("不能同时操作多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再操作!",true);
+				}else{
+					$.ajax({
+		        		url:$.urlRoot+"/platform/orderAction!sign.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				id:order.id ,//被修改的订单的id
+		        				status:"工人已到"
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.order.draw();
+		        			}
+		        		}
+		        	});
+				}
+			});
+			//工人未到
+			$("#btn-modal-not-come").click(function(){
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if($tr.length>1){
+					$.W.alert("不能同时操作多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再操作!",true);
+				}else{
+					$.ajax({
+		        		url:$.urlRoot+"/platform/orderAction!sign.action",
+		        		type:"post",
+		        		dataType:"json",
+		        		data:{
+		        				id:order.id ,//被修改的订单的id
+		        				status:"工人未到"
+		        		},
+		        		success:function(d){
+		        			$.W.alert(d.msg,true);
+		        			//添加后刷新表格
+		        			if(d.success){
+		        				tables.order.draw();
+		        			}
+		        		}
+		        	});
+				}
+			});
 			//点击行选中或取消选中用户行
 			$("#table-order").on("click.select","tr",function(){
 		    	var $check = $(this).find(".tcheckbox");
@@ -290,7 +372,6 @@ var view = {
 		    });
 			
 		},//end tableTool
-		
 		/*
 		 * 初始化用户列表
 		 * return datatable 对象
@@ -308,12 +389,15 @@ var view = {
 					        	}
 							},
 							{data : 'contactTelUser',sTitle : "我的联系电话"},
+							{data : 'address',sTitle : "地址"},
 							{data : 'customerCompany',sTitle : "维修公司名称"},
 							{data : 'contactTelCompany',sTitle : "公司联系电话"},
+							{data : 'repairMan',sTitle : "维修人员信息"}, 
 							{data : 'createTime',sTitle : "创建时间"}, 
 							{data : 'quoteTime',sTitle : "报价时间"},
 							{data : 'completeTime',sTitle : "完成时间"},
 							{data : 'price',sTitle : "公司报价(元)"},
+							{data : 'quoteContent',sTitle : "报价明细"},
 							{data : 'repairContent',sTitle : "报修内容"},
 							{data : 'status',sTitle : "状态"}
 						],

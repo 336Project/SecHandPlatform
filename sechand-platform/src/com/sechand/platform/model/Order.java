@@ -9,6 +9,9 @@ public class Order implements Serializable{
 	private static final long serialVersionUID = 8708517204948499216L;
 	public static final String STATUS_NEW="新订单";
 	public static final String STATUS_QUOTE="已报价";
+	public static final String STATUS_DISPATCH="已派遣";
+	public static final String STATUS_COME="工人已到";
+	public static final String STATUS_NOT_COME="工人未到";
 	public static final String STATUS_COM="已完成";
 	public static final String STATUS_CONFIRM="已确认";
 	public static final String STATUS_CANCEL="已取消";
@@ -26,6 +29,9 @@ public class Order implements Serializable{
 	private String contactTelUser;//客户联系电话
 	private String contactTelCompany;//公司联系电话
 	private String price;//维修报价
+	private String quoteContent;//报价明细
+	private String repairMan;//报修人员信息
+	private String address;//地址
 	//private String receivables;//应收款
 	private String status;//状态
 	public Integer getId() {
@@ -105,6 +111,24 @@ public class Order implements Serializable{
 	}
 	public void setQuoteTime(String quoteTime) {
 		this.quoteTime = quoteTime;
+	}
+	public String getQuoteContent() {
+		return quoteContent;
+	}
+	public void setQuoteContent(String quoteContent) {
+		this.quoteContent = quoteContent;
+	}
+	public String getRepairMan() {
+		return repairMan;
+	}
+	public void setRepairMan(String repairMan) {
+		this.repairMan = repairMan;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }

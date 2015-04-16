@@ -20,6 +20,7 @@ import com.sechand.platform.utils.SysUtils;
 
 
 public class UserAction extends BaseAction{
+	private static final long serialVersionUID = -2585533016964889691L;
 	private UserService userService;
 	private User user;
 	private String username;//用户名
@@ -121,6 +122,36 @@ public class UserAction extends BaseAction{
 		Map<String, Object> dataMap=new HashMap<String, Object>();
 		List<User> users=userService.listPageRowsUsersByKeyword(params.current_page, params.page_size, params.keyword);
 		int count=userService.countByKeyword(params.keyword);
+		dataMap.put("recordsTotal", count);
+		dataMap.put("recordsFiltered", count);
+		dataMap.put("draw",params.draw);
+		dataMap.put("data", users);
+		json.setMsg(dataMap);
+		json.setSuccess(true);
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * 2015-1-8 下午4:42:38
+	 * @return 
+	 * TODO 获取维修人员信息列表
+	 */
+	public String listRepairByParams(){
+		DataTableParams params=DataTableParams.getInstance();
+		params.parse(dataTableParams);
+		String keyword=params.keyword;
+		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("roleCode", Role.CODE_REPAIR);
+		if(!StringUtils.isEmpty(keyword)){
+			whereParams.put("or_userName_like", keyword);
+			whereParams.put("or_realName_like", keyword);
+			whereParams.put("or_email_like", keyword);
+			whereParams.put("or_tel_like", keyword);
+			whereParams.put("or_status_like",keyword);
+		}
+		Map<String, Object> dataMap=new HashMap<String, Object>();
+		List<User> users=userService.listPageRowsByClassNameAndParams(User.class, whereParams, params.current_page, params.page_size);//userService.listPageRowsUsersByKeyword(params.current_page, params.page_size, params.keyword);
+		int count=userService.countByClassNameAndParams(User.class,whereParams);
 		dataMap.put("recordsTotal", count);
 		dataMap.put("recordsFiltered", count);
 		dataMap.put("draw",params.draw);

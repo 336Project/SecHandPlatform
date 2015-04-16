@@ -13,8 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <title>后台管理系统</title>
 <!-- bootstrap -->
   <link href="../css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<!--  -->  <link href="../css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../js/lib/select2/css/select2.min.css" type="text/css"></link>
+  <link href="../css/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+ <link rel="stylesheet" href="../js/lib/select2/css/select2.min.css" type="text/css"></link>
 <!-- common css --> 
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <link rel="stylesheet" type="text/css" href="../css/archon.css">
@@ -34,8 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="../css/bootstrap/js/bootstrap.min.js"></script>
   <script src="../js/common.js"></script>
   <script type="text/javascript" src="../js/lib/datatables/js/jquery.dataTables.min.js"></script>
+  
   <script type="text/javascript" src="../js/lib/validation/jquery.validate.min.js"></script>
-   <script type="text/javascript" src="../js/lib/select2/js/select2.min.js"></script>
+  
+  <script type="text/javascript" src="../js/lib/select2/js/select2.min.js"></script>
   <script type="text/javascript" src="../js/lib/select2/js/i18n/zh-CN.js"></script>
   <script>
   	jQuery.urlRoot = "<%=path%>";
@@ -61,8 +63,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="row">
 					<div class="col-mod-12">
 						<ul class="breadcrumb">
-							<li><a href="<%=path %>/index.jsp">订单管理</a></li>
-							<li class="active">订单信息</li>
+							<li><a href="<%=path %>/index.jsp">系统管理</a></li>
+							<li class="active">维修人员管理</li>
 						</ul>
 					</div>
 				</div>
@@ -71,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
-								<h3 class="panel-title">订单管理
+								<h3 class="panel-title">维修人员管理
 									<span class="pull-right">
 										<a href="#" class="panel-minimize"><i class="glyphicon glyphicon-chevron-up"></i></a>
 									</span>
@@ -80,11 +82,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="panel-body" style="overflow: hidden; display: block;">
 								<!-- 放置表格或其他内容 -->
 								<div class="tb-tools">
-									<button type="button" class="btn btn-primary" id="btn-modal-addRepair">派遣维修人员</button>
-									<button type="button" class="btn btn-primary" id="btn-modal-updateOrder">报价</button>
-									<button type="button" class="btn btn-primary" id="btn-complete">完成</button>
+									<!-- <button id="btn-reset-password" type="button" class="btn btn-warning">重置密码</button> -->
+									<button id="btn-delete" type="button" class="btn btn-warning">删 除</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-adduser">新 增</button>
+									<button type="button" class="btn btn-primary" id="btn-modal-updateuser">修改</button>
 								</div>
-								<table id="table-order" class="hover order-column"></table>
+								<table id="table-user" class="hover order-column"></table>
 							</div>
 						</div>
 					</div>
@@ -92,115 +95,126 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<!-- 主要内容 end'-->
-		
-		<!-- 报价修改弹出框 start  -->
-		<div class="modal fade" id="updateRepair" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<!-- 新增用户弹出框 start  -->
+		<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">报价</h4>
+		        <h4 class="modal-title" id="myModalLabel">添加维修人员信息</h4>
 		      </div>
 		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="updateRepairForm">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " id="addUserForm">
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
 				    <div class="col-sm-8">
-				      <textarea rows="8" class="form-control" id="update-repairContent" name="repairContent" placeholder="请填写需要维修事项" disabled="disabled"></textarea>
-				      <input type="text" class="form-control" id="update-userId" placeholder="" name="userId" value="${sessionScope.user.id}" style="display: none;">
+				      <input type="text" class="form-control" id="username" name="userName" placeholder="用户名">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">客户联系电话</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">密码</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="update-contactTelUser" placeholder="" name="contactTelUser" disabled="disabled">
+				      <input type="password" class="form-control" id="password" name="password" placeholder="密码长度为6-20位">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">确认密码</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="update-address" placeholder="" name="address" disabled="disabled">
+				      <input type="password" class="form-control" id="password2" placeholder="请再次输入密码">
+				    </div>
+				  </div>
+				  <!-- <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">昵称</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="nickName" placeholder="一个好的昵称，可以彰显个性" name="nickName">
+				    </div>
+				  </div> -->
+				  <div class="form-group">
+				    <label for="update-realName" class="col-sm-4 control-label">真实姓名</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="realName" placeholder="请填写真实姓名或称呼" name="realName">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">我的联系电话</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="update-contactTelCompany" placeholder="" name="contactTelCompany" value="${sessionScope.user.tel}" >
+				      <input type="email" class="form-control" id="email" placeholder="请正确输入邮箱格式" name="email">
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">我的报价</label>
+				    <label for="inputEmail3" class="col-sm-4 control-label">手机号码</label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="update-price" placeholder="请输入报价金额" name="price" >
+				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="tel">
 				    </div>
 				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">清单明细</label>
-				    <div class="col-sm-8">
-				      <textarea rows="4" class="form-control" id="update-quoteContent" placeholder="请输入清单明细" name="quoteContent" ></textarea>
-				    </div>
-				  </div>
-				</form>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button id="btn-updateRepair" type="button" class="btn btn-primary">确定</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- 报价修改弹出框  end  -->
-		<!-- 维修人员派遣弹出框 start  -->
-		<div class="modal fade" id="addRepair" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">派遣</h4>
-		      </div>
-		      <div class="modal-body row">
-		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="addRepairForm">
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">报修内容</label>
-				    <div class="col-sm-8">
-				      <textarea rows="8" class="form-control" id="add-repairContent" name="repairContent" placeholder="请填写需要维修事项" disabled="disabled"></textarea>
-				      <input type="text" class="form-control" id="add-userId" placeholder="" name="userId" value="${sessionScope.user.id}" style="display: none;">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">客户联系电话</label>
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="add-contactTelUser" placeholder="" name="contactTelUser" disabled="disabled">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="add-address" placeholder="" name="address" disabled="disabled">
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">我的联系电话</label>
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="add-contactTelCompany" placeholder="" name="contactTelCompany" value="${sessionScope.user.tel}" >
-				    </div>
-				  </div>
-				  <div class="form-group">
-				    <label for="inputEmail3" class="col-sm-4 control-label">维修人员</label>
+				  <!-- <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">用户类型</label>
 					    <div class="col-sm-8">
-						     <select class="select2" id="userName" name="userName" ></select>
+						     <select class="form-control" id="roleType" name="roleCode" >
+							 </select>
 					    </div>
+				  </div> -->
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button id="btn-addUser" type="button" class="btn btn-primary">添加</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- 新增用户弹出框  end  -->
+		<!-- 修改用户弹出框 start  -->
+		<div class="modal fade" id="updateUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">编辑用户信息</h4>
+		      </div>
+		      <div class="modal-body row">
+		        <form class="form-horizontal col-xs-offset-2 col-xs-8 " role="form" id="updateUserForm">
+				  <div class="form-group">
+				    <label for="update-username" class="col-sm-4 control-label">用户名</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-username" name="userName" placeholder="用户名" disabled="disabled">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="update-roleName" class="col-sm-4 control-label">用户类型</label>
+				    <div class="col-sm-8">
+					     <input type="text" class="form-control" id="update-roleName" name="roleName" placeholder="角色名称" disabled="disabled">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="update-realName" class="col-sm-4 control-label">真实姓名</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-realName" placeholder="请填写真实姓名或称呼" name="realName">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="update-email" class="col-sm-4 control-label">邮箱</label>
+				    <div class="col-sm-8">
+				      <input type="email" class="form-control" id="update-email" placeholder="请正确输入邮箱格式" name="email">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="update-tel" class="col-sm-4 control-label">手机号码</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-tel" placeholder="请输入正确的手机格式" name="tel">
+				    </div>
 				  </div>
 				</form>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button id="btn-addRepair" type="button" class="btn btn-primary">确定</button>
+		        <button id="btn-updateUser" type="button" class="btn btn-primary">保存</button>
 		      </div>
 		    </div>
 		  </div>
 		</div>
-		<!-- 维修人员派遣弹出框  end  -->
+		<!-- 修改用户弹出框  end  -->
 		<div class="row footer">
 			<div class="col-md-12 text-center">
 				© 2015 <a href="#">版权申明</a>
@@ -210,6 +224,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<script src="../js/archon.js"></script>
 	<script type="text/javascript" src="../js/lib/switch/js/bootstrap-switch.min.js"></script>
-	<script type="text/javascript" src="js/orderList.js"></script>
+	<script type="text/javascript" src="js/repairList.js"></script>
 </body>
 </html>
