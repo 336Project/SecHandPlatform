@@ -95,6 +95,8 @@ var view = {
 					$("#look-contactTelCompany").val(order.contactTelCompany);
 					$("#look-repairMan").val(order.repairMan);
 					$("#look-status").val(order.status);
+					$("#look-quoteContent").val(order.quoteContent);
+					$("#look-price").val(order.price);
 					$("#lookRepair").modal("show");
 				}
 			});
@@ -128,7 +130,7 @@ var view = {
 			});
 			//订单确认
 			$("#btn-confirm").on("click.delete",function(){
-				var $ids = $("#table-order [name='slecteOrder']:checked");
+				/*var $ids = $("#table-order [name='slecteOrder']:checked");
 				if($ids.length>0){
 					if($ids.length>1){//避免还要解决并发问题
 						$.W.alert("一次只能确认一条记录！",true);
@@ -151,6 +153,29 @@ var view = {
 					}
 				}else{
 					$.W.alert("请选中要确认的记录！",true);
+				}*/
+				//选中的行
+				//获取到该行订单的所有信息
+				var $tr = $("#table-order [name='slecteOrder']:checked").parent().parent();
+				var order = tables.order.row($tr.eq(0)).data();
+				if($tr.length>1){
+					$.W.alert("不能同时操作多条记录!",true);
+				}else if($tr.length<=0){
+					$.W.alert("请先选中行再操作!",true);
+				}else if(order.status!="已完成"){
+					$.W.alert("只有已完成的订单才可以支付!",true);
+				}else{
+					$.ajax({
+				        url:"chongzhi.jsp?money="+order.price,
+				        dataType:"html",
+				        type:"get",
+				        cache:true,
+				        success:function(result){
+				            $("#main-panel").html(result);
+				        },error:function(){
+				        	alert("404");
+				        }
+					});
 				}
 			});
 			//点击报修按钮时，加载维修公司下拉框

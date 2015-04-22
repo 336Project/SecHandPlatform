@@ -24,7 +24,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- self css -->
   <link rel="stylesheet" href="../js/lib/switch/css/bootstrap-switch.min.css" type="text/css"></link>
   <link rel="stylesheet" type="text/css" href="css/userList.css">
-  >
 <!-- html5 兼容 -->
   <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
@@ -67,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<!-- 面板 -->
-				<div class="row">
+				<div class="row" id="main-panel">
 					<div class="col-md-12">
 						<div class="panel panel-archon main-graph">
 							<div class="panel-heading">
@@ -84,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<button type="button" class="btn btn-primary" id="btn-modal-come">工人已到</button>
 									<button type="button" class="btn btn-primary" id="btn-modal-not-come">工人未到</button>
 									<button type="button" class="btn btn-primary" id="btn-modal-repair">报修</button>
-									<button type="button" class="btn btn-primary" id="btn-confirm">确认</button>
+									<button type="button" class="btn btn-primary" id="btn-confirm">确认支付</button>
 									<button type="button" class="btn btn-warning" id="btn-modal-updateOrder">修改</button>
 									<button id="btn-cancel" type="button" class="btn btn-warning">取消</button>
 								</div>
@@ -227,6 +226,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <label for="inputEmail3" class="col-sm-4 control-label">公司联系电话</label>
 					    <div class="col-sm-8">
 						     <input type="text" class="form-control" id="look-contactTelCompany"  name="contactTelCompany" disabled="disabled">
+					    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报价金额</label>
+					    <div class="col-sm-8">
+						     <input type="text" class="form-control" id="look-price"  name="price" disabled="disabled">
+					    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">报价明细</label>
+					    <div class="col-sm-8">
+						     <textarea rows="4" class="form-control" id="look-quoteContent" name="quoteContent" disabled="disabled"></textarea>
 					    </div>
 				  </div>
 				  <div class="form-group">

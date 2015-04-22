@@ -8,7 +8,7 @@ String money=request.getParameter("money");
 
 <div style="margin-top: 100px;margin-left: 100px;">
  	<h5>订单流水号：<%=timeTemp %></h5>
- 	<h5>充值金额：<%=money %></h5>
+ 	<h5>支付金额：<%=money %></h5>
  	<div style="margin-top: 50px;">
  		<h3>请选择支付方式</h3>
 	</div>
