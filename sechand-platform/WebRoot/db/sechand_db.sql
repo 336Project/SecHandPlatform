@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50151
-Source Host           : localhost:3306
+Source Server         : localhost
+Source Server Version : 50529
+Source Host           : 127.0.0.1:3306
 Source Database       : sechand_db
 
 Target Server Type    : MYSQL
-Target Server Version : 50151
+Target Server Version : 50529
 File Encoding         : 65001
 
-Date: 2015-01-17 11:36:36
+Date: 2015-04-26 23:34:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,11 +52,14 @@ CREATE TABLE `tb_order` (
   `quote_time` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `repair_content` longtext,
+  `quote_content` longtext,
+  `repair_man` longtext,
   `customer_user` varchar(45) DEFAULT NULL,
-  `customer_company` longtext,
+  `customer_company` varchar(45) DEFAULT NULL,
   `contact_tel_user` varchar(45) DEFAULT NULL,
   `contact_tel_company` varchar(45) DEFAULT NULL,
   `price` varchar(45) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -73,7 +76,7 @@ CREATE TABLE `tb_role` (
   `name` varchar(45) NOT NULL,
   `code` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_role
@@ -81,6 +84,7 @@ CREATE TABLE `tb_role` (
 INSERT INTO `tb_role` VALUES ('1', '管理员', '1');
 INSERT INTO `tb_role` VALUES ('2', '维修公司', '2');
 INSERT INTO `tb_role` VALUES ('3', '普通用户', '3');
+INSERT INTO `tb_role` VALUES ('4', '维修人员', '4');
 
 -- ----------------------------
 -- Table structure for tb_trade
@@ -125,9 +129,11 @@ CREATE TABLE `tb_user` (
   `introduction` longtext,
   `balance` varchar(45) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO `tb_user` VALUES ('1', '1', '管理员', 'admin', '管理员', 'Eeoc9PntH9npT0UZY8kDZQ==', '管理员', 'admin@qq.com', '15759216888', '手动录入', '2015-01-17 11:34:14', '2015-01-12 21:27:28', '正常', '我是管理员我说了算', '0');
+INSERT INTO `tb_user` VALUES ('1', '1', '管理员', 'admin', '管理员', 'dpLc3BnkHmbGri3lSmlrJQ==', '管理员', '', '', '手动录入', '2015-04-26 23:31:33', '2015-01-16 20:16:20', '正常', '', '0');
+INSERT INTO `tb_user` VALUES ('2', '2', '维修公司', '维修百货公司', '维修百货公司', 'Eeoc9PntH9npT0UZY8kDZQ==', '维修百货公司', '123456@qq.com', '15759216890', '平台注册', null, '2015-04-26 23:32:51', '正常', '维修百货公司', '0');
+INSERT INTO `tb_user` VALUES ('3', '3', '普通用户', 'smart001', 'smart', 'Eeoc9PntH9npT0UZY8kDZQ==', 'smart001', 'smart@qq.com', '15960234327', '平台注册', null, '2015-04-26 23:34:11', '正常', 'smart', '0');
