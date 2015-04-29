@@ -142,6 +142,7 @@ public class UserAction extends BaseAction{
 		String keyword=params.keyword;
 		Map<String, Object> whereParams=new HashMap<String, Object>();
 		whereParams.put("roleCode", Role.CODE_REPAIR);
+		whereParams.put("parentId", ((User)BaseUtil.getSession(BaseUtil.KEY_LOGIN_USER_SESSION)).getId());
 		if(!StringUtils.isEmpty(keyword)){
 			whereParams.put("or_userName_like", keyword);
 			whereParams.put("or_realName_like", keyword);

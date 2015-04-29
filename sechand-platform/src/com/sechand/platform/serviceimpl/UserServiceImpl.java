@@ -29,6 +29,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	@Override
 	public String add(User user) {
 		if(user!=null){
+			user.setNickName(user.getUserName());
 			Map<String, Object> whereParams=new HashMap<String, Object>();
 			whereParams.put("code", user.getRoleCode());
 			Role role=baseDao.getByClassNameAndParams(Role.class, whereParams);
@@ -61,6 +62,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 			u.setStatus(User.STATUS_NORMAL);
 			u.setTel(user.getTel());
 			u.setUserName(user.getUserName());
+			u.setParentId(user.getParentId());
 			int id=baseDao.save(u);
 			if(id>0){
 				return "恭喜,注册成功!";

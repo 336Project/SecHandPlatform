@@ -179,6 +179,8 @@ var view = {
 		        				"user.password":$("#addUser").find("[name=password]").val(),
 		        				"user.email":$("#addUser").find("[name=email]").val(),
 		        				"user.tel":$("#addUser").find("[name=tel]").val(),
+		        				"user.parentId":$("#addUser").find("[name=userId]").val(),
+		        				"user.introduction":$("#addUser").find("[name=introduction]").val(),
 		        				"user.roleCode":4
 		        		},
 		        		success:function(d){
@@ -210,6 +212,7 @@ var view = {
 					$("#update-email").val(account.email);
 					$("#update-tel").val(account.tel);
 					$("#update-roleName").val(account.roleName);
+					$("#update-introduction").val(account.introduction);
 					$("#updateUser").modal("show");
 				}
 			});
@@ -226,6 +229,7 @@ var view = {
 		        				"user.userName":$("#updateUser").find("[name=userName]").val(),
 		        				"user.realName":$("#updateUser").find("[name=realName]").val(),
 		        				"user.email":$("#updateUser").find("[name=email]").val(),
+		        				"user.introduction":$("#updateUser").find("[name=introduction]").val(),
 		        				"user.tel":$("#updateUser").find("[name=tel]").val()
 		        		},
 		        		success:function(d){
@@ -275,14 +279,15 @@ var view = {
 							{data : 'realName',sTitle : "真实姓名"}, 
 							{data : 'email',sTitle : "邮箱"}, 
 							{data : 'tel',sTitle : "手机号码"},
-							{data : 'status',sTitle : "状态"},
-							{data : 'status',sTitle:"操作",
+							{data : 'introduction',sTitle : "地址"},
+							{data : 'status',sTitle : "状态"}
+							/*{data : 'status',sTitle:"操作",
 					        	render: function(state) {
 					        		var isChecked = (state == "正常")? "":"checked=checked";
 					        		var str ='<input  type="checkbox" class="input-switch" '+isChecked+' />';
 									return str;
 					        	}
-							}
+							}*/
 						],
 				"order": [[ 2, 'asc' ]],
 				"scrollX": true,//水平滚动条

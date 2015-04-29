@@ -10,6 +10,9 @@
             <column name="id" />
             <generator class="native"></generator>
         </id>
+        <property name="parentId" type="java.lang.Integer" >
+            <column name="parent_id" />
+        </property>
         <property name="roleCode" type="java.lang.String" >
             <column name="role_code" length="45" not-null="true" />
         </property>

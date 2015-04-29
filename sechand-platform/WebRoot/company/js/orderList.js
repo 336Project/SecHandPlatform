@@ -76,7 +76,7 @@ var view = {
 		    		            var data=[];
 		    		            var result=d.msg;
 		    		            for ( var i = 0; i < result.length; i++) {//动态加载维修人员
-		    		            	if(result[i].roleCode=='4'){
+		    		            	if(result[i].roleCode=='4'&result[i].parentId==order.companyId){
 			    						var obj=new Object();
 			    						obj.id=result[i].id;
 			    						obj.text=result[i].realName;

@@ -109,6 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <label for="inputEmail3" class="col-sm-4 control-label">用户名</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="username" name="userName" placeholder="用户名">
+				       <input type="text" class="form-control" id="userId" name="userId" value="${sessionScope.user.id}" style="display: none;">
 				    </div>
 				  </div>
 				  <div class="form-group">
@@ -145,6 +146,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <label for="inputEmail3" class="col-sm-4 control-label">手机号码</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="tel" placeholder="请输入正确的手机格式" name="tel">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="introduction" placeholder="" name="introduction">
 				    </div>
 				  </div>
 				  <!-- <div class="form-group">
@@ -203,6 +210,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <label for="update-tel" class="col-sm-4 control-label">手机号码</label>
 				    <div class="col-sm-8">
 				      <input type="text" class="form-control" id="update-tel" placeholder="请输入正确的手机格式" name="tel">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="inputEmail3" class="col-sm-4 control-label">地址</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="update-introduction" placeholder="" name="introduction">
 				    </div>
 				  </div>
 				</form>

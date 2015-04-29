@@ -14,6 +14,7 @@ public class User implements java.io.Serializable {
 	public static final String SOURCE_PLATFORM="平台注册";
 	public static final String SOURCE_APP="客户端注册";
 	private Integer id;
+	private Integer parentId;//上级id
 	private String roleCode;//角色编号
 	private String roleName;//角色名称
 	private String userName;//登录账号
@@ -124,6 +125,12 @@ public class User implements java.io.Serializable {
 	}
 	public void setBalance(String balance) {
 		this.balance = balance;
+	}
+	public Integer getParentId() {
+		return parentId;
+	}
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 	
 }
