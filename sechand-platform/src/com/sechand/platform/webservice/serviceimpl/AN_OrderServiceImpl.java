@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseServiceImpl;
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.Account;
 import com.sechand.platform.model.Order;
 import com.sechand.platform.model.Role;
@@ -21,7 +22,7 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String updateByCustomer(String orderId, String companyId,
-			String contactTelUser, String repairContent) {
+			String contactTelUser, String repairContent, String address) {
 		Integer orderId_Int = Integer.valueOf(orderId);
 		Integer companyId_Int = Integer.valueOf(companyId);
 		Order o = baseDao.getByClassAndId(Order.class, orderId_Int);
@@ -33,6 +34,8 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 				parmas.put("repairContent", repairContent);
 				parmas.put("companyId", u.getId());
 				parmas.put("customerCompany", u.getNickName());
+				parmas.put("address", address);
+
 				baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
 				return "修改成功!";
 			} else {
@@ -41,18 +44,21 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 		}
 		return null;
 	}
-
+	/**
+	 * 维修公司--报价
+	 */
 	@Override
-	public String quoteByOrder(String id, String price, String contactTelCompany) {
+	public String quoteByOrder(String id, String price, String contactTelCompany,String quoteContent) {
 		Order o = baseDao.getByClassNameAndId(Order.class, Integer.valueOf(id));
-		if (!Order.STATUS_NEW.equals(o.getStatus()))
-			return "只有新订单才能报价!";
+		if (!(Order.STATUS_NEW.equals(o.getStatus())||Order.STATUS_COME.equals(o.getStatus())))
+			return "只有新订单或工人已到才能报价!";
 		// 当前登录用户与操作当前订单的公司id一样
 		Map<String, Object> parmas = new HashMap<String, Object>();
 		parmas.put("price", price);
 		parmas.put("contactTelCompany", contactTelCompany);
 		parmas.put("quoteTime", SysUtils.getDateFormat(new Date()));
 		parmas.put("status", Order.STATUS_QUOTE);
+		parmas.put("quoteContent", quoteContent);
 		baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
 		return "报价成功!";
 	}
@@ -169,13 +175,9 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 	public boolean updateStatusByIds(String ids, String status) {
 		try {
 			if (StringUtils.isNotBlank(ids) && StringUtils.isNotBlank(status)) {
-				if (Order.STATUS_CANCEL.equals(status)
-						|| Order.STATUS_COM.equals(status)
-						|| Order.STATUS_CONFIRM.equals(status)) {
 					baseDao.updateColumnByIds(Order.class, "status", status,
 							ids.split(","));
 					return true;
-				}
 			}
 		} catch (Exception e) {
 		}
@@ -207,7 +209,8 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String repairByCustomer(String companyId, String customerUser,
-			String contactTelUser, String repairContent, String userId) {
+			String contactTelUser, String repairContent, String userId,
+			String address) {
 		Integer companyId_Int = Integer.valueOf(companyId);
 		Integer userId_Int = Integer.valueOf(userId);
 		User company = baseDao.getByClassAndId(User.class, companyId_Int);
@@ -222,6 +225,7 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 			o.setRepairContent(repairContent);
 			o.setStatus(Order.STATUS_NEW);
 			o.setUserId(userId_Int);
+			o.setAddress(address);
 			int id = baseDao.save(Order.class, o);
 			if (id > 0) {
 				return "报修成功!";
@@ -362,5 +366,22 @@ public class AN_OrderServiceImpl extends BaseServiceImpl implements
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public String dispatch(String orderId, String servicemanId) {
+		Order o = baseDao.getByClassNameAndId(Order.class, orderId);
+		if (!Order.STATUS_NEW.equals(o.getStatus()))
+			return "只有新订单才能报价!";
+		User u = baseDao.getByClassNameAndId(User.class, servicemanId);// 获取维修人员信息
+		StringBuffer sb = new StringBuffer();
+		sb.append("姓名:" + u.getRealName() + ";\n")
+				.append("联系电话:" + u.getTel() + ";\n")
+				.append("邮箱:" + u.getEmail() + "");
+		Map<String, Object> parmas = new HashMap<String, Object>();
+		parmas.put("repairMan", sb.toString());
+		parmas.put("status", Order.STATUS_DISPATCH);
+		baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
+		return "操作成功!";
 	}
 }

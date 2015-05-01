@@ -77,9 +77,10 @@ public interface AN_OrderService extends BaseService{
 	 * @TODO 完成订单
 	 */
 	public String completeById(String id);
-	public String updateByCustomer(String orderId,String companyId,String contactTelUser,String repairContent);
-	public String repairByCustomer(String companyId,String customerUser,String contactTelUser, String repairContent,String userId);
+	public String updateByCustomer(String orderId,String companyId,String contactTelUser,String repairContent,String address);
+	public String repairByCustomer(String companyId,String customerUser,String contactTelUser, String repairContent,String userId,String address);
 	public List<Order> listCustomerOrdersByPageRows(String roleCode,String ids,int currentPage,String keyword);
 	public int countCustomerByKeyword(String roleCode,String ids,String keyword);
-	public String quoteByOrder(String id,String price,String contactTelCompany);
+	public String quoteByOrder(String id,String price,String contactTelCompany,String quoteContent);
+	public String dispatch(String orderId,String servicemanId);
 }

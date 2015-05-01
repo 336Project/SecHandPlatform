@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.sechand.platform.base.BaseAction;
+import com.sechand.platform.base.BaseUtil;
 import com.sechand.platform.model.Role;
 import com.sechand.platform.model.User;
 import com.sechand.platform.utils.DataTableParams;
@@ -31,6 +32,7 @@ public class AN_UserAction extends BaseAction {
 	private String ids;
 	private String roleCode;
 	private User user;
+	private String parentId="";
 	
 	public String login(){
 		user=appUserService.login(username, password);
@@ -46,7 +48,6 @@ public class AN_UserAction extends BaseAction {
 	}
 	// 注册
 	public String register(){
-		//注册完跳到登录页
 		user=new User();
 		user.setSource(User.SOURCE_PLATFORM);
 		user.setIntroduction(introduction);
@@ -57,7 +58,9 @@ public class AN_UserAction extends BaseAction {
 		user.setRealName(realName);
 		user.setTel(tel);
 		user.setUserName(userName);
-		
+		if(!parentId.equals("")){
+			user.setParentId(Integer.parseInt(parentId));
+		}
 		String msg=appUserService.add(user);
 		if(StringUtils.isNotBlank(msg)){
 			json.setMsg(msg);
@@ -68,6 +71,7 @@ public class AN_UserAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+
 	// 用户更新个人信息
 	public String updateUser(){
 		if(appUserService.updateUser(id,email,realName,tel,introduction)){
@@ -95,14 +99,19 @@ public class AN_UserAction extends BaseAction {
 		List<User> users=appUserService.listCompany();
 		json.setMsg(users);
 		json.setSuccess(true);
-		for (int i = 0; i < users.size(); i++) {
-			User user2 = users.get(i);
-			String nickName = user2.getNickName();
-			System.out.println(nickName);
+		return SUCCESS;
+	}
+	//获取维修人员
+	public String listServiceman(){
+		List<User> users=appUserService.listServiceman(parentId);
+		if(users!=null){
+			json.setMsg(users);
+			json.setSuccess(true);
+		}else{
+			json.setSuccess(false);
 		}
 		return SUCCESS;
 	}
-	
 	 //获取所有用户
 	public String listAllUsers(){
 		List<User> users=appUserService.listUsers();
@@ -114,7 +123,33 @@ public class AN_UserAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	
+	/**
+	 * 
+	 * 2015-1-8 下午4:42:38
+	 * @return 
+	 * TODO 获取维修人员信息列表
+	 */
+	public String listRepairByParams(){
+		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("roleCode", Role.CODE_REPAIR);
+		whereParams.put("parentId", id);
+		if(!StringUtils.isEmpty(keyword)){
+			whereParams.put("or_userName_like", keyword);
+			whereParams.put("or_realName_like", keyword);
+			whereParams.put("or_email_like", keyword);
+			whereParams.put("or_tel_like", keyword);
+			whereParams.put("or_status_like",keyword);
+		}
+		Map<String, Object> dataMap=new HashMap<String, Object>();
+		List<User> users=appUserService.listPageRowsByClassNameAndParams(User.class, whereParams, currentPage, 15);//userService.listPageRowsUsersByKeyword(params.current_page, params.page_size, params.keyword);
+		int count=appUserService.countByClassNameAndParams(User.class,whereParams);
+		dataMap.put("recordsTotal", count);
+		dataMap.put("recordsFiltered", count);
+		dataMap.put("data", users);
+		json.setMsg(dataMap);
+		json.setSuccess(true);
+		return SUCCESS;
+	}
 	//获取用户信息列表
 	public String listUsersByParams(){
 		Map<String, Object> dataMap=new HashMap<String, Object>();
@@ -128,6 +163,7 @@ public class AN_UserAction extends BaseAction {
 		json.setSuccess(true);
 		return SUCCESS;
 	}
+	
 	// 删除用户
 	public String deleteUserByIds(){
 		if(!StringUtils.isBlank(ids)){
@@ -271,5 +307,11 @@ public class AN_UserAction extends BaseAction {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 }

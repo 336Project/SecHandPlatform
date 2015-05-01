@@ -15,6 +15,7 @@ import com.sechand.platform.webservice.service.AN_OrderService;
 public class AN_OrderAction extends BaseAction{
 	private AN_OrderService appOrderService;
 	private String orderId;
+	private String servicemanId;
 	private String companyId;
 	private String contactTelUser;
 	private String customerUser;
@@ -27,6 +28,8 @@ public class AN_OrderAction extends BaseAction{
 	private String roleCode;
 	private String price;
 	private String contactTelCompany;
+	private String address;
+	private String quoteContent;//报价明细
 
 	// 获取所有订单列表信息
 	public String listOrdersByParams(){
@@ -43,10 +46,24 @@ public class AN_OrderAction extends BaseAction{
 		json.setSuccess(true);
 		return SUCCESS;
 	}
-	
+	/**
+	 * 派遣维修员
+	 * @return
+	 */
+	public String dispatch(){
+		String msg=appOrderService.dispatch(orderId, servicemanId);
+		if(StringUtils.isNotBlank(msg)){
+			json.setMsg(msg);
+			json.setSuccess(true);
+		}else{
+			json.setMsg("操作失败!");
+			json.setSuccess(false);
+		}
+		return SUCCESS;
+	}
 	//用户更新报修
 	public String updateByCustomer(){
-		String msg=appOrderService.updateByCustomer(orderId,companyId,contactTelUser,repairContent);
+		String msg=appOrderService.updateByCustomer(orderId,companyId,contactTelUser,repairContent,address);
 		if(StringUtils.isNotBlank(msg)){
 			json.setMsg(msg);
 			json.setSuccess(true);
@@ -74,11 +91,6 @@ public class AN_OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 	/**
-	 * 
-	 * @Author:Helen  
-	 * 2015-1-14下午10:28:01
-	 * @return
-	 * String
 	 * @TODO 批量更新订单状态
 	 */
 	public String updateStatusByIds(){
@@ -111,7 +123,6 @@ public class AN_OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	//用户操作
 	/**
 	 * 
 	 * String
@@ -132,7 +143,7 @@ public class AN_OrderAction extends BaseAction{
 	
 	// 用户报修
 	public String repairByCustomer(){
-		String msg=appOrderService.repairByCustomer(companyId,getCustomerUser(),contactTelUser,repairContent,ids);
+		String msg=appOrderService.repairByCustomer(companyId,getCustomerUser(),contactTelUser,repairContent,ids,address);
 		if(StringUtils.isNotBlank(msg)){
 			json.setMsg(msg);
 			json.setSuccess(true);
@@ -173,7 +184,7 @@ public class AN_OrderAction extends BaseAction{
 	 * @TODO 公司对新订单进行报价
 	 */
 	public String quoteOrderByCompany(){
-		String msg=appOrderService.quoteByOrder(ids,price,contactTelCompany);
+		String msg=appOrderService.quoteByOrder(ids,price,contactTelCompany,quoteContent);
 		if(StringUtils.isNotBlank(msg)){
 			json.setMsg(msg);
 			json.setSuccess(true);
@@ -296,5 +307,25 @@ public class AN_OrderAction extends BaseAction{
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getServicemanId() {
+		return servicemanId;
+	}
+	public void setServicemanId(String servicemanId) {
+		this.servicemanId = servicemanId;
+	}
+	public String getQuoteContent() {
+		return quoteContent;
+	}
+	public void setQuoteContent(String quoteContent) {
+		this.quoteContent = quoteContent;
 	}
 }

@@ -58,6 +58,7 @@ public class AN_UserServiceImpl extends BaseServiceImpl implements AN_UserServic
 			u.setStatus(User.STATUS_NORMAL);
 			u.setTel(user.getTel());
 			u.setUserName(user.getUserName());
+			u.setParentId(user.getParentId());
 			int id=baseDao.save(u);
 			if(id>0){
 				return "恭喜,注册成功!";
@@ -103,6 +104,14 @@ public class AN_UserServiceImpl extends BaseServiceImpl implements AN_UserServic
 	public List<User> listCompany() {
 		Map<String, Object> whereParams=new HashMap<String, Object>();
 		whereParams.put("roleCode", Role.CODE_COMPANY);
+		List<User> users=baseDao.listByClassNameAndParams(User.class, whereParams);
+		return users;
+	}
+	@Override
+	public List<User> listServiceman(String parentId) {
+		Map<String, Object> whereParams=new HashMap<String, Object>();
+		whereParams.put("roleCode", Role.CODE_REPAIR);
+		whereParams.put("parentId", parentId);
 		List<User> users=baseDao.listByClassNameAndParams(User.class, whereParams);
 		return users;
 	}

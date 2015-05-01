@@ -11,6 +11,7 @@ public interface AN_UserService extends BaseService {
 	public boolean updateUser(String id,String email,String realName,String tel,String introduction);
 	public boolean updateUserFromAdministrator(String id,String email,String realName,String tel,String nickName);
 	public List<User> listCompany();
+	public List<User> listServiceman(String parentId);
 	public List<User> listPageRowsUsersByKeyword(int currentPage,String keyword);
 	public int countByKeyword(String keyword);
 	public void deleteByIds(String[] ids);
