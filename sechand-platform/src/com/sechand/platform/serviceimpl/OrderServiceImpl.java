@@ -296,6 +296,7 @@ public class OrderServiceImpl extends BaseServiceImpl implements OrderService{
 					parmas.put("contactTelCompany", order.getContactTelCompany());
 					parmas.put("quoteTime", SysUtils.getDateFormat(new Date()));
 					parmas.put("status", Order.STATUS_QUOTE);
+					parmas.put("quoteContent", order.getQuoteContent());
 					baseDao.updateColumnsByParmas(Order.class, o.getId(), parmas);
 					return "报价成功!";
 				}
